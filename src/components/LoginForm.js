@@ -8,8 +8,12 @@ const LoginForm = (props) => {
     const minPass = 8;
     const { register, handleSubmit, watch, errors } = useForm();
     
+    const authenticateUser = data => {
+
+    }
     const onSubmit = data => {
         console.log(data);
+        sendDetailsToServer();
     };
 
     const [state , setState] = useState({
@@ -87,7 +91,7 @@ const LoginForm = (props) => {
                     >
                         Login
                     </button> */}
-                    <input type="submit"/>
+                    <input type="submit" value="Login"/>
                     <div className="mt-2">
                         <span>Don't have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
