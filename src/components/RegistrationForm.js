@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import '../css/App.css'
+import { withRouter } from "react-router-dom";
 
 
 const RegistrationForm = (props) => {
@@ -15,16 +16,26 @@ const RegistrationForm = (props) => {
             [id] : value
         }))
     }
-    const sendDetailsToServer = () => {
-        console.log("Sending Registration Info to server");
-    }
     const handleSubmitClick = (e) => {
         e.preventDefault();
         if(state.password.length > 0 && state.email.length > 0) {
             sendDetailsToServer()    
         } else {
             console.log('Please enter Email AND Password');
+            props.showError('Please enter Email AND Password')    
         }
+    }
+    const sendDetailsToServer = () => {
+        console.log("Sending Registration Info to server");
+        redirectToHome();
+    }
+    const redirectToHome = () => {
+        props.updateTitle('Home')
+        props.history.push('/home');
+    }
+    const redirectToLogin = () => {
+        props.updateTitle('Login')
+        props.history.push('/login'); 
     }
 
     const centerForm = {position:'absolute', top:'50%', left:'50%', transform: 'translate(-50%, -50%)', minHeight:'70vh' }
@@ -91,7 +102,7 @@ const RegistrationForm = (props) => {
                     <div className="mt-2">
                         <span>Already have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
-                        onClick={() => console.log('To login')}>Login here</span> 
+                        onClick={() => {console.log('To login'); redirectToLogin()}}>Login here</span> 
                     </div>
                 </form>
             </div>
@@ -99,4 +110,4 @@ const RegistrationForm = (props) => {
     )
 }
 
-export default RegistrationForm;
+export default withRouter(RegistrationForm);
