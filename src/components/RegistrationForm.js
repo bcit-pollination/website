@@ -1,10 +1,18 @@
 import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
-
+import { useForm } from 'react-hook-form';
 
 const RegistrationForm = (props) => {
+    const { register, handleSubmit, watch, errors } = useForm();
+    
+    const onSubmit = data => {
+        console.log(data);
+    };
+
     const [state , setState] = useState({
+        firstName: "",
+        lastName: "",
         email : "",
         password : "",
         // confirmPassword: "",
@@ -43,14 +51,16 @@ const RegistrationForm = (props) => {
     return (
         <div className="Auth-form">
             <div className="card col-12 col-lg-4 mt-2 hv-center" style={centerForm}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>Register</h2>
                     <div className="form-group text-left">
                         <label htmlFor="firstName">First Name</label>
                         <input type="text" 
                             className="form-control" 
-                            id="fname" 
+                            id="fname"
+                            name="firstName" 
                             placeholder="First Name"
+                            ref={register}
                         />
                     </div>
                     <div className="form-group text-left">
@@ -58,18 +68,22 @@ const RegistrationForm = (props) => {
                         <input type="text" 
                             className="form-control" 
                             id="lname" 
+                            name="lastName" 
                             placeholder="Last Name"
+                            ref={register}
                         />
                     </div>
                     <div className="form-group text-left">
-                        <label htmlFor="iputEmail1">Email address</label>
+                        <label htmlFor="inputEmail1">Email address</label>
                         <input type="email" 
                             className="form-control" 
                             id="email" 
+                            name="email" 
                             aria-describedby="emailHelp" 
                             placeholder="Enter email"
                             value={state.email}
                             onChange={handleChange}
+                            ref={register}
                         />
                     </div>
                     <div className="form-group text-left">
@@ -77,9 +91,11 @@ const RegistrationForm = (props) => {
                         <input type="password" 
                             className="form-control" 
                             id="password" 
+                            name="password"
                             placeholder="Password"
                             value={state.password}
                             onChange={handleChange}
+                            ref={register}
                         />
                     </div>
                     {/* <div className="form-group text-left">
@@ -92,13 +108,14 @@ const RegistrationForm = (props) => {
                             onChange={handleChange}
                         />
                     </div> */}
-                    <button 
+                    <input type="submit"/>
+                    {/* <button 
                         type="submit" 
                         className="btn btn-primary"
                         onClick={handleSubmitClick}
                     >
                         Register
-                    </button>
+                    </button> */}
                     <div className="mt-2">
                         <span>Already have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 

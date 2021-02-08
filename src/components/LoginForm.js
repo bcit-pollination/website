@@ -1,9 +1,17 @@
 import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
+import { useForm } from 'react-hook-form';
 
 
 const LoginForm = (props) => {
+    const minPass = 8;
+    const { register, handleSubmit, watch, errors } = useForm();
+    
+    const onSubmit = data => {
+        console.log(data);
+    };
+
     const [state , setState] = useState({
         loginEmail : "",
         loginPassword : "",
@@ -15,16 +23,16 @@ const LoginForm = (props) => {
             [id] : value
         }))
     }
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        props.onClick();
-        if(state.loginPassword.length > 0 && state.loginEmail.length > 0) {
-            sendDetailsToServer()    
-        } else {
-            console.log('Please enter email AND password');
-            props.showError('Please enter Email AND Password')    
-        }
-    }
+    // const handleSubmitClick = (e) => {
+    //     e.preventDefault();
+    //     props.onClick();
+    //     if(state.loginPassword.length > 0 && state.loginEmail.length > 0) {
+    //         sendDetailsToServer()    
+    //     } else {
+    //         console.log('Please enter email AND password');
+    //         props.showError('Please enter Email AND Password')    
+    //     }
+    // }
     const sendDetailsToServer = () => {
         console.log("Sending Login Info to server");
         redirectToHome();
@@ -43,17 +51,19 @@ const LoginForm = (props) => {
     return (
         <div className="Auth-form">
             <div className="card col-12 col-lg-4 mt-2 hv-center" style={centerForm}>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>Login</h2>
                     <div className="form-group text-left">
-                        <label htmlFor="iputEmail1">Email address</label>
+                        <label htmlFor="inputEmail1">Email address</label>
                         <input type="email" 
                             className="form-control" 
-                            id="loginEmail" 
+                            id="loginEmail"
+                            name="loginEmail"
                             aria-describedby="emailHelp" 
                             placeholder="Enter email"
                             value={state.loginEmail}
                             onChange={handleChange}
+                            ref={register}
                         />
                         <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
@@ -62,18 +72,22 @@ const LoginForm = (props) => {
                         <input type="password" 
                             className="form-control" 
                             id="loginPassword" 
+                            name="loginPassword"
                             placeholder="Password"
                             value={state.loginPassword}
                             onChange={handleChange}
+                            ref={register({ required: true, minLength: minPass})}
                         />
+                        {errors.loginPassword && <p>This field is required. Min length: {minPass}</p>}
                     </div>
-                    <button 
+                    {/* <button 
                         type="submit" 
                         className="btn btn-primary"
                         onClick={handleSubmitClick}
                     >
                         Login
-                    </button>
+                    </button> */}
+                    <input type="submit"/>
                     <div className="mt-2">
                         <span>Don't have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
