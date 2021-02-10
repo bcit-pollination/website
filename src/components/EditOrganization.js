@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 
 const EditOrganizationForm = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data);
     };
