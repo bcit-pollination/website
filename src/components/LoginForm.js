@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 
 const LoginForm = (props) => {
     const minPass = 8;
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     
-    const authenticateUser = data => {
+    // const authenticateUser = data => {
 
-    }
+    // }
     const onSubmit = data => {
         console.log(data);
         sendDetailsToServer();

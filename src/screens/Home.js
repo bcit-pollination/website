@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 function Home(props) {
@@ -13,9 +13,9 @@ function Home(props) {
     //       redirectToLogin()
     //     });
     //   })
-    function redirectToLogin() {
-    props.history.push('/login');
-    }
+    // function redirectToLogin() {
+    //     props.history.push('/login');
+    // }
     return(
         <div className="mt-2">
             Home page content

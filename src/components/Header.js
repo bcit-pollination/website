@@ -4,14 +4,14 @@ import BackButton from './BackButton';
 import { withRouter } from "react-router-dom";
 
 const Header = (props) => {
-    const capitalize = (s) => {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-    }
-    let title = capitalize(props.location.pathname.substring(1,props.location.pathname.length))
-    if(props.location.pathname === '/') {
-        title = 'Welcome'
-    }
+    // const capitalize = (s) => {
+    //     if (typeof s !== 'string') return ''
+    //     return s.charAt(0).toUpperCase() + s.slice(1)
+    // }
+    // let title = capitalize(props.location.pathname.substring(1,props.location.pathname.length))
+    // if(props.location.pathname === '/') {
+    //     title = 'Welcome'
+    // }
     function renderLogout() {
         if(props.location.pathname === '/home'){
             return(

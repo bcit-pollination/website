@@ -2,13 +2,42 @@ import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+
+
+// const axios = require('axios');
 
 const RegistrationForm = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm();
+
+    const { register, handleSubmit } = useForm();
     
     const onSubmit = data => {
+
+        // axios.get('http://webcode.me').then(resp => {
+
+        //     console.log(resp.data);
+        // });
+
+        // console.log("Movies:");
+        // console.log(getMoviesFromApi());
+
+        // axios('');
+        // fetch('https://mywebsite.com/mydata.json');
+
+
         console.log(data);
     };
+
+    // const getMoviesFromApi = () => {
+    //     return fetch('https://reactnative.dev/movies.json')
+    //       .then((response) => response.json())
+    //       .then((json) => {
+    //         return json.movies;
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    // };
 
     const [state , setState] = useState({
         firstName: "",
@@ -24,23 +53,23 @@ const RegistrationForm = (props) => {
             [id] : value
         }))
     }
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        if(state.password.length > 0 && state.email.length > 0) {
-            sendDetailsToServer()    
-        } else {
-            console.log('Please enter Email AND Password');
-            props.showError('Please enter Email AND Password')    
-        }
-    }
-    const sendDetailsToServer = () => {
-        console.log("Sending Registration Info to server");
-        redirectToHome();
-    }
-    const redirectToHome = () => {
-        props.updateTitle('Home')
-        props.history.push('/home');
-    }
+    // const handleSubmitClick = (e) => {
+    //     e.preventDefault();
+    //     if(state.password.length > 0 && state.email.length > 0) {
+    //         sendDetailsToServer()    
+    //     } else {
+    //         console.log('Please enter Email AND Password');
+    //         props.showError('Please enter Email AND Password')    
+    //     }
+    // }
+    // const sendDetailsToServer = () => {
+    //     console.log("Sending Registration Info to server");
+    //     redirectToHome();
+    // }
+    // const redirectToHome = () => {
+    //     props.updateTitle('Home')
+    //     props.history.push('/home');
+    // }
     const redirectToLogin = () => {
         props.updateTitle('Login')
         props.history.push('/login'); 
