@@ -5,6 +5,7 @@ import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import AlertComponent from './components/AlertMessage';  
 import Home from './screens/Home';  
+import OrganizationList from './components/OrganizationList';
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,6 +38,9 @@ function App() {
             </Route>
             <Route path="/home">
               <Home/>
+            </Route>
+            <Route path="/org">
+              <OrganizationList/>
             </Route>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
