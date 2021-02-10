@@ -29,7 +29,7 @@ const EditOrganizationForm = (props) => {
                         />
                     </div>
                     <div className="form-group text-left">
-                        <label htmlFor="emailList">Last Name</label>
+                        <label htmlFor="emailList">Emails</label>
                         <textarea type="scrolalbletextbox"
                             className="form-control"
                             cols="1"
