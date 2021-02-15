@@ -1,17 +1,17 @@
 import '../css/App.css';
 import PollinationLogo from './PollinationLogo';
-import BackButton from './BackButton';
+// import BackButton from './BackButton';
 import { withRouter } from "react-router-dom";
 
 const Header = (props) => {
-    const capitalize = (s) => {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-    }
-    let title = capitalize(props.location.pathname.substring(1,props.location.pathname.length))
-    if(props.location.pathname === '/') {
-        title = 'Welcome'
-    }
+    // const capitalize = (s) => {
+    //     if (typeof s !== 'string') return ''
+    //     return s.charAt(0).toUpperCase() + s.slice(1)
+    // }
+    // let title = capitalize(props.location.pathname.substring(1,props.location.pathname.length))
+    // if(props.location.pathname === '/') {
+    //     title = 'Welcome'
+    // }
     function renderLogout() {
         if(props.location.pathname === '/home'){
             return(
@@ -29,7 +29,7 @@ const Header = (props) => {
     return (
         <div>
             <header className={props.className?props.className:'App-header'}>
-                <BackButton onClick={props.onBackClick}/>
+                {/* <BackButton onClick={props.onBackClick}/> */}
                 <PollinationLogo/>
                 {renderLogout()}
             </header>

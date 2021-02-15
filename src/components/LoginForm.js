@@ -1,3 +1,4 @@
+import {getReq} from '../utils/customAxiosLib'
 import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
@@ -6,14 +7,25 @@ import { useForm } from 'react-hook-form';
 
 const LoginForm = (props) => {
     const minPass = 8;
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     
-    const authenticateUser = data => {
+    // const authenticateUser = data => {
 
-    }
+    // }
     const onSubmit = data => {
+        console.log("Data to be sent to server:")
         console.log(data);
-        sendDetailsToServer();
+        getReq('http://pollination.live/api/api/user')
+            .then(response => {
+                console.log("Recv Verification from server.")
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("getReq failed: ");
+                console.log(error);
+            })
+
+        redirectToHome();
     };
 
     const [state , setState] = useState({
@@ -37,11 +49,12 @@ const LoginForm = (props) => {
     //         props.showError('Please enter Email AND Password')    
     //     }
     // }
-    const sendDetailsToServer = () => {
-        console.log("Sending Login Info to server");
-        redirectToHome();
-    }
+    // const sendDetailsToServer = () => {
+    //     console.log("Sending Login Info to server");
+    //     redirectToHome();
+    // }
     const redirectToHome = () => {
+        console.log("Redirecting to home page.")
         props.updateTitle('Home')
         props.history.push('/home');
     }
@@ -67,9 +80,8 @@ const LoginForm = (props) => {
                             placeholder="Enter email"
                             value={state.loginEmail}
                             onChange={handleChange}
-                            ref={register}
+                            ref={register({required: true})}
                         />
-                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <div className="form-group text-left">
                         <label htmlFor="inputPassword1">Password</label>
@@ -95,7 +107,7 @@ const LoginForm = (props) => {
                     <div className="mt-2">
                         <span>Don't have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
-                        onClick={() => {console.log('To login');redirectToRegister();}}>Register here</span> 
+                        onClick={() => {console.log('Going to registration page');redirectToRegister();}}>Register here</span> 
                     </div>
                 </form>
             </div>

@@ -2,12 +2,53 @@ import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
 import { useForm } from 'react-hook-form';
+// import axios from 'axios';
+import {postReq} from '../utils/customAxiosLib'
+
+// const axios = require('axios');
 
 const RegistrationForm = (props) => {
-    const { register, handleSubmit, watch, errors } = useForm();
+    const minPass = 8;
+
+    const { register, handleSubmit, errors } = useForm();
     
-    const onSubmit = data => {
-        console.log(data);
+    const onSubmit = (data) => {
+        console.log("Data being sent to server:")
+        console.log("'first_name':'"+data.firstName+"'"); 
+        console.log("'last_name':'"+data.lastName+"'");
+        console.log("'email':'"+data.email+"'");
+        console.log("'password':'********'")
+
+        postReq('http://pollination.live/api/api/user', {
+            "first_name": data.firstName,
+            "last_name": data.lastName,
+            "email": data.email,
+            "password": data.password
+        })
+        .then(response => {
+            console.log("Returned:");
+            console.log("Response Status:");
+            console.log(response.status);
+            console.log("Response statusText:");
+            console.log(response.statusText);
+            console.log("Response headers:");
+            console.log(response.headers);
+            console.log("Response data:");
+            console.log(response.data);
+        })
+        .catch(error => {console.log("postReq failed: " + error)})
+
+        // getReq('http://pollination.live/api/api/user', {"Authorization":"Bearer "+""})
+        //     .then(response => {
+        //         console.log("Recv Verification from server.")
+        //         console.log(response);
+        //     })
+        //     .catch(error => {
+        //         console.log("getReq failed: ");
+        //         console.log(error);
+        //     })
+
+        redirectToHome();
     };
 
     const [state , setState] = useState({
@@ -24,19 +65,19 @@ const RegistrationForm = (props) => {
             [id] : value
         }))
     }
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        if(state.password.length > 0 && state.email.length > 0) {
-            sendDetailsToServer()    
-        } else {
-            console.log('Please enter Email AND Password');
-            props.showError('Please enter Email AND Password')    
-        }
-    }
-    const sendDetailsToServer = () => {
-        console.log("Sending Registration Info to server");
-        redirectToHome();
-    }
+    // const handleSubmitClick = (e) => {
+    //     e.preventDefault();
+    //     if(state.password.length > 0 && state.email.length > 0) {
+    //         sendDetailsToServer()    
+    //     } else {
+    //         console.log('Please enter Email AND Password');
+    //         props.showError('Please enter Email AND Password')    
+    //     }
+    // }
+    // const sendDetailsToServer = () => {
+    //     console.log("Sending Registration Info to server");
+    //     redirectToHome();
+    // }
     const redirectToHome = () => {
         props.updateTitle('Home')
         props.history.push('/home');
@@ -83,7 +124,7 @@ const RegistrationForm = (props) => {
                             placeholder="Enter email"
                             value={state.email}
                             onChange={handleChange}
-                            ref={register}
+                            ref={register({required: true})}
                         />
                     </div>
                     <div className="form-group text-left">
@@ -95,8 +136,9 @@ const RegistrationForm = (props) => {
                             placeholder="Password"
                             value={state.password}
                             onChange={handleChange}
-                            ref={register}
+                            ref={register({ required: true, minLength: minPass})}
                         />
+                        {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
                     {/* <div className="form-group text-left">
                         <label htmlFor="inputPassword1">Confirm Password</label>
@@ -119,7 +161,7 @@ const RegistrationForm = (props) => {
                     <div className="mt-2">
                         <span>Already have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
-                        onClick={() => {console.log('To login'); redirectToLogin()}}>Login here</span> 
+                        onClick={() => {console.log('Going to login page'); redirectToLogin()}}>Login here</span> 
                     </div>
                 </form>
             </div>
