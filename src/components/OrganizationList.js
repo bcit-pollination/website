@@ -16,6 +16,20 @@ const mylist = [
     },
   ];
 
+const selections = ["View Elections", "Create Organization"]
+
+const renderButtons = list => {
+    // const [active, setActive] = useState(list[0]);
+
+    return list.map(item => {
+        return (
+            <>
+            <button name={item} value={item} type={`button`}>{item}</button>
+            </>
+        );
+    });
+
+}
 const renderTableData = list => {
     return list.map((org, index) => {
         const {id, name, admin} = org;
@@ -47,6 +61,7 @@ const renderTableHeader = list => {
               {renderTableData(mylist)}
            </tbody>
         </table>
+        {renderButtons(selections)}
      </div>
       );
   }

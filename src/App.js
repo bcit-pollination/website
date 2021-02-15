@@ -7,7 +7,6 @@ import LoginForm from './components/LoginForm';
 import AlertComponent from './components/AlertMessage';  
 import Home from './screens/Home';  
 import OrganizationList from './components/OrganizationList';
-
 import EditOrganization from './components/EditOrganization';
 
 import {
