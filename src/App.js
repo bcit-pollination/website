@@ -2,12 +2,13 @@ import './css/App.css';
 import Header from './components/Header'
 // import Button from 'react-bootstrap/Button';
 import RegistrationForm from './components/RegistrationForm';
-import LoginForm from './components/LoginForm';
+import LoginForm        from './components/LoginForm';
 
-import AlertComponent from './components/AlertMessage';  
-import Home from './screens/Home';  
+import AlertComponent   from './components/AlertMessage';  
+import Home             from './screens/Home';  
 import OrganizationList from './components/OrganizationList';
 import EditOrganization from './components/EditOrganization';
+import ElectionForm   from './components/CreateElection';
 
 import {
   BrowserRouter as Router,
@@ -47,6 +48,9 @@ function App() {
             </Route>
             <Route path="/org">
               <OrganizationList/>
+            </Route>
+            <Route path="/createElection">
+              <ElectionForm/>
             </Route>
           </Switch>
           <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage} />
