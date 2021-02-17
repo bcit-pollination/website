@@ -24,7 +24,7 @@ const renderButtons = list => {
     return list.map(item => {
         return (
             <>
-            <button name={item} value={item} type={`button`}>{item}</button>
+            <button name={item} value={item} type={`button`} onClick={() => console.log("HELP")} >{item}</button>
             </>
         );
     });
@@ -51,20 +51,27 @@ const renderTableHeader = list => {
     });
 }
 
-  const renderTable = () => {
-      return (
-        <div>
-        <h1 id='title'>Organization List</h1>
-        <table id='org'>
-           <tbody>
-               <tr>{renderTableHeader(mylist[0])}</tr>
-              {renderTableData(mylist)}
-           </tbody>
-        </table>
-        {renderButtons(selections)}
-     </div>
-      );
-  }
+const renderTable = () => {
+
+    // const redirectToCreateOrg = () => {
+    //     console.log("Redirecting to organization creation page.")
+    //     props.history.push('/createOrganization');
+    // }
+
+    return (
+    <div>
+    <h1 id='title'>Organization List</h1>
+    <table id='org'>
+        <tbody>
+            <tr>{renderTableHeader(mylist[0])}</tr>
+            {renderTableData(mylist)}
+        </tbody>
+    </table>
+    {renderButtons(selections)}
+    </div>
+    );
+}
+
 
   
 

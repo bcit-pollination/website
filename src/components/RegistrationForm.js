@@ -79,11 +79,9 @@ const RegistrationForm = (props) => {
     //     redirectToHome();
     // }
     const redirectToHome = () => {
-        props.updateTitle('Home')
         props.history.push('/home');
     }
     const redirectToLogin = () => {
-        props.updateTitle('Login')
         props.history.push('/login'); 
     }
 

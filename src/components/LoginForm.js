@@ -39,28 +39,12 @@ const LoginForm = (props) => {
             [id] : value
         }))
     }
-    // const handleSubmitClick = (e) => {
-    //     e.preventDefault();
-    //     props.onClick();
-    //     if(state.loginPassword.length > 0 && state.loginEmail.length > 0) {
-    //         sendDetailsToServer()    
-    //     } else {
-    //         console.log('Please enter email AND password');
-    //         props.showError('Please enter Email AND Password')    
-    //     }
-    // }
-    // const sendDetailsToServer = () => {
-    //     console.log("Sending Login Info to server");
-    //     redirectToHome();
-    // }
+
     const redirectToHome = () => {
-        console.log("Redirecting to home page.")
-        props.updateTitle('Home')
         props.history.push('/home');
     }
     const redirectToRegister = () => {
         props.history.push('/register'); 
-        props.updateTitle('Register');
     }
 
     const centerForm = {position:'absolute', top:'50%', left:'50%', transform: 'translate(-50%, -50%)', minHeight:'50vh' }
@@ -70,6 +54,7 @@ const LoginForm = (props) => {
             <div className="card col-12 col-lg-4 mt-2 hv-center" style={centerForm}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>Login</h2>
+                    
                     <div className="form-group text-left">
                         <label htmlFor="inputEmail1">Email address</label>
                         <input type="email" 
@@ -83,6 +68,7 @@ const LoginForm = (props) => {
                             ref={register({required: true})}
                         />
                     </div>
+                    
                     <div className="form-group text-left">
                         <label htmlFor="inputPassword1">Password</label>
                         <input type="password" 
@@ -96,14 +82,9 @@ const LoginForm = (props) => {
                         />
                         {errors.loginPassword && <p>This field is required. Min length: {minPass}</p>}
                     </div>
-                    {/* <button 
-                        type="submit" 
-                        className="btn btn-primary"
-                        onClick={handleSubmitClick}
-                    >
-                        Login
-                    </button> */}
+
                     <input type="submit" value="Login"/>
+                    
                     <div className="mt-2">
                         <span>Don't have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 
