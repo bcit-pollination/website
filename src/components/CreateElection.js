@@ -52,7 +52,9 @@ function ElectionForm() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
             <div className="card m-3">
-                <h5 className="card-header">React Dynamic Form Example with React Hook Form</h5>
+
+                <h5 className="card-header">Election Creation Page</h5>
+
                 <div className="card-body border-bottom">
                     <div className="form-row">
                         <div className="form-group">
@@ -62,7 +64,7 @@ function ElectionForm() {
                                     <option key={i} value={i}>{i}</option>
                                 )}
                             </select>
-                            <label>Number of Fields</label>
+                            <label>Number of Fields Per Question</label>
                             <select name="numberOfFields" ref={register} className={`form-control ${errors.numberOfQuestions ? 'is-invalid' : ''}`}>
                                 {['',1,2,3,4].map(i => 
                                     <option key={i} value={i}>{i}</option>
@@ -72,6 +74,7 @@ function ElectionForm() {
                         </div>
                     </div>
                 </div>
+                
                 {questionNumbers().map(i => (
                     <div key={i} className="list-group list-group-flush">
                         <div className="list-group-item">
@@ -87,23 +90,27 @@ function ElectionForm() {
                                     <input name={`questions[${i}]email`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.email ? 'is-invalid' : '' }`} />
                                     <div className="invalid-feedback">{errors.questions?.[i]?.email?.message}</div>
                                 </div> */}
-                                {numberOfFields().map(j => (
-                                <div className="form-group col-6">
-                                <label>Field {j+1}</label>
-                                <input name={`questions.[${i}]_question.fields[${j}]`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.field ? 'is-invalid' : '' }`} />
-                                <div className="invalid-feedback">{errors.questions?.[i]?.field?.message}</div>
+                                <div className="form-col col-6">
+                                    {numberOfFields().map(j => (
+                                    <div className="form-group">
+                                        <label>Field {j+1}</label>
+                                        <input name={`questions.[${i}]_question.fields[${j}]`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.field ? 'is-invalid' : '' }`} />
+                                        <div className="invalid-feedback">{errors.questions?.[i]?.field?.message}</div>
+                                    </div>
+                                    ))}
                                 </div>
-                                ))}
                             </div>
                         </div>
                     </div>
                 ))}
+
                 <div className="card-footer text-center border-top-0">
                     <button type="submit" className="btn btn-primary mr-1">
                         Submit
                     </button>
                     <button className="btn btn-secondary mr-1" type="reset">Reset</button>
                 </div>
+
             </div>
         </form>
     )
