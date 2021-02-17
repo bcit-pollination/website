@@ -9,7 +9,7 @@ const Header = (props) => {
         const loggedInList = ['/home', '/org', '/createElection' , '/editOrganization'];
         let loggedIn = false;
         loggedInList.forEach( (paths) => {
-            if (paths == props.location.pathname) {
+            if (paths === props.location.pathname) {
                 loggedIn = true;
             }
         }); 

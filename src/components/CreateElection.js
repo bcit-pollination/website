@@ -36,6 +36,13 @@ function ElectionForm() {
         return [...Array(parseInt(watchNumberOfQuestions || 0)).keys()];
     }
 
+    // watch to enable re-render when ticket number is changed
+    const watchNumberOfFields = watch('numberOfFields');
+
+    function numberOfFields() {
+        return [...Array(parseInt(watchNumberOfFields || 0)).keys()];
+    }
+
     function onSubmit(data) {
         // display form data on success
         console.log(JSON.stringify(data, null, 4))
@@ -55,6 +62,12 @@ function ElectionForm() {
                                     <option key={i} value={i}>{i}</option>
                                 )}
                             </select>
+                            <label>Number of Fields</label>
+                            <select name="numberOfFields" ref={register} className={`form-control ${errors.numberOfQuestions ? 'is-invalid' : ''}`}>
+                                {['',1,2,3,4].map(i => 
+                                    <option key={i} value={i}>{i}</option>
+                                )}
+                            </select>
                             <div className="invalid-feedback">{errors.numberOfQuestions?.message}</div>
                         </div>
                     </div>
@@ -62,18 +75,25 @@ function ElectionForm() {
                 {questionNumbers().map(i => (
                     <div key={i} className="list-group list-group-flush">
                         <div className="list-group-item">
-                            <h5 className="card-title">Question {i + 1}</h5>
+                            <h5 className="card-title">Question {i}</h5>
                             <div className="form-row">
                                 <div className="form-group col-6">
-                                    <label>Name</label>
-                                    <input name={`questions[${i}]name`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.name ? 'is-invalid' : '' }`} />
-                                    <div className="invalid-feedback">{errors.questions?.[i]?.name?.message}</div>
+                                    <label>Question</label>
+                                    <input name={`questions.[${i}]_question.question`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.question ? 'is-invalid' : '' }`} />
+                                    <div className="invalid-feedback">{errors.questions?.[i]?.question?.message}</div>
                                 </div>
-                                <div className="form-group col-6">
+                                {/* <div className="form-group col-6">
                                     <label>Email</label>
                                     <input name={`questions[${i}]email`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.email ? 'is-invalid' : '' }`} />
                                     <div className="invalid-feedback">{errors.questions?.[i]?.email?.message}</div>
+                                </div> */}
+                                {numberOfFields().map(j => (
+                                <div className="form-group col-6">
+                                <label>Field {j}</label>
+                                <input name={`questions.[${i}]_question.fields[${j}]`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.field ? 'is-invalid' : '' }`} />
+                                <div className="invalid-feedback">{errors.questions?.[i]?.field?.message}</div>
                                 </div>
+                                ))}
                             </div>
                         </div>
                     </div>
