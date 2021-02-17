@@ -92,7 +92,7 @@ function ElectionForm() {
                                 </div> */}
                                 <div className="form-col col-6">
                                     {numberOfFields().map(j => (
-                                    <div className="form-group">
+                                    <div className="">
                                         <label>Field {j+1}</label>
                                         <input name={`questions.[${i}]_question.fields[${j}]`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.field ? 'is-invalid' : '' }`} />
                                         <div className="invalid-feedback">{errors.questions?.[i]?.field?.message}</div>
