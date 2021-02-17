@@ -25,19 +25,20 @@ function ElectionForm() {
 
     // functions to build form returned by useForm() hook
     const { register, handleSubmit, reset, errors, watch } = useForm({
-        resolver: yupResolver(validationSchema)
+        // resolver: yupResolver(validationSchema)w
     });
 
     // watch to enable re-render when ticket number is changed
     const watchNumberOfQuestions = watch('numberOfQuestions');
 
     // return array of ticket indexes for rendering dynamic forms in the template
-    function ticketNumbers() {
+    function questionNumbers() {
         return [...Array(parseInt(watchNumberOfQuestions || 0)).keys()];
     }
 
     function onSubmit(data) {
         // display form data on success
+        console.log(JSON.stringify(data, null, 4))
         alert('SUCCESS!! :-)\n\n' + JSON.stringify(data, null, 4));
     }
 
@@ -58,7 +59,7 @@ function ElectionForm() {
                         </div>
                     </div>
                 </div>
-                {ticketNumbers().map(i => (
+                {questionNumbers().map(i => (
                     <div key={i} className="list-group list-group-flush">
                         <div className="list-group-item">
                             <h5 className="card-title">Question {i + 1}</h5>
