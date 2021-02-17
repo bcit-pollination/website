@@ -78,7 +78,7 @@ function ElectionForm() {
                             <h5 className="card-title">Question {i}</h5>
                             <div className="form-row">
                                 <div className="form-group col-6">
-                                    <label>Question</label>
+                                    <label>Question {i+1}</label>
                                     <input name={`questions.[${i}]_question.question`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.question ? 'is-invalid' : '' }`} />
                                     <div className="invalid-feedback">{errors.questions?.[i]?.question?.message}</div>
                                 </div>
@@ -89,7 +89,7 @@ function ElectionForm() {
                                 </div> */}
                                 {numberOfFields().map(j => (
                                 <div className="form-group col-6">
-                                <label>Field {j}</label>
+                                <label>Field {j+1}</label>
                                 <input name={`questions.[${i}]_question.fields[${j}]`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.field ? 'is-invalid' : '' }`} />
                                 <div className="invalid-feedback">{errors.questions?.[i]?.field?.message}</div>
                                 </div>
