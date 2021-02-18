@@ -9,35 +9,7 @@ import * as Yup from 'yup';
 import ReactDatePicker from "react-datepicker";
 
 function ElectionForm() {
-    // form validation rules 
-    const validationSchema = Yup.object().shape({
-        numberOfQuestions: Yup.string()
-            .required('Number of questions is required'),
-        questions: Yup.array().of(
-            Yup.object().shape({
-                name: Yup.string()
-                    .required('Name is required'),
-                email: Yup.string()
-                    .email('Email is Invalid')
-                    .required('Email is required')
-            })
-        )
-    });
 
-    const RenderDatePickerWrapper = (label) => {
-        return (
-            <Controller
-            name={label}
-            control={control}
-            render={({ onChange, value }) => (
-                <ReactDatePicker
-                    selected={value}
-                    onChange={onChange}
-                />
-            )}
-        />
-        );
-    }
     // functions to build form returned by useForm() hook
     const { register, handleSubmit, reset, errors, watch, control } = useForm({
         // resolver: yupResolver(validationSchema)w
@@ -135,11 +107,6 @@ function ElectionForm() {
                                     <input name={`questions.[${i}]_question.question`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.question ? 'is-invalid' : '' }`} />
                                     <div className="invalid-feedback">{errors.questions?.[i]?.question?.message}</div>
                                 </div>
-                                {/* <div className="form-group col-6">
-                                    <label>Email</label>
-                                    <input name={`questions[${i}]email`} ref={register} type="text" className={`form-control ${errors.questions?.[i]?.email ? 'is-invalid' : '' }`} />
-                                    <div className="invalid-feedback">{errors.questions?.[i]?.email?.message}</div>
-                                </div> */}
                                 <div className="form-col col-6">
                                     {numberOfFields().map(j => (
                                     <div className="">
