@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import '../css/App.css'
-import { useForm } from "react-hook-form";
+import "react-datepicker/dist/react-datepicker.css";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers';
 
 import * as Yup from 'yup';
 
-
+import ReactDatePicker from "react-datepicker";
 
 function ElectionForm() {
     // form validation rules 
@@ -23,8 +24,22 @@ function ElectionForm() {
         )
     });
 
+    const RenderDatePickerWrapper = (label) => {
+        return (
+            <Controller
+            name={label}
+            control={control}
+            render={({ onChange, value }) => (
+                <ReactDatePicker
+                    selected={value}
+                    onChange={onChange}
+                />
+            )}
+        />
+        );
+    }
     // functions to build form returned by useForm() hook
-    const { register, handleSubmit, reset, errors, watch } = useForm({
+    const { register, handleSubmit, reset, errors, watch, control } = useForm({
         // resolver: yupResolver(validationSchema)w
     });
 
@@ -45,6 +60,7 @@ function ElectionForm() {
 
     function onSubmit(data) {
         // display form data on success
+
         console.log(JSON.stringify(data, null, 4))
         alert('SUCCESS!! :-)\n\n' + JSON.stringify(data, null, 4));
     }
@@ -73,12 +89,46 @@ function ElectionForm() {
                             <div className="invalid-feedback">{errors.numberOfQuestions?.message}</div>
                         </div>
                     </div>
+
+                <div className="card-body border-bottom">
+                    <div className="form-row">
+                        <div className="form-group">
+                        <label>Start Date</label>
+                                <Controller
+                                name={"startDate"}
+                                control={control}
+                                render={({ onChange, value }) => (
+                                    <ReactDatePicker
+                                        selected={value}
+                                        onChange={onChange}
+                                        timeInputLabel="Time:"
+                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        showTimeSelect
+                                    />
+                                )}
+                                />
+                                <label>End Date</label>
+                                <Controller
+                                name={"endDate"}
+                                control={control}
+                                render={({ onChange, value }) => (
+                                    <ReactDatePicker
+                                        selected={value}
+                                        onChange={onChange}
+                                        timeInputLabel="Time:"
+                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        showTimeSelect
+                                    />
+                                )}
+                                />
+                        </div>
+                    </div>
                 </div>
-                
+                </div>
                 {questionNumbers().map(i => (
                     <div key={i} className="list-group list-group-flush">
                         <div className="list-group-item">
-                            <h5 className="card-title">Question {i}</h5>
+                            <h5 className="card-title"> {i+1} </h5>
                             <div className="form-row">
                                 <div className="form-group col-6">
                                     <label>Question {i+1}</label>
@@ -115,4 +165,6 @@ function ElectionForm() {
         </form>
     )
 }
+
+
 export default ElectionForm
