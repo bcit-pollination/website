@@ -52,10 +52,6 @@ function App() {
                 <OrganizationList/>
               </Route>
 
-              <Route path={`/orgDetails/:orgId`}>
-                <OrganizationDetails />
-              </Route>
-
               <Route path="/createElection">
                 <ElectionForm/>
               </Route>

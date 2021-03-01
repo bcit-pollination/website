@@ -1,10 +1,17 @@
 import '../css/App.css'
 
 import { 
-    withRouter
+    BrowserRouter as Router,
+    withRouter, 
+    Switch, 
+    Route,
+    Link,
+    useRouteMatch
 } from "react-router-dom";
 
-const mylist = [
+import OrganizationDetails from './OrganizationDetails';
+
+const orgList = [
     {
         id: 1,
         name: "Government of Canada"
@@ -32,17 +39,15 @@ const renderCreateOrgButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (orgList, viewDetails) => {
+const renderTableData = (orgList, redirectToOrganizationDetails) => {
     return orgList.map((org, index) => {
         const {id, name} = org;
         return (
         <tr 
         key={id} 
-        onClick={() => {
-            viewDetails(id, name);
-        }}>
+        >
             <td>{id}</td>
-            <td>{name}</td>
+            <td><Link to={`/orgList/orgDetails/${id}`}>{name}</Link></td>
         </tr>
         );
     });
@@ -68,16 +73,28 @@ const OrgList = (props) => {
         props.history.push('/createOrganization');
     }
 
+    let { path, url } = useRouteMatch();
+
+    console.log(path);
     return (
     <div>
+
+
+    <Switch>
+        <Route exact path={path}>
         <h1 id='title'>Organization List</h1>
-        <table id='org'>
-            <tbody>
-                <tr>{renderTableHeader(mylist[0])}</tr>
-                {renderTableData(mylist, redirectToOrganizationDetails)}
-            </tbody>
-        </table>
-        {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+            <table id='org'>
+                <tbody>
+                    <tr>{renderTableHeader(orgList[0])}</tr>
+                    {renderTableData(orgList, redirectToOrganizationDetails)}
+                </tbody>
+            </table>
+            {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+        </Route>
+        <Route path={`/orgList/orgDetails/:orgId`}>
+          <OrganizationDetails />
+        </Route>
+      </Switch>
     </div>
     );
 }
