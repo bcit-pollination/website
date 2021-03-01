@@ -27,14 +27,14 @@ const renderCreateOrgButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (orgList) => {
+const renderTableData = (orgList, viewDetails) => {
     return orgList.map((org, index) => {
         const {id, name, admin} = org;
         return (
         <tr 
         key={id} 
         onClick={() => {
-            console.log("Viewing elections list for: " + name);
+            viewDetails(id, name);
         }}>
             <td>{id}</td>
             <td>{name}</td>
@@ -54,8 +54,13 @@ const renderTableHeader = list => {
 
 const OrgList = (props) => {
 
+    const redirectToOrganizationDetails = (id, name) => {
+        console.log("Redirecting to view details of " + name);
+        props.history.push('/orgDetails');
+    }
+
     const redirectToCreateOrg = () => {
-        console.log("Redirecting to create org page.")
+        console.log("Redirecting to create org page.");
         props.history.push('/createOrganization');
     }
 
@@ -65,7 +70,7 @@ const OrgList = (props) => {
     <table id='org'>
         <tbody>
             <tr>{renderTableHeader(mylist[0])}</tr>
-            {renderTableData(mylist)}
+            {renderTableData(mylist, redirectToOrganizationDetails)}
         </tbody>
     </table>
     {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}

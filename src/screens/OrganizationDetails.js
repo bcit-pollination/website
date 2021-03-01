@@ -5,12 +5,14 @@ const electionList = [
     {
         id: 1,
         name: "Data Comm Head",
-        start: "21-03-01"
+        start: "21-03-01",
+        end: "21-04-01"
     },
     {
         id: 2,
         name: "Term party location",
-        start: "21-04-05"
+        start: "21-04-05",
+        end: "21-05-01"
     },
 ];
 
@@ -27,9 +29,9 @@ const renderEditOrgButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (orgList) => {
-    return orgList.map((org, index) => {
-        const {id, name, start} = org;
+const renderTableData = (electionList) => {
+    return electionList.map((election, index) => {
+        const {id, name, start, end} = election;
         return (
         <tr 
         key={id} 
@@ -39,6 +41,7 @@ const renderTableData = (orgList) => {
             <td>{id}</td>
             <td>{name}</td>
             <td>{start}</td>
+            <td>{end}</td>
         </tr>
         );
     });
@@ -61,7 +64,7 @@ const OrganizationDetails = (props) => {
 
     return (
     <div>
-    <h1 id='title'>Organization List</h1>
+    <h1 id='title'>Organization Details</h1>
     <table id='org'>
         <tbody>
             <tr>{renderTableHeader(electionList[0])}</tr>

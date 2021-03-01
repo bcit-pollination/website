@@ -21,7 +21,7 @@ function Home(props) {
     }
     const redirectToOrgList = () => {
         console.log("Redirecting to organizations page.")
-        props.history.push('/org');
+        props.history.push('/orgList');
     }
     const redirectToCreateElection = () => {
         console.log("Redirecting to create election page.")

@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 const Header = (props) => {
     function renderLogout() {
         
-        const loggedInList = ['/home', '/org', '/createElection' , '/createOrganization'];
+        const loggedInList = ['/home', '/orgList', '/createElection' , '/createOrganization'];
         let loggedIn = false;
         loggedInList.forEach( (paths) => {
             if (paths === props.location.pathname) {
