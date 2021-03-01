@@ -1,7 +1,5 @@
-import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
-import { useForm } from 'react-hook-form';
 
 const mylist = [
     {
@@ -14,27 +12,30 @@ const mylist = [
         name: "British Columbia Institute of Technology",
         admin: "D'arcy Smith"
     },
-  ];
+];
 
-const selections = ["View Elections", "Create Organization"]
-
-const renderButtons = list => {
-    // const [active, setActive] = useState(list[0]);
-
-    return list.map(item => {
-        return (
-            <>
-            <button name={item} value={item} type={`button`} onClick={() => console.log("HELP")} >{item}</button>
-            </>
-        );
-    });
-
+const renderCreateOrgButton = (btnName, onClick) => {
+    return (
+        <>
+        <button 
+        onClick={onClick}
+        name={btnName} 
+        value={btnName} 
+        type={`button`}
+        >{btnName}</button>
+        </>
+    );
 }
-const renderTableData = list => {
-    return list.map((org, index) => {
+
+const renderTableData = (orgList) => {
+    return orgList.map((org, index) => {
         const {id, name, admin} = org;
         return (
-        <tr key={id}>
+        <tr 
+        key={id} 
+        onClick={() => {
+            console.log("Viewing elections list for: " + name);
+        }}>
             <td>{id}</td>
             <td>{name}</td>
             <td>{admin}</td>
@@ -51,12 +52,12 @@ const renderTableHeader = list => {
     });
 }
 
-const renderTable = () => {
+const renderTable = (props) => {
 
-    // const redirectToCreateOrg = () => {
-    //     console.log("Redirecting to organization creation page.")
-    //     props.history.push('/createOrganization');
-    // }
+    const redirectToCreateOrg = () => {
+        console.log("Redirecting to create org page.")
+        props.history.push('/createOrganization');
+    }
 
     return (
     <div>
@@ -67,12 +68,9 @@ const renderTable = () => {
             {renderTableData(mylist)}
         </tbody>
     </table>
-    {renderButtons(selections)}
+    {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
     </div>
     );
 }
 
-
-  
-
-  export default renderTable;
+export default withRouter(renderTable);

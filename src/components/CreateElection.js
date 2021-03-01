@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers";
+import { yupResolver } from '@hookform/resolvers';
+import { withRouter } from "react-router-dom";
 
 import * as Yup from "yup";
 
@@ -208,4 +209,9 @@ function ElectionForm() {
   );
 }
 
+<<<<<<< HEAD
 export default ElectionForm;
+=======
+
+export default withRouter(ElectionForm);
+>>>>>>> 53fd6fd243fe3584bfc02181eca59138c77bad08

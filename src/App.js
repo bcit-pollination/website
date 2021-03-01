@@ -11,7 +11,7 @@ import LoginForm        from './components/LoginForm';
 import AlertComponent   from './components/AlertMessage';  
 import Home             from './screens/Home';  
 import OrganizationList from './components/OrganizationList';
-import EditOrganization from './components/EditOrganization';
+import CreateOrganization from './components/CreateOrganization';
 import ElectionForm     from './components/CreateElection';
 
 
@@ -40,8 +40,8 @@ function App() {
             <Route path="/home">
               <Home/>
             </Route>
-            <Route path="/editOrganization">
-              <EditOrganization showError={updateErrorMessage}/>
+            <Route path="/createOrganization">
+              <CreateOrganization showError={updateErrorMessage}/>
             </Route>
             <Route path="/org">
               <OrganizationList/>

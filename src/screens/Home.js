@@ -20,12 +20,12 @@ function Home(props) {
         props.history.push('/org');
     }
     const redirectToCreateElection = () => {
-        console.log("Redirecting to organization page.")
-        props.history.push('/editOrganization');
-    }
-    const redirectToEditOrg = () => {
-        console.log("Redirecting to organization page.")
+        console.log("Redirecting to create election page.")
         props.history.push('/createElection');
+    }
+    const redirectToCreateOrg = () => {
+        console.log("Redirecting to create org page.")
+        props.history.push('/createOrganization');
     }
     // useEffect(() => {
     //     axios.get(API_BASE_URL+'/user/me', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
@@ -44,11 +44,10 @@ function Home(props) {
     return(
         <div className="container d-flex align-items-center flex-column">
             <h4>Home page content</h4>
-            {/* {redirectToOrg()} */}
             <br/>
             <button name={"Organizations list"} type={`button`} onClick={() => {redirectToOrg()}} >Organizations list</button>
             <br/>
-            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToEditOrg()}} >Edit Organization</button>
+            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateOrg()}} >Create Organization</button>
             <br/>
             <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateElection()}} >Create Election</button>
         </div>
