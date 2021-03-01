@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers";
 import { withRouter } from "react-router-dom";
-import * as Yup from "yup";
 import ReactDatePicker from "react-datepicker";
 
 function ElectionForm() {
   // functions to build form returned by useForm() hook
   const { register, handleSubmit, reset, errors, watch, control } = useForm({
-    // resolver: yupResolver(validationSchema)w
   });
 
   // watch to enable re-render when ticket number is changed
