@@ -10,8 +10,8 @@ import RegistrationForm from './components/RegistrationForm';
 import LoginForm        from './components/LoginForm';
 import AlertComponent   from './components/AlertMessage';  
 import Home             from './screens/Home';  
-import OrganizationList from './components/OrganizationList';
-import CreateOrganization from './components/CreateOrganization';
+import OrganizationList from './screens/OrganizationList';
+import CreateOrganization from './screens/CreateOrganization';
 import ElectionForm     from './components/CreateElection';
 
 

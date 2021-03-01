@@ -15,17 +15,17 @@ import { withRouter } from 'react-router-dom';
 
 
 function Home(props) {
-    const redirectToOrg = () => {
-        console.log("Redirecting to organization page.")
+    const redirectToCreateOrg = () => {
+        console.log("Redirecting to create org page.")
+        props.history.push('/createOrganization');
+    }
+    const redirectToOrgList = () => {
+        console.log("Redirecting to organizations page.")
         props.history.push('/org');
     }
     const redirectToCreateElection = () => {
         console.log("Redirecting to create election page.")
         props.history.push('/createElection');
-    }
-    const redirectToCreateOrg = () => {
-        console.log("Redirecting to create org page.")
-        props.history.push('/createOrganization');
     }
     // useEffect(() => {
     //     axios.get(API_BASE_URL+'/user/me', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
@@ -45,11 +45,11 @@ function Home(props) {
         <div className="container d-flex align-items-center flex-column">
             <h4>Home page content</h4>
             <br/>
-            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToOrg()}} >Organizations list</button>
+            <button name={"Create Organization"} type={`button`} onClick={() => {redirectToCreateOrg()}} >Create Organization</button>
             <br/>
-            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateOrg()}} >Create Organization</button>
+            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToOrgList()}} >Organizations list</button>
             <br/>
-            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateElection()}} >Create Election</button>
+            <button name={"Create Election"} type={`button`} onClick={() => {redirectToCreateElection()}} >Create Election</button>
         </div>
     )
 }

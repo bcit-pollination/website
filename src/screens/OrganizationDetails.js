@@ -1,20 +1,20 @@
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
 
-const mylist = [
+const electionList = [
     {
         id: 1,
-        name: "Government of Canada",
-        admin: "Justin Trudeau"
+        name: "Data Comm Head",
+        start: "21-03-01"
     },
     {
         id: 2,
-        name: "British Columbia Institute of Technology",
-        admin: "D'arcy Smith"
+        name: "Term party location",
+        start: "21-04-05"
     },
 ];
 
-const renderCreateOrgButton = (btnName, onClick) => {
+const renderEditOrgButton = (btnName, onClick) => {
     return (
         <>
         <button 
@@ -29,16 +29,16 @@ const renderCreateOrgButton = (btnName, onClick) => {
 
 const renderTableData = (orgList) => {
     return orgList.map((org, index) => {
-        const {id, name, admin} = org;
+        const {id, name, start} = org;
         return (
         <tr 
         key={id} 
         onClick={() => {
-            console.log("Viewing elections list for: " + name);
+            console.log("Viewing: " + name);
         }}>
             <td>{id}</td>
             <td>{name}</td>
-            <td>{admin}</td>
+            <td>{start}</td>
         </tr>
         );
     });
@@ -52,10 +52,10 @@ const renderTableHeader = list => {
     });
 }
 
-const renderTable = (props) => {
+const OrganizationDetails = (props) => {
 
-    const redirectToCreateOrg = () => {
-        console.log("Redirecting to create org page.")
+    const redirectToEditOrg = () => {
+        console.log("STILL Redirecting to create org page.")
         props.history.push('/createOrganization');
     }
 
@@ -64,13 +64,13 @@ const renderTable = (props) => {
     <h1 id='title'>Organization List</h1>
     <table id='org'>
         <tbody>
-            <tr>{renderTableHeader(mylist[0])}</tr>
-            {renderTableData(mylist)}
+            <tr>{renderTableHeader(electionList[0])}</tr>
+            {renderTableData(electionList)}
         </tbody>
     </table>
-    {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+    {renderEditOrgButton("Edit Organization", () => {redirectToEditOrg()})}
     </div>
     );
 }
 
-export default withRouter(renderTable);
+export default withRouter(OrganizationDetails);
