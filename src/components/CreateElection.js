@@ -3,6 +3,7 @@ import '../css/App.css'
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers';
+import { withRouter } from "react-router-dom";
 
 import * as Yup from 'yup';
 
@@ -134,4 +135,4 @@ function ElectionForm() {
 }
 
 
-export default ElectionForm
+export default withRouter(ElectionForm);

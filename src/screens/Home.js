@@ -20,12 +20,12 @@ function Home(props) {
         props.history.push('/org');
     }
     const redirectToCreateElection = () => {
-        console.log("Redirecting to organization page.")
-        props.history.push('/editOrganization');
+        console.log("Redirecting to create election page.")
+        props.history.push('/createElection');
     }
     const redirectToEditOrg = () => {
-        console.log("Redirecting to organization page.")
-        props.history.push('/createElection');
+        console.log("Redirecting to edit org page.")
+        props.history.push('/editOrganization');
     }
     // useEffect(() => {
     //     axios.get(API_BASE_URL+'/user/me', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
@@ -44,7 +44,6 @@ function Home(props) {
     return(
         <div className="container d-flex align-items-center flex-column">
             <h4>Home page content</h4>
-            {/* {redirectToOrg()} */}
             <br/>
             <button name={"Organizations list"} type={`button`} onClick={() => {redirectToOrg()}} >Organizations list</button>
             <br/>
