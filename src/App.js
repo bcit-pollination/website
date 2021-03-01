@@ -12,7 +12,7 @@ import AlertComponent   from './components/AlertMessage';
 import Home             from './screens/Home';  
 import OrganizationList from './screens/OrganizationList';
 import CreateOrganization from './screens/CreateOrganization';
-import ElectionForm     from './components/CreateElection';
+import ElectionForm     from './screens/CreateElection';
 
 
 function App() {
