@@ -23,9 +23,9 @@ function Home(props) {
         console.log("Redirecting to create election page.")
         props.history.push('/createElection');
     }
-    const redirectToEditOrg = () => {
-        console.log("Redirecting to edit org page.")
-        props.history.push('/editOrganization');
+    const redirectToCreateOrg = () => {
+        console.log("Redirecting to create org page.")
+        props.history.push('/createOrganization');
     }
     // useEffect(() => {
     //     axios.get(API_BASE_URL+'/user/me', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
@@ -47,7 +47,7 @@ function Home(props) {
             <br/>
             <button name={"Organizations list"} type={`button`} onClick={() => {redirectToOrg()}} >Organizations list</button>
             <br/>
-            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToEditOrg()}} >Edit Organization</button>
+            <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateOrg()}} >Create Organization</button>
             <br/>
             <button name={"Organizations list"} type={`button`} onClick={() => {redirectToCreateElection()}} >Create Election</button>
         </div>

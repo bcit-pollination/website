@@ -54,9 +54,9 @@ const renderTableHeader = list => {
 
 const renderTable = (props) => {
 
-    const redirectToEditOrg = () => {
-        console.log("Redirecting to edit org page.")
-        props.history.push('/editOrganization');
+    const redirectToCreateOrg = () => {
+        console.log("Redirecting to create org page.")
+        props.history.push('/createOrganization');
     }
 
     return (
@@ -68,7 +68,7 @@ const renderTable = (props) => {
             {renderTableData(mylist)}
         </tbody>
     </table>
-    {renderCreateOrgButton("Create Organization", () => {redirectToEditOrg()})}
+    {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
     </div>
     );
 }

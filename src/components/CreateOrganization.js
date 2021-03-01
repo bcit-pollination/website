@@ -2,7 +2,7 @@ import '../css/App.css'
 import { withRouter } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 
-const EditOrganizationForm = (props) => {
+const CreateOrganizationForm = (props) => {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data);
@@ -13,10 +13,10 @@ const EditOrganizationForm = (props) => {
     const newLine = "\r\n";
     const emailPlaceholderText = "{ " + newLine + "  EMAIL 1: UID," + newLine + "  EMAIL 2: UID," + newLine + "  EMAIL 3: UID," + newLine + "}"
     return (
-        <div className="EditOrg-form">
+        <div className="CreateOrg-form">
             <div className="card col-12 col-lg-4 mt-2 hv-center" style={leftForm}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <h2>Edit Organization</h2>
+                    <h2>Create Organization</h2>
                     <div className="form-group text-left">
                         <label htmlFor="orgName">Name</label>
                         <input type="text"
@@ -51,4 +51,4 @@ const EditOrganizationForm = (props) => {
     )
 }
 
-export default withRouter(EditOrganizationForm);
+export default withRouter(CreateOrganizationForm);
