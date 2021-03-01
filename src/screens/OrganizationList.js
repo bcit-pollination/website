@@ -1,16 +1,21 @@
 import '../css/App.css'
-import { withRouter } from "react-router-dom";
+
+import { 
+    withRouter
+} from "react-router-dom";
 
 const mylist = [
     {
         id: 1,
-        name: "Government of Canada",
-        admin: "Justin Trudeau"
+        name: "Government of Canada"
     },
     {
         id: 2,
-        name: "British Columbia Institute of Technology",
-        admin: "D'arcy Smith"
+        name: "British Columbia Institute of Technology"
+    },
+    {
+        id: 23,
+        name: "PICCCCCCCCCCCCC"
     },
 ];
 
@@ -29,7 +34,7 @@ const renderCreateOrgButton = (btnName, onClick) => {
 
 const renderTableData = (orgList, viewDetails) => {
     return orgList.map((org, index) => {
-        const {id, name, admin} = org;
+        const {id, name} = org;
         return (
         <tr 
         key={id} 
@@ -38,7 +43,6 @@ const renderTableData = (orgList, viewDetails) => {
         }}>
             <td>{id}</td>
             <td>{name}</td>
-            <td>{admin}</td>
         </tr>
         );
     });
@@ -56,7 +60,7 @@ const OrgList = (props) => {
 
     const redirectToOrganizationDetails = (id, name) => {
         console.log("Redirecting to view details of " + name);
-        props.history.push('/orgDetails');
+        props.history.push(`/orgDetails/${id}`);
     }
 
     const redirectToCreateOrg = () => {
@@ -66,14 +70,14 @@ const OrgList = (props) => {
 
     return (
     <div>
-    <h1 id='title'>Organization List</h1>
-    <table id='org'>
-        <tbody>
-            <tr>{renderTableHeader(mylist[0])}</tr>
-            {renderTableData(mylist, redirectToOrganizationDetails)}
-        </tbody>
-    </table>
-    {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+        <h1 id='title'>Organization List</h1>
+        <table id='org'>
+            <tbody>
+                <tr>{renderTableHeader(mylist[0])}</tr>
+                {renderTableData(mylist, redirectToOrganizationDetails)}
+            </tbody>
+        </table>
+        {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
     </div>
     );
 }

@@ -1,10 +1,13 @@
 import './css/App.css';
+
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
+
 import { useState } from 'react';
+
 import Header           from './components/Header'
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm        from './components/LoginForm';
@@ -49,8 +52,8 @@ function App() {
                 <OrganizationList/>
               </Route>
 
-              <Route path="/orgDetails">
-                <OrganizationDetails/>
+              <Route path={`/orgDetails/:orgId`}>
+                <OrganizationDetails />
               </Route>
 
               <Route path="/createElection">

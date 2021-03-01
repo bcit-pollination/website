@@ -1,5 +1,5 @@
 import '../css/App.css'
-import { withRouter } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 
 const electionList = [
     {
@@ -57,6 +57,9 @@ const renderTableHeader = list => {
 
 const OrganizationDetails = (props) => {
 
+    let { orgId } = useParams();
+    console.log("ORG ID: " + orgId);
+
     const redirectToEditOrg = () => {
         console.log("STILL Redirecting to create org page.")
         props.history.push('/createOrganization');
@@ -65,6 +68,7 @@ const OrganizationDetails = (props) => {
     return (
     <div>
     <h1 id='title'>Organization Details</h1>
+    <h2>{orgId}</h2>
     <table id='org'>
         <tbody>
             <tr>{renderTableHeader(electionList[0])}</tr>
