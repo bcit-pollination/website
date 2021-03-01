@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers';
+import { yupResolver } from "@hookform/resolvers";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import ReactDatePicker from "react-datepicker";
@@ -67,7 +67,7 @@ function ElectionForm() {
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
-              {/* <label>Number of Questions</label>
+              <label>Number of Questions</label>
               <select
                 name="numberOfQuestions"
                 ref={register}
@@ -97,9 +97,27 @@ function ElectionForm() {
               </select>
               <div className="invalid-feedback">
                 {errors.numberOfQuestions?.message}
-              </div> */}
+              </div>
 
-              <DropdownSelection
+              <label>Type of Election</label>
+              <select
+                name="typeElection"
+                ref={register}
+                className={`form-control ${
+                  errors.numberOfQuestions ? "is-invalid" : ""
+                }`}
+              >
+                {["", "Public", "Private"].map(i => (
+                  <option key={i} value={i}>
+                    {i}
+                  </option>
+                ))}
+              </select>
+              <div className="invalid-feedback">
+                {errors.numberOfQuestions?.message}
+              </div>
+
+              {/* <DropdownSelection
                 label="Number of Questions"
                 name="numberOfQuestions"
                 list={["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -107,13 +125,14 @@ function ElectionForm() {
               <DropdownSelection
                 label="Number of Fields Per Question"
                 name="numberOfFields"
-                list={[1, 2, 3, 4]}
+                list={["", 1, 2, 3, 4]}
               />
+
               <DropdownSelection
-                label="Type of Election"
-                name="typeElection"
-                list={["Public", "Private"]}
-              />
+                label="Type Of Election"
+                name=""
+                list={["", "Public", "Private"]}
+              /> */}
             </div>
           </div>
 
@@ -206,6 +225,5 @@ function ElectionForm() {
     </form>
   );
 }
-
 
 export default withRouter(ElectionForm);
