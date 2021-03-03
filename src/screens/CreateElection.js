@@ -26,10 +26,24 @@ function ElectionForm() {
   function numberOfFields() {
     return [...Array(parseInt(watchNumberOfFields || 0)).keys()];
   }
+  function updateOptionsJSON(json_obj) {
+    let count = 0;
+    let q_count = 0;
+    json_obj.questions.map(q => {
+      q.question_id = q_count;
+      q.options.map(op => {
+        op.votes = 0;
+        op.option_id = count;
+        count += 1;
+      });
+      q_count += 1;
+    });
 
+    return json_obj;
+  }
   function onSubmit(data) {
     // display form data on success
-
+    data = updateOptionsJSON(data);
     console.log(JSON.stringify(data, null, 4));
     alert("SUCCESS!! :-)\n\n" + JSON.stringify(data, null, 4));
     localStorage.setItem("demo", JSON.stringify(data));
@@ -46,9 +60,7 @@ function ElectionForm() {
               <select
                 name="numberOfQuestions"
                 ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
+                className={`form-control`}
               >
                 {["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
                   <option key={i} value={i}>
@@ -60,19 +72,14 @@ function ElectionForm() {
               <select
                 name="numberOfFields"
                 ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
+                className={`form-control`}
               >
                 {["", 1, 2, 3, 4].map(i => (
-                  <option key={i} value={i}>
+                  <option key={`f${i}`} value={i}>
                     {i}
                   </option>
                 ))}
               </select>
-              <div className="invalid-feedback">
-                {errors.numberOfQuestions?.message}
-              </div>
             </div>
           </div>
 
@@ -119,12 +126,10 @@ function ElectionForm() {
                 <div className="form-group col-6">
                   <label>Question {i + 1}</label>
                   <input
-                    name={`questions.[${i}]_question.question`}
+                    name={`questions[${i}].question`}
                     ref={register}
                     type="text"
-                    className={`form-control ${
-                      errors.questions?.[i]?.question ? "is-invalid" : ""
-                    }`}
+                    className={`form-control`}
                   />
                   <div className="invalid-feedback">
                     {errors.questions?.[i]?.question?.message}
@@ -135,16 +140,11 @@ function ElectionForm() {
                     <div className="">
                       <label>Field {j + 1}</label>
                       <input
-                        name={`questions.[${i}]_question.fields[${j}]`}
+                        name={`questions[${i}].options[${j}].option_description`}
                         ref={register}
                         type="text"
-                        className={`form-control ${
-                          errors.questions?.[i]?.field ? "is-invalid" : ""
-                        }`}
+                        className={`form-control`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.questions?.[i]?.field?.message}
-                      </div>
                     </div>
                   ))}
                 </div>
