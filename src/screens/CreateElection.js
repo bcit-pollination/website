@@ -4,11 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { withRouter } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Form } from "react-bootstrap";
 
 function ElectionForm() {
   // functions to build form returned by useForm() hook
-  const { register, handleSubmit, reset, errors, watch, control } = useForm({
-  });
+  const { register, handleSubmit, reset, errors, watch, control } = useForm({});
 
   // watch to enable re-render when ticket number is changed
   const watchNumberOfQuestions = watch("numberOfQuestions");
@@ -30,32 +32,8 @@ function ElectionForm() {
 
     console.log(JSON.stringify(data, null, 4));
     alert("SUCCESS!! :-)\n\n" + JSON.stringify(data, null, 4));
+    localStorage.setItem("demo", JSON.stringify(data));
   }
-
-  const DropdownSelection = props => {
-    return (
-      <>
-        <label>{props.label}</label>
-        <select
-          name={props.name}
-          ref={register}
-          className={`form-control ${
-            errors.numberOfQuestions ? "is-invalid" : ""
-          }`}
-        >
-          {props.list.map(i => (
-            <option key={i} value={i}>
-              {i}
-            </option>
-          ))}
-        </select>
-      </>
-    );
-  };
-
-  const Test = () => {
-    return <h1>HIELO</h1>;
-  };
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
       <div className="card m-3">
@@ -95,41 +73,6 @@ function ElectionForm() {
               <div className="invalid-feedback">
                 {errors.numberOfQuestions?.message}
               </div>
-
-              <label>Type of Election</label>
-              <select
-                name="typeElection"
-                ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
-              >
-                {["", "Public", "Private"].map(i => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-              </select>
-              <div className="invalid-feedback">
-                {errors.numberOfQuestions?.message}
-              </div>
-
-              {/* <DropdownSelection
-                label="Number of Questions"
-                name="numberOfQuestions"
-                list={["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-              />
-              <DropdownSelection
-                label="Number of Fields Per Question"
-                name="numberOfFields"
-                list={["", 1, 2, 3, 4]}
-              />
-
-              <DropdownSelection
-                label="Type Of Election"
-                name=""
-                list={["", "Public", "Private"]}
-              /> */}
             </div>
           </div>
 
@@ -209,6 +152,48 @@ function ElectionForm() {
             </div>
           </div>
         ))}
+
+        <FormControlLabel
+          label="Verification Required?"
+          name="verified"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Results publicily available?"
+          name="public_results"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Anonymous election?"
+          name="anonymous"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
 
         <div className="card-footer text-center border-top-0">
           <button type="submit" className="btn btn-primary mr-1">
