@@ -7,6 +7,7 @@ import ReactDatePicker from "react-datepicker";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Form } from "react-bootstrap";
+import TextField from "@material-ui/core/TextField";
 
 function ElectionForm() {
   // functions to build form returned by useForm() hook
@@ -30,15 +31,16 @@ function ElectionForm() {
     let count = 0;
     let q_count = 0;
     json_obj.election_id = 0;
-    json_obj.questions.map(q => {
-      q.election_id = 0;
-      q.options.map(op => {
-        op.votes = 0;
-        op.option_id = count;
-        count += 1;
+    if (json_obj.questions != undefined) {
+      json_obj.questions.map(q => {
+        q.election_id = 0;
+        q.options.map(op => {
+          op.option_id = count;
+          count += 1;
+        });
+        q_count += 1;
       });
-      q_count += 1;
-    });
+    }
 
     return json_obj;
   }
@@ -53,7 +55,21 @@ function ElectionForm() {
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
       <div className="card m-3">
         <h5 className="card-header">Election Creation Page</h5>
-
+        <Controller
+          name="election_description"
+          as={
+            <TextField
+              id="election_description"
+              label="Election Description"
+              required
+            />
+          }
+          control={control}
+          defaultValue=""
+          rules={{
+            required: true,
+          }}
+        />
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
@@ -62,6 +78,7 @@ function ElectionForm() {
                 name="numberOfQuestions"
                 ref={register}
                 className={`form-control`}
+                required
               >
                 {["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
                   <option key={i} value={i}>
@@ -74,6 +91,7 @@ function ElectionForm() {
                 name="numberOfFields"
                 ref={register}
                 className={`form-control`}
+                required
               >
                 {["", 1, 2, 3, 4].map(i => (
                   <option key={`f${i}`} value={i}>
@@ -98,6 +116,7 @@ function ElectionForm() {
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
                       showTimeSelect
+                      required
                     />
                   )}
                 />
@@ -112,6 +131,7 @@ function ElectionForm() {
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
                       showTimeSelect
+                      required
                     />
                   )}
                 />
