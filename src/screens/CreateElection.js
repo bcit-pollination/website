@@ -29,8 +29,9 @@ function ElectionForm() {
   function updateOptionsJSON(json_obj) {
     let count = 0;
     let q_count = 0;
+    json_obj.election_id = 0;
     json_obj.questions.map(q => {
-      q.question_id = q_count;
+      q.election_id = 0;
       q.options.map(op => {
         op.votes = 0;
         op.option_id = count;
@@ -126,7 +127,7 @@ function ElectionForm() {
                 <div className="form-group col-6">
                   <label>Question {i + 1}</label>
                   <input
-                    name={`questions[${i}].question`}
+                    name={`questions[${i}].question_description`}
                     ref={register}
                     type="text"
                     className={`form-control`}
