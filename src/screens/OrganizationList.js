@@ -8,6 +8,8 @@ import {
     useRouteMatch
 } from "react-router-dom";
 
+import { getReqA } from '../utils/customAxiosLib'
+
 import OrganizationDetails from './OrganizationDetails';
 
 const orgList = [
@@ -50,7 +52,6 @@ const renderTableData = (orgList, redirectToOrganizationDetails) => {
         </tr>
         );
     });
-
 }
 
 const renderTableHeader = list => {
@@ -75,25 +76,28 @@ const OrgList = (props) => {
     let { path } = useRouteMatch();
 
     console.log(path);
+
+    let jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwb2xsaW5hdGlvbi5saXZlIiwiaWF0IjoxNjE1MjAwNzI5LCJleHAiOjE2MjEyMDA3MjksInVpZCI6IjUifQ.R757PBDilIYsmO_UzLo5VpqBq9fyVqaHbyJHzYilzpQ";
+
+    getReqA('/org/list', jwt_token);
+
     return (
     <div>
-
-
-    <Switch>
-        <Route exact path={path}>
-        <h1 id='title'>Organization List</h1>
-            <table id='org'>
-                <tbody>
-                    <tr>{renderTableHeader(orgList[0])}</tr>
-                    {renderTableData(orgList, redirectToOrganizationDetails)}
-                </tbody>
-            </table>
-            {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
-        </Route>
-        <Route path={`/orgList/orgDetails/:orgId`}>
-          <OrganizationDetails />
-        </Route>
-      </Switch>
+        <Switch>
+            <Route exact path={path}>
+            <h1 id='title'>Organization List</h1>
+                <table id='org'>
+                    <tbody>
+                        <tr>{renderTableHeader(orgList[0])}</tr>
+                        {renderTableData(orgList, redirectToOrganizationDetails)}
+                    </tbody>
+                </table>
+                {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+            </Route>
+            <Route path={`/orgList/orgDetails/:orgId`}>
+            <OrganizationDetails />
+            </Route>
+        </Switch>
     </div>
     );
 }
