@@ -16,7 +16,6 @@ import Home             from './screens/Home';
 import OrganizationList from './screens/OrganizationList';
 import CreateOrganization from './screens/CreateOrganization';
 import ElectionForm     from './screens/CreateElection';
-import OrganizationDetails from './screens/OrganizationDetails';
 
 
 function App() {

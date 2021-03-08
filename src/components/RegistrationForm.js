@@ -13,17 +13,23 @@ const RegistrationForm = (props) => {
     const { register, handleSubmit, errors } = useForm();
     
     const onSubmit = (data) => {
+        console.log(new Date());
+
+
         console.log("Data being sent to server:")
+        console.log("'dob':'2021-03-08'");  // TODO: let users add DOB
+        console.log("'email':'"+data.email+"'");
         console.log("'first_name':'"+data.firstName+"'"); 
         console.log("'last_name':'"+data.lastName+"'");
-        console.log("'email':'"+data.email+"'");
         console.log("'password':'********'")
 
-        postReq('http://pollination.live/api/api/user', {
+
+        postReq('http://pollination.live/api/user', {
+            "dob":"2021-03-08", // TODO: let users add DOB
+            "email": data.email,
             "first_name": data.firstName,
             "last_name": data.lastName,
-            "email": data.email,
-            "password": data.password
+            "password": data.password,
         })
         .then(response => {
             console.log("Returned:");
