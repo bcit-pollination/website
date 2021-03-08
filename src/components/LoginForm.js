@@ -15,7 +15,7 @@ const LoginForm = (props) => {
     const onSubmit = data => {
         console.log("Data to be sent to server:")
         console.log(data);
-        getReq('http://pollination.live/api/api/user')
+        getReq('/user')
             .then(response => {
                 console.log("Recv Verification from server.")
                 console.log(response);

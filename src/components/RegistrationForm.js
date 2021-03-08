@@ -24,7 +24,7 @@ const RegistrationForm = (props) => {
         console.log("'password':'********'")
 
 
-        postReq('http://pollination.live/api/user', {
+        postReq('/user', {
             "dob":"2021-03-08", // TODO: let users add DOB
             "email": data.email,
             "first_name": data.firstName,
@@ -44,7 +44,7 @@ const RegistrationForm = (props) => {
         })
         .catch(error => {console.log("postReq failed: " + error)})
 
-        // getReq('http://pollination.live/api/api/user', {"Authorization":"Bearer "+""})
+        // getReq('/user', {"Authorization":"Bearer "+""})
         //     .then(response => {
         //         console.log("Recv Verification from server.")
         //         console.log(response);

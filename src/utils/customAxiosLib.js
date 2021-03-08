@@ -1,9 +1,11 @@
 
 import axios from 'axios';
 
+const api_path = 'http://pollination.live/api';
+
 export const getReq = async (apiEndpoint) => {
     try {
-        const response = await axios.get(apiEndpoint);
+        const response = await axios.get(api_path + apiEndpoint);
         console.log("In function:");
         console.log(response);
         return response;
@@ -16,9 +18,7 @@ export const getReq = async (apiEndpoint) => {
 
 export const postReq = async (apiEndpoint, jsonObj) => {
     try {
-        const response = await axios.post(apiEndpoint, jsonObj);
-        console.log("In function:");
-        console.log(response);
+        const response = await axios.post(api_path + apiEndpoint, jsonObj);
         return response;
     } catch (error) {
         // Handle Error Here
