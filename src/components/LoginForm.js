@@ -1,4 +1,4 @@
-import {getReq} from '../utils/customAxiosLib'
+import {postReq} from '../utils/customAxiosLib'
 import {useState} from 'react';
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
@@ -9,28 +9,29 @@ const LoginForm = (props) => {
     const minPass = 8;
     const { register, handleSubmit, errors } = useForm();
     
-    // const authenticateUser = data => {
-
-    // }
     const onSubmit = data => {
         console.log("Data to be sent to server:")
         console.log(data);
-        getReq('/user')
-            .then(response => {
-                console.log("Recv Verification from server.")
-                console.log(response);
-            })
-            .catch(error => {
-                console.log("getReq failed: ");
-                console.log(error);
-            })
-
-        redirectToHome();
+        postReq('/user/login', {
+            "email": data.email,
+            "password": data.password,
+        })
+        .then(response => {
+            console.log("Response data:");
+            console.log(response.data);
+            if (response.status === 200) {
+                redirectToHome();
+            }
+        })
+        .catch(error => {
+            console.log("login failed: ");
+            console.log(error);
+        })
     };
 
     const [state , setState] = useState({
-        loginEmail : "",
-        loginPassword : "",
+        email : "",
+        password : "",
     })
     const handleChange = (e) => {
         const {id , value} = e.target   
@@ -59,11 +60,11 @@ const LoginForm = (props) => {
                         <label htmlFor="inputEmail1">Email address</label>
                         <input type="email" 
                             className="form-control" 
-                            id="loginEmail"
-                            name="loginEmail"
+                            id="email"
+                            name="email"
                             aria-describedby="emailHelp" 
                             placeholder="Enter email"
-                            value={state.loginEmail}
+                            value={state.email}
                             onChange={handleChange}
                             ref={register({required: true})}
                         />
@@ -73,14 +74,14 @@ const LoginForm = (props) => {
                         <label htmlFor="inputPassword1">Password</label>
                         <input type="password" 
                             className="form-control" 
-                            id="loginPassword" 
-                            name="loginPassword"
+                            id="password" 
+                            name="password"
                             placeholder="Password"
-                            value={state.loginPassword}
+                            value={state.password}
                             onChange={handleChange}
                             ref={register({ required: true, minLength: minPass})}
                         />
-                        {errors.loginPassword && <p>This field is required. Min length: {minPass}</p>}
+                        {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
 
                     <input type="submit" value="Login"/>
