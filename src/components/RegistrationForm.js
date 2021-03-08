@@ -13,45 +13,36 @@ const RegistrationForm = (props) => {
     const { register, handleSubmit, errors } = useForm();
     
     const onSubmit = (data) => {
+
         console.log("Data being sent to server:")
+        console.log("'dob':'" +data.dob+"'");
+        console.log("'email':'"+data.email+"'");
         console.log("'first_name':'"+data.firstName+"'"); 
         console.log("'last_name':'"+data.lastName+"'");
-        console.log("'email':'"+data.email+"'");
         console.log("'password':'********'")
 
-        postReq('http://pollination.live/api/api/user', {
+        postReq('/user', {
+            "dob":data.dob,
+            "email": data.email,
             "first_name": data.firstName,
             "last_name": data.lastName,
-            "email": data.email,
-            "password": data.password
+            "password": data.password,
         })
         .then(response => {
-            console.log("Returned:");
-            console.log("Response Status:");
-            console.log(response.status);
-            console.log("Response statusText:");
-            console.log(response.statusText);
-            console.log("Response headers:");
-            console.log(response.headers);
-            console.log("Response data:");
-            console.log(response.data);
+            console.log("Response data.jwt_token:");
+            console.log(response.data.jwt_token);
+            if (response.status === 200) {
+                redirectToHome();
+            }
         })
-        .catch(error => {console.log("postReq failed: " + error)})
-
-        // getReq('http://pollination.live/api/api/user', {"Authorization":"Bearer "+""})
-        //     .then(response => {
-        //         console.log("Recv Verification from server.")
-        //         console.log(response);
-        //     })
-        //     .catch(error => {
-        //         console.log("getReq failed: ");
-        //         console.log(error);
-        //     })
-
-        redirectToHome();
+        .catch(error => {
+            console.log("registration failed: ");
+            console.log(error);
+        })
     };
 
     const [state , setState] = useState({
+        dob: "",
         firstName: "",
         lastName: "",
         email : "",
@@ -65,19 +56,7 @@ const RegistrationForm = (props) => {
             [id] : value
         }))
     }
-    // const handleSubmitClick = (e) => {
-    //     e.preventDefault();
-    //     if(state.password.length > 0 && state.email.length > 0) {
-    //         sendDetailsToServer()    
-    //     } else {
-    //         console.log('Please enter Email AND Password');
-    //         props.showError('Please enter Email AND Password')    
-    //     }
-    // }
-    // const sendDetailsToServer = () => {
-    //     console.log("Sending Registration Info to server");
-    //     redirectToHome();
-    // }
+
     const redirectToHome = () => {
         props.history.push('/home');
     }
@@ -92,6 +71,22 @@ const RegistrationForm = (props) => {
             <div className="card col-12 col-lg-4 mt-2 hv-center" style={centerForm}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>Register</h2>
+
+                    <div className="form-group text-left">
+                        <label htmlFor="date">Date of Birth</label>
+                        <input type="date" 
+                            className="form-control" 
+                            id="dob" 
+                            name="dob" 
+                            placeholder="Date of Birth"
+                            value={state.dob}
+                            onChange={handleChange}
+
+                            ref={register}
+                            required
+                        />
+                    </div>
+
                     <div className="form-group text-left">
                         <label htmlFor="firstName">First Name</label>
                         <input type="text" 
@@ -99,7 +94,10 @@ const RegistrationForm = (props) => {
                             id="fname"
                             name="firstName" 
                             placeholder="First Name"
+                            onChange={handleChange}
+
                             ref={register}
+                            required
                         />
                     </div>
                     <div className="form-group text-left">
@@ -109,20 +107,24 @@ const RegistrationForm = (props) => {
                             id="lname" 
                             name="lastName" 
                             placeholder="Last Name"
+                            onChange={handleChange}
+
                             ref={register}
+                            required
                         />
                     </div>
                     <div className="form-group text-left">
-                        <label htmlFor="inputEmail1">Email address</label>
+                        <label htmlFor="inputEmail1">Email Address</label>
                         <input type="email" 
                             className="form-control" 
                             id="email" 
                             name="email" 
                             aria-describedby="emailHelp" 
-                            placeholder="Enter email"
+                            placeholder="Enter Email"
                             value={state.email}
                             onChange={handleChange}
                             ref={register({required: true})}
+                            required
                         />
                     </div>
                     <div className="form-group text-left">
@@ -135,27 +137,13 @@ const RegistrationForm = (props) => {
                             value={state.password}
                             onChange={handleChange}
                             ref={register({ required: true, minLength: minPass})}
+                            required
                         />
                         {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
-                    {/* <div className="form-group text-left">
-                        <label htmlFor="inputPassword1">Confirm Password</label>
-                        <input type="password" 
-                            className="form-control" 
-                            id="confirmPassword" 
-                            placeholder="Confirm Password"
-                            value={state.confirmPassword}
-                            onChange={handleChange}
-                        />
-                    </div> */}
+
                     <input type="submit"/>
-                    {/* <button 
-                        type="submit" 
-                        className="btn btn-primary"
-                        onClick={handleSubmitClick}
-                    >
-                        Register
-                    </button> */}
+
                     <div className="mt-2">
                         <span>Already have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 

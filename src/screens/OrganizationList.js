@@ -1,7 +1,6 @@
 import '../css/App.css'
 
 import { 
-    BrowserRouter as Router,
     withRouter, 
     Switch, 
     Route,
@@ -73,7 +72,7 @@ const OrgList = (props) => {
         props.history.push('/createOrganization');
     }
 
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
 
     console.log(path);
     return (
