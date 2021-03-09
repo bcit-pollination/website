@@ -23,7 +23,7 @@ const Header = (props) => {
         }
     }
     function handleLogout() {
-        // localStorage.removeItem(ACCESS_TOKEN_NAME)
+        sessionStorage.removeItem("jwt");
         props.history.push('/login')
     }
 

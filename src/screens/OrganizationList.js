@@ -1,5 +1,4 @@
 import '../css/App.css'
-
 import { 
     withRouter, 
     Switch, 
@@ -7,12 +6,10 @@ import {
     Link,
     useRouteMatch
 } from "react-router-dom";
-
-import { getReqA } from '../utils/customAxiosLib'
-
+import { getReq } from '../utils/customAxiosLib'
 import OrganizationDetails from './OrganizationDetails';
 
-const orgList = [
+let orgList = [
     {
         id: 1,
         name: "Government of Canada"
@@ -77,9 +74,16 @@ const OrgList = (props) => {
 
     console.log(path);
 
-    let jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwb2xsaW5hdGlvbi5saXZlIiwiaWF0IjoxNjE1MjAwNzI5LCJleHAiOjE2MjEyMDA3MjksInVpZCI6IjUifQ.R757PBDilIYsmO_UzLo5VpqBq9fyVqaHbyJHzYilzpQ";
-
-    getReqA('/org/list', jwt_token);
+    getReq('/org/list')
+    .then(response => {
+        if (response.status === 200) {
+            console.log("GOT /org/list !!!")
+        }
+    })
+    .catch(error => {
+        console.log("Get /org/list failed: ");
+        console.log(error);
+    });
 
     return (
     <div>

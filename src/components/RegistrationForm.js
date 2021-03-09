@@ -14,6 +14,8 @@ const RegistrationForm = (props) => {
     
     const onSubmit = (data) => {
 
+        sessionStorage.removeItem("jwt");
+
         console.log("Data being sent to server:")
         console.log("'dob':'" +data.dob+"'");
         console.log("'email':'"+data.email+"'");
@@ -32,6 +34,7 @@ const RegistrationForm = (props) => {
             console.log("Response data.jwt_token:");
             console.log(response.data.jwt_token);
             if (response.status === 200) {
+                sessionStorage.setItem("jwt", response.data);
                 redirectToHome();
             }
         })

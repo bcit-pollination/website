@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 
 
 const LoginForm = (props) => {
+
+    sessionStorage.removeItem("jwt");
+
     const minPass = 8;
     const { register, handleSubmit, errors } = useForm();
     
@@ -20,6 +23,7 @@ const LoginForm = (props) => {
             console.log("Response data:");
             console.log(response.data);
             if (response.status === 200) {
+                sessionStorage.setItem("jwt", response.data.jwt_token);
                 redirectToHome();
             }
         })
