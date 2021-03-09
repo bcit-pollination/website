@@ -1,7 +1,7 @@
 import '../css/App.css'
 import { withRouter } from "react-router-dom";
 import { useForm } from 'react-hook-form';
-import { postReqA } from '../utils/customAxiosLib';
+import { postReq } from '../utils/customAxiosLib';
 
 const CreateOrganizationForm = (props) => {
 
@@ -10,7 +10,7 @@ const CreateOrganizationForm = (props) => {
     const onSubmit = data => {
         console.log(data.orgName);
 
-        postReqA('/org', {
+        postReq('/org', {
             "name":data.orgName,
             "user_org_id":"20021998",  // TODO add UI
             "verifier_password":"20021998"  // TODO add UI

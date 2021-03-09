@@ -23,7 +23,7 @@ const LoginForm = (props) => {
             console.log("Response data:");
             console.log(response.data);
             if (response.status === 200) {
-                sessionStorage.setItem("jwt", response.data);
+                sessionStorage.setItem("jwt", response.data.jwt_token);
                 redirectToHome();
             }
         })

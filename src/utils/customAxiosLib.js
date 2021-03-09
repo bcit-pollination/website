@@ -3,8 +3,6 @@ import axios from 'axios';
 
 const api_path = 'http://pollination.live/api';
 
-let jwt_token = sessionStorage.getItem("jwt");
-
 const logResponse = (response) => {
     console.log("Returned from server:");
     console.log("Response Status:");
@@ -17,11 +15,25 @@ const logResponse = (response) => {
     console.log(response.data);
 }
 
+const getAxiosInstance = () => {
+    let jwt_token = sessionStorage.getItem("jwt");
+    console.log(jwt_token);
+    let axiosInstance =  axios.create({
+        headers: {
+            "Authorization" : `Bearer ${jwt_token}`,
+        }
+    }); 
+    return axiosInstance;
+}
+
 export const getReq = async (apiEndpoint) => {
     try {
-        const response = await axios.get(api_path + apiEndpoint);
+        const response = await getAxiosInstance().get(
+            api_path + apiEndpoint,
+        );
         logResponse(response);
         return response;
+
     } catch (error) {
         // Handle Error Here
         console.log("getReq: " + error);
@@ -31,56 +43,11 @@ export const getReq = async (apiEndpoint) => {
 
 export const postReq = async (apiEndpoint, jsonObj) => {
     try {
-        const response = await axios.post(api_path + apiEndpoint, jsonObj);
-        logResponse(response);
-        return response;
-    } catch (error) {
-        // Handle Error Here
-        console.log("postReq: " + error);
-        return error;
-    }
-}
-
-export const getReqA = async (apiEndpoint) => {
-    try {
-        const response = await axios.get(
-            api_path + apiEndpoint,
-            { headers: {
-                "Authorization" : `Bearer ${jwt_token}`,
-            }
-        });
-        logResponse(response);
-        return response;
-    } catch (error) {
-        // Handle Error Here
-        console.log("getReq: " + error);
-        return error;
-    }
-}
-
-export const postReqA = async (apiEndpoint, jsonObj) => {
-    try {
-        console.log(jwt_token);
-        // let axiosInstance =  axios.create({
-        //     baseURL: api_path,
-        //     headers: {
-        //         'Authorization': jwt_token,
-        //         'Content-Type': 'application/json'
-        //     }
-        // }); 
-
-        // const response = await axiosInstance.post(apiEndpoint,{jsonObj});
-
-        const response = await axios.post(
+        const response = await getAxiosInstance().post(
             api_path + apiEndpoint, 
             jsonObj, 
-            { headers: {
-                "Authorization" : `Bearer ${jwt_token}`,
-            } 
-        });
-
+        );
         logResponse(response);
-
         return response;
     } catch (error) {
         // Handle Error Here

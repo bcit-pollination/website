@@ -1,5 +1,4 @@
 import '../css/App.css'
-
 import { 
     withRouter, 
     Switch, 
@@ -7,9 +6,7 @@ import {
     Link,
     useRouteMatch
 } from "react-router-dom";
-
-import { getReqA } from '../utils/customAxiosLib'
-
+import { getReq } from '../utils/customAxiosLib'
 import OrganizationDetails from './OrganizationDetails';
 
 let orgList = [
@@ -77,9 +74,7 @@ const OrgList = (props) => {
 
     console.log(path);
 
-    let jwt_token = sessionStorage.getItem("jwt");
-
-    getReqA('/org/list', jwt_token)
+    getReq('/org/list')
     .then(response => {
         if (response.status === 200) {
             console.log("GOT /org/list !!!")
