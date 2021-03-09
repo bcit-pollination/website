@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import {postReq, postReqA} from '../utils/customAxiosLib'
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { withRouter } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import TextField from "@material-ui/core/TextField";
 
 function ElectionForm() {
   // functions to build form returned by useForm() hook
-  const { register, handleSubmit, reset, errors, watch, control } = useForm({
-  });
+  const { register, handleSubmit, reset, errors, watch, control } = useForm({});
 
   // watch to enable re-render when ticket number is changed
   const watchNumberOfQuestions = watch("numberOfQuestions");
@@ -24,43 +27,66 @@ function ElectionForm() {
   function numberOfFields() {
     return [...Array(parseInt(watchNumberOfFields || 0)).keys()];
   }
+  function updateOptionsJSON(json_obj) {
+    let count = 0;
+    let q_count = 0;
+    json_obj.election_id = 0;
+    if (json_obj.questions != undefined) {
+      json_obj.questions.map(q => {
+        q.election_id = 0;
+        q.ordered_choices = true;
+        q.max_selection_count = 1;
+        q.min_selection_count = 1;
 
+        q.options.map(op => {
+          op.option_id = count;
+          count += 1;
+        });
+        q_count += 1;
+      });
+    }
+    delete json_obj["numberOfQuestions"];
+    delete json_obj["numberOfFields"];
+    json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00"
+    json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00"
+    json_obj["org_id"] = 5;
+    return json_obj;
+  }
   function onSubmit(data) {
     // display form data on success
-
+    data = updateOptionsJSON(data);
     console.log(JSON.stringify(data, null, 4));
-    alert("SUCCESS!! :-)\n\n" + JSON.stringify(data, null, 4));
+
+    postReq('/org/elections', data)
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Election created");
+      }
+    })
+    .catch(error => {
+      console.log("create election error");
+      console.log(error);
+    })
   }
-
-  const DropdownSelection = props => {
-    return (
-      <>
-        <label>{props.label}</label>
-        <select
-          name={props.name}
-          ref={register}
-          className={`form-control ${
-            errors.numberOfQuestions ? "is-invalid" : ""
-          }`}
-        >
-          {props.list.map(i => (
-            <option key={i} value={i}>
-              {i}
-            </option>
-          ))}
-        </select>
-      </>
-    );
-  };
-
-  const Test = () => {
-    return <h1>HIELO</h1>;
-  };
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
       <div className="card m-3">
         <h5 className="card-header">Election Creation Page</h5>
-
+        <Controller
+          name="election_description"
+          as={
+            <TextField
+              id="election_description"
+              label="Election Description"
+              required
+            />
+          }
+          control={control}
+          defaultValue=""
+          rules={{
+            required: true,
+          }}
+        />
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
@@ -68,9 +94,8 @@ function ElectionForm() {
               <select
                 name="numberOfQuestions"
                 ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
+                className={`form-control`}
+                required
               >
                 {["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
                   <option key={i} value={i}>
@@ -82,54 +107,15 @@ function ElectionForm() {
               <select
                 name="numberOfFields"
                 ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
+                className={`form-control`}
+                required
               >
                 {["", 1, 2, 3, 4].map(i => (
-                  <option key={i} value={i}>
+                  <option key={`f${i}`} value={i}>
                     {i}
                   </option>
                 ))}
               </select>
-              <div className="invalid-feedback">
-                {errors.numberOfQuestions?.message}
-              </div>
-
-              <label>Type of Election</label>
-              <select
-                name="typeElection"
-                ref={register}
-                className={`form-control ${
-                  errors.numberOfQuestions ? "is-invalid" : ""
-                }`}
-              >
-                {["", "Public", "Private"].map(i => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-              </select>
-              <div className="invalid-feedback">
-                {errors.numberOfQuestions?.message}
-              </div>
-
-              {/* <DropdownSelection
-                label="Number of Questions"
-                name="numberOfQuestions"
-                list={["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-              />
-              <DropdownSelection
-                label="Number of Fields Per Question"
-                name="numberOfFields"
-                list={["", 1, 2, 3, 4]}
-              />
-
-              <DropdownSelection
-                label="Type Of Election"
-                name=""
-                list={["", "Public", "Private"]}
-              /> */}
             </div>
           </div>
 
@@ -138,7 +124,7 @@ function ElectionForm() {
               <div className="form-group">
                 <label>Start Date</label>
                 <Controller
-                  name={"startDate"}
+                  name={"start_time"}
                   control={control}
                   render={({ onChange, value }) => (
                     <ReactDatePicker
@@ -147,12 +133,13 @@ function ElectionForm() {
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
                       showTimeSelect
+                      required
                     />
                   )}
                 />
                 <label>End Date</label>
                 <Controller
-                  name={"endDate"}
+                  name={"end_time"}
                   control={control}
                   render={({ onChange, value }) => (
                     <ReactDatePicker
@@ -161,6 +148,7 @@ function ElectionForm() {
                       timeInputLabel="Time:"
                       dateFormat="MM/dd/yyyy h:mm aa"
                       showTimeSelect
+                      required
                     />
                   )}
                 />
@@ -176,12 +164,10 @@ function ElectionForm() {
                 <div className="form-group col-6">
                   <label>Question {i + 1}</label>
                   <input
-                    name={`questions.[${i}]_question.question`}
+                    name={`questions[${i}].question_description`}
                     ref={register}
                     type="text"
-                    className={`form-control ${
-                      errors.questions?.[i]?.question ? "is-invalid" : ""
-                    }`}
+                    className={`form-control`}
                   />
                   <div className="invalid-feedback">
                     {errors.questions?.[i]?.question?.message}
@@ -192,16 +178,11 @@ function ElectionForm() {
                     <div className="">
                       <label>Field {j + 1}</label>
                       <input
-                        name={`questions.[${i}]_question.fields[${j}]`}
+                        name={`questions[${i}].options[${j}].option_description`}
                         ref={register}
                         type="text"
-                        className={`form-control ${
-                          errors.questions?.[i]?.field ? "is-invalid" : ""
-                        }`}
+                        className={`form-control`}
                       />
-                      <div className="invalid-feedback">
-                        {errors.questions?.[i]?.field?.message}
-                      </div>
                     </div>
                   ))}
                 </div>
@@ -209,6 +190,48 @@ function ElectionForm() {
             </div>
           </div>
         ))}
+
+        <FormControlLabel
+          label="Verification Required?"
+          name="verified"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Results publicily available?"
+          name="public_results"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Anonymous election?"
+          name="anonymous"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
 
         <div className="card-footer text-center border-top-0">
           <button type="submit" className="btn btn-primary mr-1">
