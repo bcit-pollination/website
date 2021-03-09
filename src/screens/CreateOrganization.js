@@ -34,11 +34,10 @@ const CreateOrganizationForm = (props) => {
     const newLine = "\r\n";
     const emailPlaceholderText = "{ " + newLine + "  EMAIL 1: UID," + newLine + "  EMAIL 2: UID," + newLine + "  EMAIL 3: UID," + newLine + "}"
 
-    const centerForm = { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', minHeight: '50vh' }
 
     return (
-        <div className="CreateOrg-form">
-            <div className={`card col-12 col-lg-4 mt-2 hv-center`} style={centerForm}>
+        <div className="col-12 CreateOrg-form">
+            <div className={`card col-12 col-lg-12 mt-2 hv-center`} >
                 <form onSubmit={handleSubmit(onSubmit)}>
 
                     <h2>Create Organization</h2>
