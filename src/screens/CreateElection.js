@@ -50,20 +50,12 @@ function ElectionForm() {
     json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00"
     json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00"
     json_obj["org_id"] = 5;
-    // json_obj["start_time"] = Date.parse(json_obj["start_time"])
-    // json_obj["end_time"] = Date.parse(json_obj["end_time"])
     return json_obj;
   }
   function onSubmit(data) {
     // display form data on success
     data = updateOptionsJSON(data);
     console.log(JSON.stringify(data, null, 4));
-    alert("SUCCESS!! :-)\n\n" + JSON.stringify(data, null, 4));
-
-    /**
-     * Using example json from Swagger API
-     */
-    // data = tmp_data
 
     postReq('/org/elections', data)
     .then(response => {
