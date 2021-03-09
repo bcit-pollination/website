@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const api_path = 'http://pollination.live/api';
 
+let jwt_token = sessionStorage.getItem("jwt");
+
 const logResponse = (response) => {
     console.log("Returned from server:");
     console.log("Response Status:");
@@ -39,7 +41,7 @@ export const postReq = async (apiEndpoint, jsonObj) => {
     }
 }
 
-export const getReqA = async (apiEndpoint, jwt_token) => {
+export const getReqA = async (apiEndpoint) => {
     try {
         const response = await axios.get(
             api_path + apiEndpoint,
@@ -56,7 +58,7 @@ export const getReqA = async (apiEndpoint, jwt_token) => {
     }
 }
 
-export const postReqA = async (apiEndpoint, jwt_token, jsonObj) => {
+export const postReqA = async (apiEndpoint, jsonObj) => {
     try {
         console.log(jwt_token);
         // let axiosInstance =  axios.create({

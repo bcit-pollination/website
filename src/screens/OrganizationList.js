@@ -77,7 +77,7 @@ const OrgList = (props) => {
 
     console.log(path);
 
-    let jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwb2xsaW5hdGlvbi5saXZlIiwiaWF0IjoxNjE1MjAwNzI5LCJleHAiOjE2MjEyMDA3MjksInVpZCI6IjUifQ.R757PBDilIYsmO_UzLo5VpqBq9fyVqaHbyJHzYilzpQ";
+    let jwt_token = sessionStorage.getItem("jwt");
 
     getReqA('/org/list', jwt_token)
     .then(response => {

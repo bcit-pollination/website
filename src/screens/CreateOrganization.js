@@ -7,12 +7,10 @@ const CreateOrganizationForm = (props) => {
 
     const { register, handleSubmit } = useForm();
 
-    let jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwb2xsaW5hdGlvbi5saXZlIiwiaWF0IjoxNjE1MjAwNzI5LCJleHAiOjE2MjEyMDA3MjksInVpZCI6IjUifQ.R757PBDilIYsmO_UzLo5VpqBq9fyVqaHbyJHzYilzpQ";
-
     const onSubmit = data => {
         console.log(data.orgName);
 
-        postReqA('/org', jwt_token, {
+        postReqA('/org', {
             "name":data.orgName,
             "user_org_id":"20021998",  // TODO add UI
             "verifier_password":"20021998"  // TODO add UI
