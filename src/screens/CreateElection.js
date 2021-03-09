@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {postReq, postReqA} from '../utils/customAxiosLib'
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
@@ -6,7 +7,6 @@ import { withRouter } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Form } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 
 function ElectionForm() {
@@ -34,6 +34,10 @@ function ElectionForm() {
     if (json_obj.questions != undefined) {
       json_obj.questions.map(q => {
         q.election_id = 0;
+        q.ordered_choices = true;
+        q.max_selection_count = 1;
+        q.min_selection_count = 1;
+
         q.options.map(op => {
           op.option_id = count;
           count += 1;
@@ -41,7 +45,13 @@ function ElectionForm() {
         q_count += 1;
       });
     }
-
+    delete json_obj["numberOfQuestions"];
+    delete json_obj["numberOfFields"];
+    json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00"
+    json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00"
+    json_obj["org_id"] = 5;
+    // json_obj["start_time"] = Date.parse(json_obj["start_time"])
+    // json_obj["end_time"] = Date.parse(json_obj["end_time"])
     return json_obj;
   }
   function onSubmit(data) {
@@ -49,7 +59,22 @@ function ElectionForm() {
     data = updateOptionsJSON(data);
     console.log(JSON.stringify(data, null, 4));
     alert("SUCCESS!! :-)\n\n" + JSON.stringify(data, null, 4));
-    localStorage.setItem("demo", JSON.stringify(data));
+
+    /**
+     * Using example json from Swagger API
+     */
+    // data = tmp_data
+
+    postReq('/org/elections', data)
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Election created");
+      }
+    })
+    .catch(error => {
+      console.log("create election error");
+      console.log(error);
+    })
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
@@ -107,7 +132,7 @@ function ElectionForm() {
               <div className="form-group">
                 <label>Start Date</label>
                 <Controller
-                  name={"startDate"}
+                  name={"start_time"}
                   control={control}
                   render={({ onChange, value }) => (
                     <ReactDatePicker
@@ -122,7 +147,7 @@ function ElectionForm() {
                 />
                 <label>End Date</label>
                 <Controller
-                  name={"endDate"}
+                  name={"end_time"}
                   control={control}
                   render={({ onChange, value }) => (
                     <ReactDatePicker
