@@ -3,26 +3,12 @@ import {
     withRouter, 
     Switch, 
     Route,
-    Link,
     useRouteMatch
 } from "react-router-dom";
 import { getReq } from '../utils/customAxiosLib'
+import {useState, useEffect} from 'react';
 import OrganizationDetails from './OrganizationDetails';
 
-let orgList = [
-    {
-        id: 1,
-        name: "Government of Canada"
-    },
-    {
-        id: 2,
-        name: "British Columbia Institute of Technology"
-    },
-    {
-        id: 23,
-        name: "PICCCCCCCCCCCCC"
-    },
-];
 
 const renderCreateOrgButton = (btnName, onClick) => {
     return (
@@ -39,30 +25,40 @@ const renderCreateOrgButton = (btnName, onClick) => {
 
 const renderTableData = (orgList, redirectToOrganizationDetails) => {
     return orgList.map((org, index) => {
-        const {id, name} = org;
+        const {org_id, name, user_org_id} = org;
         return (
         <tr 
-        key={id} 
+        key={org_id}
+        onClick={() => {
+            console.log("BRUH");
+            redirectToOrganizationDetails(org_id, name);
+        }}
         >
-            <td>{id}</td>
-            <td><Link to={`/orgList/orgDetails/${id}`}>{name}</Link></td>
+            <td>{org_id}</td>
+            <td>{name}</td>
+            <td>{user_org_id}</td>
         </tr>
         );
     });
 }
 
-const renderTableHeader = list => {
-    let header = Object.keys(list);
-    return header.map((key, index) => {
-        return <th key={index}>{key.toUpperCase()}</th>
-    });
+const renderTableHeader = () => {
+    return (
+        <tr>
+            <th key={0}>ID</th>
+            <th key={1}>NAME</th>
+            <th key={2}>USER ORG ID</th>
+        </tr>
+    );
 }
+
+
 
 const OrgList = (props) => {
 
     const redirectToOrganizationDetails = (id, name) => {
         console.log("Redirecting to view details of " + name);
-        props.history.push(`/orgDetails/${id}`);
+        props.history.push(`/orgList/orgDetails/${id}`);
     }
 
     const redirectToCreateOrg = () => {
@@ -72,18 +68,28 @@ const OrgList = (props) => {
 
     let { path } = useRouteMatch();
 
-    console.log(path);
+    const [listState , setState] = useState([    {
+            org_id: 0,
+            name: "",
+            user_org_id: "",
+        },
+    ])
 
-    getReq('/org/list')
-    .then(response => {
-        if (response.status === 200) {
-            console.log("GOT /org/list !!!")
-        }
-    })
-    .catch(error => {
-        console.log("Get /org/list failed: ");
-        console.log(error);
-    });
+    useEffect(()=>{
+        getReq('/org/list')
+        .then(response => {
+            if (response.status === 200) {
+                console.log("GOT /org/list !!!")
+                console.log(response.data.orgs[0]);
+                setState(response.data.orgs);
+            }
+        })
+        .catch(error => {
+            console.log("Get /org/list failed: ");
+            console.log(error);
+        });
+    }, []);
+
 
     return (
     <div>
@@ -92,8 +98,8 @@ const OrgList = (props) => {
             <h1 id='title'>Organization List</h1>
                 <table id='org'>
                     <tbody>
-                        <tr>{renderTableHeader(orgList[0])}</tr>
-                        {renderTableData(orgList, redirectToOrganizationDetails)}
+                        {renderTableHeader()}
+                        {renderTableData(listState, redirectToOrganizationDetails)}
                     </tbody>
                 </table>
                 {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}

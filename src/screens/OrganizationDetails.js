@@ -1,20 +1,13 @@
 import '../css/App.css'
-import { withRouter, useParams } from "react-router-dom";
-
-const electionList = [
-    {
-        id: 1,
-        name: "Data Comm Head",
-        start: "21-03-01",
-        end: "21-04-01"
-    },
-    {
-        id: 2,
-        name: "Term party location",
-        start: "21-04-05",
-        end: "21-05-01"
-    },
-];
+import { 
+    withRouter, 
+    Switch, 
+    Route,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
+import { getReq } from '../utils/customAxiosLib'
+import {useState, useEffect} from 'react';
 
 const renderEditOrgButton = (btnName, onClick) => {
     return (
@@ -31,28 +24,32 @@ const renderEditOrgButton = (btnName, onClick) => {
 
 const renderTableData = (electionList) => {
     return electionList.map((election, index) => {
-        const {id, name, start, end} = election;
+        const {election_id, election_description, start_time, end_time} = election;
         return (
         <tr 
-        key={id} 
+        key={election_id} 
         onClick={() => {
-            console.log("Viewing: " + name);
+            console.log("Viewing: " + election_description);
         }}>
-            <td>{id}</td>
-            <td>{name}</td>
-            <td>{start}</td>
-            <td>{end}</td>
+            <td>{election_id}</td>
+            <td>{election_description}</td>
+            <td>{start_time}</td>
+            <td>{end_time}</td>
         </tr>
         );
     });
 
 }
 
-const renderTableHeader = list => {
-    let header = Object.keys(list);
-    return header.map((key, index) => {
-        return <th key={index}>{key.toUpperCase()}</th>
-    });
+const renderTableHeader = () => {
+    return (
+        <tr>
+            <th key={0}>ID</th>
+            <th key={1}>DESCRIPTION</th>
+            <th key={2}>START</th>
+            <th key={2}>END</th>
+        </tr>
+    );
 }
 
 const OrganizationDetails = (props) => {
@@ -65,14 +62,38 @@ const OrganizationDetails = (props) => {
         props.history.push('/createOrganization');
     }
 
+    const [listState , setState] = useState([    
+        {
+            election_id: 1,
+            election_description: "",
+            start_time: "",
+            end_time: ""
+        },
+    ])
+
+    useEffect(()=>{
+        getReq(`/org/elections/list?org_id=${orgId}`)
+        .then(response => {
+            if (response.status === 200) {
+                console.log("GOT /org/elections/list !!!")
+                setState(response.data.elections);
+            }
+        })
+        .catch(error => {
+            console.log("Get /org/elections/list failed: ");
+            console.log(error);
+        });    
+    }, []);
+
+
     return (
     <div>
     <h1 id='title'>Organization Details</h1>
     <h2>{orgId}</h2>
     <table id='org'>
         <tbody>
-            <tr>{renderTableHeader(electionList[0])}</tr>
-            {renderTableData(electionList)}
+            {renderTableHeader()}
+            {renderTableData(listState)}
         </tbody>
     </table>
     {renderEditOrgButton("Edit Organization", () => {redirectToEditOrg()})}
