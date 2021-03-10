@@ -6,21 +6,19 @@ import { withRouter } from "react-router-dom";
 const Header = (props) => {
     function renderLogout() {
         const loggedInList = ['/', '/login', '/register'];
-        let loggedIn = true;
 
-        loggedInList.forEach( (paths) => {
-            if (paths !== props.location.pathname) {
-                loggedIn = false;
+        for (let i = 0; i < loggedInList.length; i++) {
+            if (loggedInList[i] === props.location.pathname) {
+                return;
             }
-        }); 
-
-        if(loggedIn){
-            return(
-                <div className="">
-                    <button className="btn btn-danger" onClick={() => handleLogout()}>Logout</button>
-                </div>
-            )
         }
+
+        return(
+            <div className="">
+                <button className="btn btn-danger" onClick={() => handleLogout()}>Logout</button>
+            </div>
+        )
+    
     }
     function handleLogout() {
         sessionStorage.removeItem("jwt");

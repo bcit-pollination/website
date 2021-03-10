@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import {postReq, postReqA} from '../utils/customAxiosLib'
+import React from "react";
+import {postReq} from '../utils/customAxiosLib'
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { 
   withRouter, 
-  Switch, 
-  Route,
-  useRouteMatch,
   useParams
 } from "react-router-dom";import ReactDatePicker from "react-datepicker";
 import Checkbox from "@material-ui/core/Checkbox";

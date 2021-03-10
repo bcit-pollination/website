@@ -13,8 +13,6 @@ const LoginForm = (props) => {
     const { register, handleSubmit, errors } = useForm();
     
     const onSubmit = data => {
-        console.log("Data to be sent to server:")
-        console.log(data);
         postReq('/user/login', {
             "email": data.email,
             "password": data.password,
