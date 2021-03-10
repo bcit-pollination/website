@@ -52,17 +52,15 @@ const renderTableHeader = () => {
     );
 }
 
-
-
 const OrgList = (props) => {
 
     const redirectToOrganizationDetails = (id, name) => {
-        console.log("Redirecting to view details of " + name);
+        console.log("[ + ] Redirecting to view details of " + name);
         props.history.push(`/orgList/orgDetails/${id}`);
     }
 
     const redirectToCreateOrg = () => {
-        console.log("Redirecting to create org page.");
+        console.log("[ + ] Redirecting to create org page.");
         props.history.push('/createOrganization');
     }
 
@@ -95,7 +93,7 @@ const OrgList = (props) => {
     <div>
         <Switch>
             <Route exact path={path}>
-            <h1 id='title'>Organization List</h1>
+            <h2 className='title'>Organization List</h2>
                 <table id='org'>
                     <tbody>
                         {renderTableHeader()}
@@ -105,7 +103,7 @@ const OrgList = (props) => {
                 {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
             </Route>
             <Route path={`/orgList/orgDetails/:orgId`}>
-            <OrganizationDetails />
+                <OrganizationDetails />
             </Route>
         </Switch>
     </div>

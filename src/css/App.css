@@ -4,6 +4,16 @@
   text-align: center;
 }
 
+h2 {
+  margin: 20px;
+}
+
+button {
+  margin-top: 20px;
+  border: 2px solid black;
+  background-color: transparent;
+}
+
 .App-header {
   background-color: #ffdd00;
   max-height: 10vh;
@@ -38,7 +48,7 @@
   color: #61dafb;
 }
 
-#title {
+.title {
   text-align: center;
   font-family: arial, sans-serif;
 }

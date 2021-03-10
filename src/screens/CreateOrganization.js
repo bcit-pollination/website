@@ -7,6 +7,11 @@ const CreateOrganizationForm = (props) => {
 
     const { register, handleSubmit } = useForm();
 
+    const redirectToOrgList = () => {
+        console.log("[ + ] Redirecting to organizations page.")
+        props.history.push('/orgList');
+    }
+
     const onSubmit = data => {
         console.log(data.orgName);
 
@@ -16,19 +21,21 @@ const CreateOrganizationForm = (props) => {
             "verifier_password": data.orgVerifier_password,  // TODO add UI
 
         })
-            .then(response => {
-                if (response.status === 200) {
-                    console.log("org created!!!");
+        .then(response => {
+            if (response.status === 200) {
+                console.log("[ORG created!!!]");
 
-                    console.log("Name: " + data.orgName);
-                    console.log("ID: " + data.orgUser_org_id);
-                    console.log("PW: " + data.orgVerifier_password);
-                }
-            })
-            .catch(error => {
-                console.log("Create org failed: ");
-                console.log(error);
-            })
+                console.log("[Name]: " + data.orgName);
+                console.log("[ID]: " + data.orgUser_org_id);
+                console.log("[PW]: " + data.orgVerifier_password);
+                redirectToOrgList();
+            }
+        })
+        .catch(error => {
+            console.log("Create org failed: ");
+            console.log(error);
+        })
+
     };
 
     const newLine = "\r\n";
@@ -67,8 +74,8 @@ const CreateOrganizationForm = (props) => {
                     </div>
 
                     <div className="form-group text-left">
-                        <label htmlFor="orgVerifier_password">Create A Password</label>
-                        <input type="text"
+                        <label htmlFor="orgVerifier_password">ID Verifier Password</label>
+                        <input type="password"
                             className="form-control"
                             id="orgVerifier_password"
                             name="orgVerifier_password"
@@ -78,7 +85,7 @@ const CreateOrganizationForm = (props) => {
                         />
                     </div>
 
-                    <div className="form-group text-left">
+                    {/* <div className="form-group text-left">
                         <label htmlFor="emailList">Emails</label>
                         <textarea type="scrolalbletextbox"
                             className="form-control"
@@ -90,7 +97,7 @@ const CreateOrganizationForm = (props) => {
                             rows="10"
                             required="required"
                         />
-                    </div>
+                    </div> */}
 
                     <input type="submit" value="Create" />
                     <br />

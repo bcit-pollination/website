@@ -8,8 +8,9 @@ import {
 } from "react-router-dom";
 import { getReq } from '../utils/customAxiosLib'
 import {useState, useEffect} from 'react';
+import CreateElection from './CreateElection';
 
-const renderEditOrgButton = (btnName, onClick) => {
+const renderButton = (btnName, onClick) => {
     return (
         <>
         <button 
@@ -58,8 +59,13 @@ const OrganizationDetails = (props) => {
     console.log("ORG ID: " + orgId);
 
     const redirectToEditOrg = () => {
-        console.log("STILL Redirecting to create org page.")
+        console.log("[ + ] Redirecting to create org page.")
         props.history.push('/createOrganization');
+    }
+
+    const redirectToCreateElection = (id) => {
+        console.log("[ + ] Redirecting to create election page.")
+        props.history.push(`/orgList/orgDetails/${id}/createElection/${id}`);
     }
 
     const [listState , setState] = useState([    
@@ -85,18 +91,28 @@ const OrganizationDetails = (props) => {
         });    
     }, []);
 
+    let { path } = useRouteMatch();
 
     return (
     <div>
-    <h1 id='title'>Organization Details</h1>
-    <h2>{orgId}</h2>
-    <table id='org'>
-        <tbody>
-            {renderTableHeader()}
-            {renderTableData(listState)}
-        </tbody>
-    </table>
-    {renderEditOrgButton("Edit Organization", () => {redirectToEditOrg()})}
+        <Switch>
+            <Route exact path={path}>
+                {/* <h1 id='title'>Organization Details</h1> */}
+                <h2 className='title'>Organization ID: {orgId}</h2>
+                <table id='org'>
+                    <tbody>
+                        {renderTableHeader()}
+                        {renderTableData(listState)}
+                    </tbody>
+                </table>
+                {renderButton("Create Election", () => {redirectToCreateElection(orgId)})}
+                <br/>
+                {renderButton("Edit Organization", () => {redirectToEditOrg()})}
+            </Route>
+            <Route path={`/orgList/orgDetails/:orgId/createElection/:orgId`}>
+                <CreateElection />
+            </Route>
+        </Switch>
     </div>
     );
 }

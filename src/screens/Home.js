@@ -16,15 +16,15 @@ import { withRouter } from 'react-router-dom';
 
 function Home(props) {
     const redirectToCreateOrg = () => {
-        console.log("Redirecting to create org page.")
+        console.log("[ + ] Redirecting to create org page.")
         props.history.push('/createOrganization');
     }
     const redirectToOrgList = () => {
-        console.log("Redirecting to organizations page.")
+        console.log("[ + ] Redirecting to organizations page.")
         props.history.push('/orgList');
     }
     const redirectToCreateElection = () => {
-        console.log("Redirecting to create election page.")
+        console.log("[ + ] Redirecting to create election page.")
         props.history.push('/createElection');
     }
     // useEffect(() => {
@@ -41,6 +41,9 @@ function Home(props) {
     // function redirectToLogin() {
     //     props.history.push('/login');
     // }
+
+    redirectToOrgList();
+
     return(
         <div className="container d-flex align-items-center flex-column">
             <h4>Home page content</h4>

@@ -3,13 +3,21 @@ import {postReq, postReqA} from '../utils/customAxiosLib'
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import { withRouter } from "react-router-dom";
-import ReactDatePicker from "react-datepicker";
+import { 
+  withRouter, 
+  Switch, 
+  Route,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";import ReactDatePicker from "react-datepicker";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 
-function ElectionForm() {
+function ElectionForm(props) {
+  
+  let { orgId } = useParams();
+
   // functions to build form returned by useForm() hook
   const { register, handleSubmit, reset, errors, watch, control } = useForm({});
 
@@ -49,7 +57,7 @@ function ElectionForm() {
     delete json_obj["numberOfFields"];
     json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00"
     json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00"
-    json_obj["org_id"] = 5;
+    json_obj["org_id"] = parseInt(orgId);
     return json_obj;
   }
   function onSubmit(data) {
@@ -61,6 +69,8 @@ function ElectionForm() {
     .then(response => {
       if (response.status === 200) {
         console.log("Election created");
+        setTimeout(() => {redirectToOrganizationDetails();}, 500);
+        
       }
     })
     .catch(error => {
@@ -68,16 +78,24 @@ function ElectionForm() {
       console.log(error);
     })
   }
+
+  const redirectToOrganizationDetails = () => {
+    console.log("[ + ] Redirecting to view details of org: " + orgId);
+    props.history.push(`/orgList/`);
+}
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
       <div className="card m-3">
-        <h5 className="card-header">Election Creation Page</h5>
+        
+        <h5 className="card-header">Create election for organisation ID: {orgId}</h5>
+
         <Controller
           name="election_description"
           as={
             <TextField
               id="election_description"
-              label="Election Description"
+              label="Event Description"
               required
             />
           }
@@ -87,6 +105,50 @@ function ElectionForm() {
             required: true,
           }}
         />
+
+        <FormControlLabel
+          label="Verification Required?"
+          name="verified"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Results publicily available?"
+          name="public_results"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+        <FormControlLabel
+          label="Anonymous election?"
+          name="anonymous"
+          inputRef={register}
+          control={
+            <Checkbox
+              style={{
+                color: "#c5ae2d",
+                marginLeft: "1em",
+              }}
+            />
+          }
+        />
+
+
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
@@ -191,47 +253,7 @@ function ElectionForm() {
           </div>
         ))}
 
-        <FormControlLabel
-          label="Verification Required?"
-          name="verified"
-          inputRef={register}
-          control={
-            <Checkbox
-              style={{
-                color: "#c5ae2d",
-                marginLeft: "1em",
-              }}
-            />
-          }
-        />
 
-        <FormControlLabel
-          label="Results publicily available?"
-          name="public_results"
-          inputRef={register}
-          control={
-            <Checkbox
-              style={{
-                color: "#c5ae2d",
-                marginLeft: "1em",
-              }}
-            />
-          }
-        />
-
-        <FormControlLabel
-          label="Anonymous election?"
-          name="anonymous"
-          inputRef={register}
-          control={
-            <Checkbox
-              style={{
-                color: "#c5ae2d",
-                marginLeft: "1em",
-              }}
-            />
-          }
-        />
 
         <div className="card-footer text-center border-top-0">
           <button type="submit" className="btn btn-primary mr-1">
