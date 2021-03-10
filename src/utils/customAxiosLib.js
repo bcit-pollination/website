@@ -7,8 +7,6 @@ const logResponse = (response) => {
     console.log("Returned from server:");
     console.log("Response Status:");
     console.log(response.status);
-    console.log("Response statusText:");
-    console.log(response.statusText);
     console.log("Response headers:");
     console.log(response.headers);
     console.log("Response data:");

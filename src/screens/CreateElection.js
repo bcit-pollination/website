@@ -36,7 +36,7 @@ function ElectionForm(props) {
     let count = 0;
     let q_count = 0;
     json_obj.election_id = 0;
-    if (json_obj.questions != undefined) {
+    if (json_obj.questions !== undefined) {
       json_obj.questions.map(q => {
         q.election_id = 0;
         q.ordered_choices = true;
