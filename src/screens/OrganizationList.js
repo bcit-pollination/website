@@ -30,7 +30,6 @@ const renderTableData = (orgList, redirectToOrganizationDetails) => {
         <tr 
         key={org_id}
         onClick={() => {
-            console.log("BRUH");
             redirectToOrganizationDetails(org_id, name);
         }}
         >
@@ -77,8 +76,8 @@ const OrgList = (props) => {
         getReq('/org/list')
         .then(response => {
             if (response.status === 200) {
-                console.log("GOT /org/list !!!")
-                console.log(response.data.orgs[0]);
+                console.log("Recv /org/list !!!")
+                console.log(response.data.orgs);
                 setState(response.data.orgs);
             }
         })

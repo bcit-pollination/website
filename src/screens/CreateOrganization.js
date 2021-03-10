@@ -24,10 +24,6 @@ const CreateOrganizationForm = (props) => {
         .then(response => {
             if (response.status === 200) {
                 console.log("[ORG created!!!]");
-
-                console.log("[Name]: " + data.orgName);
-                console.log("[ID]: " + data.orgUser_org_id);
-                console.log("[PW]: " + data.orgVerifier_password);
                 redirectToOrgList();
             }
         })

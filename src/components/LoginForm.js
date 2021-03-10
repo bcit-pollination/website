@@ -20,8 +20,6 @@ const LoginForm = (props) => {
             "password": data.password,
         })
         .then(response => {
-            console.log("Response data:");
-            console.log(response.data);
             if (response.status === 200) {
                 sessionStorage.setItem("jwt", response.data.jwt_token);
                 redirectToHome();

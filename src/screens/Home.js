@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import Header from '../components/Header';
 
     // const handleSubmitClick = (e) => {
     //     e.preventDefault();
@@ -46,6 +47,8 @@ function Home(props) {
 
     return(
         <div className="container d-flex align-items-center flex-column">
+                    <Header className="App-header" onBackClick={() => { }} />
+
             <h4>Home page content</h4>
             <br/>
             <button name={"Create Organization"} type={`button`} onClick={() => {redirectToCreateOrg()}} >Create Organization</button>

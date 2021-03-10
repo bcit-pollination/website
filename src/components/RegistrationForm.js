@@ -34,7 +34,7 @@ const RegistrationForm = (props) => {
             console.log("Response data.jwt_token:");
             console.log(response.data.jwt_token);
             if (response.status === 200) {
-                sessionStorage.setItem("jwt", response.data);
+                sessionStorage.setItem("jwt", response.data.jwt_token);
                 redirectToHome();
             }
         })

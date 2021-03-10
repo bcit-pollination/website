@@ -43,6 +43,7 @@ function ElectionForm(props) {
       json_obj.questions.map(q => {
         q.election_id = 0;
         q.ordered_choices = true;
+
         q.max_selection_count = 1;
         q.min_selection_count = 1;
 
