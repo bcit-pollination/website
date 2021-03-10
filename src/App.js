@@ -25,20 +25,20 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header className="App-header" onBackClick={() => { console.log("TAKE ME BACK") }} />
-        {/* <RegistrationForm onClick={() => {console.log("onClick passed from App.js")}}/> */}
+        <Header className="App-header" onBackClick={() => { }} />
 
         <div className="container d-flex align-items-center flex-column">
           <Switch>
             <Route path="/" exact={true}>
-              <RegistrationForm showError={updateErrorMessage}/>
+              <LoginForm showError={updateErrorMessage} onClick={() => { }} />
+            </Route>
+            <Route path="/login">
+              <LoginForm showError={updateErrorMessage} onClick={() => { }} />
             </Route>
             <Route path="/register">
               <RegistrationForm showError={updateErrorMessage}/>
             </Route>
-            <Route path="/login">
-              <LoginForm showError={updateErrorMessage} onClick={() => { console.log("onClick passed from App.js") }} />
-            </Route>
+
 
             <Route path="/home">
               <Home/>
