@@ -1,37 +1,71 @@
 import React from "react";
-import {postReq} from '../utils/customAxiosLib'
+import { postReq } from "../utils/customAxiosLib";
 import "../css/App.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
-import { 
-  withRouter, 
-  useParams
-} from "react-router-dom";import ReactDatePicker from "react-datepicker";
+import { withRouter, useParams } from "react-router-dom";
+import ReactDatePicker from "react-datepicker";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 
+const TypeSelection_Enum = {
+  MULTI_SELECT: "Multi-select",
+  TRUE_FALSE: "True/False",
+};
+
 function ElectionForm(props) {
-  
   let { orgId } = useParams();
 
   // functions to build form returned by useForm() hook
   const { register, handleSubmit, reset, errors, watch, control } = useForm({});
 
-  // watch to enable re-render when ticket number is changed
+  // watch to enable re-render when question number is changed
   const watchNumberOfQuestions = watch("numberOfQuestions");
 
-  // return array of question indexes for rendering dynamic forms in the template
-  function questionNumbers() {
-    return [...Array(parseInt(watchNumberOfQuestions || 0)).keys()];
-  }
-
-  // watch to enable re-render when ticket number is changed
+  // watch to enable re-render when fields number is changed
   const watchNumberOfFields = watch("numberOfFields");
 
-  function numberOfFields() {
-    return [...Array(parseInt(watchNumberOfFields || 0)).keys()];
+  // watch to enable re-render of selections
+  const watchTypeOfQuestions = watch("typeOfQuestions");
+
+  const isTrueFalseSelected = () =>
+    watchTypeOfQuestions === TypeSelection_Enum.TRUE_FALSE;
+  // return array of question indexes for rendering dynamic forms in the template
+  function questionNumbers() {
+    let tmp = 0;
+    if (watchNumberOfQuestions < 0) tmp = 0;
+    else tmp = watchNumberOfQuestions;
+    return [...Array(parseInt(tmp || 0)).keys()];
   }
+
+  function numberOfFields() {
+    let tmp = 0;
+    if (watchNumberOfFields < 0) tmp = 0;
+    else tmp = watchNumberOfFields;
+
+    if (watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE) {
+      setFieldValueDisabled(false);
+      return [...Array(parseInt(tmp || 0)).keys()];
+    } else {
+      setFieldValueDisabled(true);
+      return [...(Array("True", "False") || 0).keys()];
+    }
+  }
+
+  function setFieldValueDisabled(boolean) {
+    const field_divs = document.getElementsByClassName("field-value");
+    for (let i = 0; i < field_divs.length; i++) {
+      const input_elements = field_divs[i].getElementsByTagName("input");
+      input_elements[0].disabled = false;
+      if (boolean === true) {
+        i % 2 == 0
+          ? (input_elements[0].value = "true")
+          : (input_elements[0].value = "false");
+      }
+    }
+  }
+
   function updateOptionsJSON(json_obj) {
     let count = 0;
     let q_count = 0;
@@ -53,8 +87,9 @@ function ElectionForm(props) {
     }
     delete json_obj["numberOfQuestions"];
     delete json_obj["numberOfFields"];
-    json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00"
-    json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00"
+    delete json_obj["typeOfQuestions"];
+    json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00";
+    json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00";
     json_obj["org_id"] = parseInt(orgId);
     return json_obj;
   }
@@ -63,30 +98,32 @@ function ElectionForm(props) {
     data = updateOptionsJSON(data);
     console.log(JSON.stringify(data, null, 4));
 
-    postReq('/org/elections', data)
-    .then(response => {
-      if (response.status === 200) {
-        console.log("Election created");
-        setTimeout(() => {redirectToOrganizationDetails();}, 500);
-        
-      }
-    })
-    .catch(error => {
-      console.log("create election error");
-      console.log(error);
-    })
+    postReq("/org/elections", data)
+      .then(response => {
+        if (response.status === 200) {
+          console.log("Election created");
+          setTimeout(() => {
+            redirectToOrganizationDetails();
+          }, 500);
+        }
+      })
+      .catch(error => {
+        console.log("create election error");
+        console.log(error);
+      });
   }
 
   const redirectToOrganizationDetails = () => {
     console.log("[ + ] Redirecting to view details of org: " + orgId);
     props.history.push(`/orgList/`);
-}
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
       <div className="card m-3">
-        
-        <h5 className="card-header">Create election for organisation ID: {orgId}</h5>
+        <h5 className="card-header">
+          Create election for organisation ID: {orgId}
+        </h5>
 
         <Controller
           name="election_description"
@@ -146,12 +183,11 @@ function ElectionForm(props) {
           }
         />
 
-
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
               <label>Number of Questions</label>
-              <select
+              {/* <select
                 name="numberOfQuestions"
                 ref={register}
                 className={`form-control`}
@@ -162,20 +198,58 @@ function ElectionForm(props) {
                     {i}
                   </option>
                 ))}
-              </select>
-              <label>Number of Fields Per Question</label>
+              </select> */}
+              <input
+                name="numberOfQuestions"
+                ref={register}
+                className={`form-control`}
+                required
+                type="number"
+                min="0"
+              ></input>
+
+              <label>Type of Questions</label>
               <select
-                name="numberOfFields"
+                name="typeOfQuestions"
                 ref={register}
                 className={`form-control`}
                 required
               >
-                {["", 1, 2, 3, 4].map(i => (
-                  <option key={`f${i}`} value={i}>
+                {[
+                  "",
+                  TypeSelection_Enum.MULTI_SELECT,
+                  TypeSelection_Enum.TRUE_FALSE,
+                ].map(i => (
+                  <option key={i} value={i}>
                     {i}
                   </option>
                 ))}
               </select>
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                <label>Number of Fields Per Question</label>
+              )}
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                // <select
+                //   name="numberOfFields"
+                //   ref={register}
+                //   className={`form-control`}
+                //   required
+                // >
+                //   {["", 1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                //     <option key={`f${i}`} value={i}>
+                //       {i}
+                //     </option>
+                //   ))}
+                // </select>
+                <input
+                  name="numberOfFields"
+                  ref={register}
+                  className={`form-control`}
+                  required
+                  type="number"
+                  min="0"
+                ></input>
+              )}
             </div>
           </div>
 
@@ -235,8 +309,8 @@ function ElectionForm(props) {
                 </div>
                 <div className="form-col col-6">
                   {numberOfFields().map(j => (
-                    <div className="">
-                      <label>Field {j + 1}</label>
+                    <div className="field-value">
+                      <label></label>
                       <input
                         name={`questions[${i}].options[${j}].option_description`}
                         ref={register}
@@ -250,8 +324,6 @@ function ElectionForm(props) {
             </div>
           </div>
         ))}
-
-
 
         <div className="card-footer text-center border-top-0">
           <button type="submit" className="btn btn-primary mr-1">
