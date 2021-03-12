@@ -10,8 +10,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 
 const TypeSelection_Enum = {
-  MULTI_SELECT: "Multi-select",
-  TRUE_FALSE: "True/False",
+  MULTI_SELECT: "Multiple selection",
+  TRUE_FALSE: "True or False",
 };
 
 function ElectionForm(props) {
@@ -45,24 +45,18 @@ function ElectionForm(props) {
     else tmp = watchNumberOfFields;
 
     if (watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE) {
-      setFieldValueDisabled(false);
       return [...Array(parseInt(tmp || 0)).keys()];
     } else {
-      setFieldValueDisabled(true);
+      setFieldValuesBool();
       return [...(Array("True", "False") || 0).keys()];
     }
   }
 
-  function setFieldValueDisabled(boolean) {
+  function setFieldValuesBool() {
     const field_divs = document.getElementsByClassName("field-value");
     for (let i = 0; i < field_divs.length; i++) {
       const input_elements = field_divs[i].getElementsByTagName("input");
-      input_elements[0].disabled = false;
-      if (boolean === true) {
-        i % 2 == 0
-          ? (input_elements[0].value = "true")
-          : (input_elements[0].value = "false");
-      }
+      i % 2 == 0 ? (input_elements[0].value = "true") : (input_elements[0].value = "false");
     }
   }
 
@@ -187,18 +181,6 @@ function ElectionForm(props) {
           <div className="form-row">
             <div className="form-group">
               <label>Number of Questions</label>
-              {/* <select
-                name="numberOfQuestions"
-                ref={register}
-                className={`form-control`}
-                required
-              >
-                {["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-              </select> */}
               <input
                 name="numberOfQuestions"
                 ref={register}
@@ -229,18 +211,6 @@ function ElectionForm(props) {
                 <label>Number of Fields Per Question</label>
               )}
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
-                // <select
-                //   name="numberOfFields"
-                //   ref={register}
-                //   className={`form-control`}
-                //   required
-                // >
-                //   {["", 1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                //     <option key={`f${i}`} value={i}>
-                //       {i}
-                //     </option>
-                //   ))}
-                // </select>
                 <input
                   name="numberOfFields"
                   ref={register}
