@@ -69,8 +69,8 @@ function ElectionForm(props) {
         q.election_id = 0;
         q.ordered_choices = true;
 
-        q.max_selection_count = 1;
-        q.min_selection_count = 1;
+        q.max_selection_count = parseInt(json_obj["max_selection_count"]) ?? 1;
+        q.min_selection_count = parseInt(json_obj["min_selection_count"]) ?? 1;
 
         q.options.map(op => {
           op.option_id = count;
@@ -82,6 +82,8 @@ function ElectionForm(props) {
     delete json_obj["numberOfQuestions"];
     delete json_obj["numberOfFields"];
     delete json_obj["typeOfQuestions"];
+    delete json_obj["max_selection_count"]
+    delete json_obj["min_selection_count"]
     json_obj["start_time"] = json_obj["start_time"].toISOString().slice(0, -5) + "+00:00";
     json_obj["end_time"]   = json_obj["end_time"].toISOString().slice(0, -5) + "+00:00";
     json_obj["org_id"] = parseInt(orgId);
@@ -176,7 +178,44 @@ function ElectionForm(props) {
             />
           }
         />
-
+          <div className="card-body border-bottom">
+            <div className="form-row">
+              <div className="form-group">
+                <label>Start Date</label>
+                <Controller
+                  name={"start_time"}
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <ReactDatePicker
+                      selected={value}
+                      onChange={onChange}
+                      timeInputLabel="Time:"
+                      dateFormat="MM/dd/yyyy h:mm aa"
+                      showTimeSelect
+                      required
+                    />
+                  )}
+                />
+              </div>
+              <div className="form-group">
+                <label>End Date</label>
+                <Controller
+                  name={"end_time"}
+                  control={control}
+                  render={({ onChange, value }) => (
+                    <ReactDatePicker
+                      selected={value}
+                      onChange={onChange}
+                      timeInputLabel="Time:"
+                      dateFormat="MM/dd/yyyy h:mm aa"
+                      showTimeSelect
+                      required
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          </div>
         <div className="card-body border-bottom">
           <div className="form-row">
             <div className="form-group">
@@ -207,6 +246,7 @@ function ElectionForm(props) {
                   </option>
                 ))}
               </select>
+
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <label>Number of Fields Per Question</label>
               )}
@@ -222,43 +262,40 @@ function ElectionForm(props) {
               )}
             </div>
           </div>
-
-          <div className="card-body border-bottom">
-            <div className="form-row">
-              <div className="form-group">
-                <label>Start Date</label>
-                <Controller
-                  name={"start_time"}
-                  control={control}
-                  render={({ onChange, value }) => (
-                    <ReactDatePicker
-                      selected={value}
-                      onChange={onChange}
-                      timeInputLabel="Time:"
-                      dateFormat="MM/dd/yyyy h:mm aa"
-                      showTimeSelect
-                      required
-                    />
-                  )}
-                />
-                <label>End Date</label>
-                <Controller
-                  name={"end_time"}
-                  control={control}
-                  render={({ onChange, value }) => (
-                    <ReactDatePicker
-                      selected={value}
-                      onChange={onChange}
-                      timeInputLabel="Time:"
-                      dateFormat="MM/dd/yyyy h:mm aa"
-                      showTimeSelect
-                      required
-                    />
-                  )}
-                />
+          <div className="row">
+              <div className="col">
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                <label>Min Selection Per Question</label>
+              )}
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                <input
+                  name="min_selection_count"
+                  ref={register}
+                  className={`form-control`}
+                  required
+                  type="number"
+                  min="0"
+                ></input>
+              )}
+              </div>
+              <div className="col">
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                <label>Max Selection Per Question</label>
+              )}
+              {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
+                <input
+                  name="max_selection_count"
+                  ref={register}
+                  className={`form-control`}
+                  required
+                  type="number"
+                  min="0"
+                ></input>
+              )}
               </div>
             </div>
-          </div>
+
+
         </div>
         {questionNumbers().map(i => (
           <div key={i} className="list-group list-group-flush">
