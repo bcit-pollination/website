@@ -14,10 +14,10 @@ const renderCreateOrgButton = (btnName, onClick) => {
     return (
         <>
         <button 
-        onClick={onClick}
-        name={btnName} 
-        value={btnName} 
-        type={`button`}
+            onClick={onClick}
+            name={btnName} 
+            value={btnName} 
+            type={`button`}
         >{btnName}</button>
         </>
     );
@@ -51,6 +51,19 @@ const renderTableHeader = () => {
     );
 }
 
+const renderUserInfo = (userInfo) => {
+    return (
+        <div>
+            <table id="userInfo">
+                <tbody>
+                    <tr><td><p>D.O.B: {userInfo.dob}</p></td><td><p>Email: {userInfo.email}</p></td></tr>
+                    <tr><td><p>Last Name: {userInfo.last_name}</p></td><td><p>First Name: {userInfo.first_name}</p></td></tr>
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
 const OrgList = (props) => {
 
     const redirectToOrganizationDetails = (id, name) => {
@@ -72,7 +85,26 @@ const OrgList = (props) => {
         },
     ])
 
+    const [userInfo, setUserInfo] = useState({
+        dob:'',
+        email:"",
+        first_name:"",
+        last_name:""
+    });
+
     useEffect(()=>{
+        getReq('/user')
+        .then(response => {
+            if (response.status === 200) {
+                console.log("Recv /user !!!")
+                console.log(response.data);
+                setUserInfo(response.data);
+            }
+        })
+        .catch(error => {
+            console.log("Get /user");
+            console.log(error)
+        });
         getReq('/org/list')
         .then(response => {
             if (response.status === 200) {
@@ -92,6 +124,8 @@ const OrgList = (props) => {
     <div>
         <Switch>
             <Route exact path={path}>
+            <h2 className='title'>User's information</h2>
+            {renderUserInfo(userInfo)}
             <h2 className='title'>Organization List</h2>
                 <table id='org'>
                     <tbody>

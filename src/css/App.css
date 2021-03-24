@@ -53,17 +53,18 @@ button {
   font-family: arial, sans-serif;
 }
 
-#org {
+
+
+#org, #userInfo {
   text-align: center;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border: 3px solid #ddd;
   width: 100%;
-  user-select: none;
 }
 
 #org td,
-#org th {
+#org th, #userInfo td {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -72,9 +73,15 @@ button {
   background-color: #f2f2f2;
 }
 
-#org tr:hover {
+#org tr:hover, #userInfo td:hover {
   background-color: #ddd;
 }
+
+#org tr:hover {
+  user-select: none;
+}
+
+
 
 #org th {
   padding-top: 12px;
