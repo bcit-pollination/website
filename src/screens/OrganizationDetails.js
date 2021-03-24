@@ -9,6 +9,7 @@ import {
 import { getReq } from '../utils/customAxiosLib'
 import {useState, useEffect} from 'react';
 import CreateElection from './CreateElection';
+import ElectionDetails from './ElectionDetails';
 
 const renderButton = (btnName, onClick) => {
     return (
@@ -23,15 +24,17 @@ const renderButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (electionList) => {
+const renderTableData = (electionList, redirectToElectionDetails) => {
     return electionList.map((election, index) => {
         const {election_id, election_description, start_time, end_time} = election;
         return (
         <tr 
-        key={election_id} 
-        onClick={() => {
-            console.log("Viewing: " + election_description);
-        }}>
+            key={index} 
+            onClick={() => {
+                console.log("Viewing: " + election_description);
+                redirectToElectionDetails(election_id);
+            }}
+        >
             <td>{election_id}</td>
             <td>{election_description}</td>
             <td>{start_time}</td>
@@ -48,7 +51,7 @@ const renderTableHeader = () => {
             <th key={0}>ID</th>
             <th key={1}>DESCRIPTION</th>
             <th key={2}>START</th>
-            <th key={2}>END</th>
+            <th key={3}>END</th>
         </tr>
     );
 }
@@ -66,6 +69,11 @@ const OrganizationDetails = (props) => {
     const redirectToCreateElection = (id) => {
         console.log("[ + ] Redirecting to create election page.")
         props.history.push(`/orgList/orgDetails/${id}/createElection/${id}`);
+    }
+
+    const redirectToElectionDetails = (election_id) => {
+        console.log("[ + ] Redirecting to create election page.")
+        props.history.push(`/orgList/orgDetails/${orgId}/electionDetails/${election_id}`);
     }
 
     const [listState , setState] = useState([    
@@ -89,7 +97,7 @@ const OrganizationDetails = (props) => {
             console.log("Get /org/elections/list failed: ");
             console.log(error);
         });    
-    }, []);
+    }, [orgId]);
 
     let { path } = useRouteMatch();
 
@@ -102,7 +110,7 @@ const OrganizationDetails = (props) => {
                 <table id='org'>
                     <tbody>
                         {renderTableHeader()}
-                        {renderTableData(listState)}
+                        {renderTableData(listState, redirectToElectionDetails)}
                     </tbody>
                 </table>
                 {renderButton("Create Election", () => {redirectToCreateElection(orgId)})}
@@ -111,6 +119,9 @@ const OrganizationDetails = (props) => {
             </Route>
             <Route path={`/orgList/orgDetails/:orgId/createElection/:orgId`}>
                 <CreateElection />
+            </Route>
+            <Route path={`/orgList/orgDetails/:orgId/electionDetails/:election_id`}>
+                <ElectionDetails />
             </Route>
         </Switch>
     </div>

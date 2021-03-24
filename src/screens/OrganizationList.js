@@ -14,10 +14,10 @@ const renderCreateOrgButton = (btnName, onClick) => {
     return (
         <>
         <button 
-        onClick={onClick}
-        name={btnName} 
-        value={btnName} 
-        type={`button`}
+            onClick={onClick}
+            name={btnName} 
+            value={btnName} 
+            type={`button`}
         >{btnName}</button>
         </>
     );
@@ -28,7 +28,7 @@ const renderTableData = (orgList, redirectToOrganizationDetails) => {
         const {org_id, name, user_org_id} = org;
         return (
         <tr 
-        key={org_id}
+        key={index}
         onClick={() => {
             redirectToOrganizationDetails(org_id, name);
         }}
@@ -48,6 +48,25 @@ const renderTableHeader = () => {
             <th key={1}>NAME</th>
             <th key={2}>USER ORG ID</th>
         </tr>
+    );
+}
+
+const renderUserInfo = (userInfo) => {
+    return (
+        <div>
+            <table id="infoTable">
+                <tbody>
+                    <tr>                        
+                        <td>Email: {userInfo.email}</td>
+                        <td>D.O.B: {userInfo.dob}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name: {userInfo.last_name}</td>
+                        <td>First Name: {userInfo.first_name}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     );
 }
 
@@ -72,7 +91,26 @@ const OrgList = (props) => {
         },
     ])
 
+    const [userInfo, setUserInfo] = useState({
+        dob:'',
+        email:"",
+        first_name:"",
+        last_name:""
+    });
+
     useEffect(()=>{
+        getReq('/user')
+        .then(response => {
+            if (response.status === 200) {
+                console.log("Recv /user !!!")
+                console.log(response.data);
+                setUserInfo(response.data);
+            }
+        })
+        .catch(error => {
+            console.log("Get /user");
+            console.log(error)
+        });
         getReq('/org/list')
         .then(response => {
             if (response.status === 200) {
@@ -92,6 +130,8 @@ const OrgList = (props) => {
     <div>
         <Switch>
             <Route exact path={path}>
+            <h2 className='title'>User's information</h2>
+            {renderUserInfo(userInfo)}
             <h2 className='title'>Organization List</h2>
                 <table id='org'>
                     <tbody>
