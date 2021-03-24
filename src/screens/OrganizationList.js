@@ -28,7 +28,7 @@ const renderTableData = (orgList, redirectToOrganizationDetails) => {
         const {org_id, name, user_org_id} = org;
         return (
         <tr 
-        key={org_id}
+        key={index}
         onClick={() => {
             redirectToOrganizationDetails(org_id, name);
         }}
@@ -54,10 +54,16 @@ const renderTableHeader = () => {
 const renderUserInfo = (userInfo) => {
     return (
         <div>
-            <table id="userInfo">
+            <table id="infoTable">
                 <tbody>
-                    <tr><td><p>D.O.B: {userInfo.dob}</p></td><td><p>Email: {userInfo.email}</p></td></tr>
-                    <tr><td><p>Last Name: {userInfo.last_name}</p></td><td><p>First Name: {userInfo.first_name}</p></td></tr>
+                    <tr>                        
+                        <td>Email: {userInfo.email}</td>
+                        <td>D.O.B: {userInfo.dob}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name: {userInfo.last_name}</td>
+                        <td>First Name: {userInfo.first_name}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
