@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const api_path = 'http://pollination.live/api';
+const api_path = 'https://pollination.live/api';
 
 const logResponse = (response) => {
     console.log("Returned from server:");
