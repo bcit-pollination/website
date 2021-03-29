@@ -1,10 +1,5 @@
 import axios from "axios";
 
-<<<<<<< HEAD
-import axios from 'axios';
-
-=======
->>>>>>> dev
 const api_path = 'https://pollination.live/api';
 
 const logResponse = (response) => {
