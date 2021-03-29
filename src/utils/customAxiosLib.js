@@ -1,5 +1,4 @@
-
-import axios from 'axios';
+import axios from "axios";
 
 const api_path = 'https://pollination.live/api';
 
@@ -22,31 +21,28 @@ const getAxiosInstance = () => {
 }
 
 export const getReq = async (apiEndpoint) => {
-    try {
-        const response = await getAxiosInstance().get(
-            api_path + apiEndpoint,
-        );
-        logResponse(response);
-        return response;
-
-    } catch (error) {
-        // Handle Error Here
-        console.log("getReq: " + error);
-        return error;
-    }
-}
+  try {
+    const response = await getAxiosInstance().get(api_path + apiEndpoint);
+    logResponse(response);
+    return response;
+  } catch (error) {
+    // Handle Error Here
+    console.log("getReq: " + error);
+    return error;
+  }
+};
 
 export const postReq = async (apiEndpoint, jsonObj) => {
-    try {
-        const response = await getAxiosInstance().post(
-            api_path + apiEndpoint, 
-            jsonObj, 
-        );
-        logResponse(response);
-        return response;
-    } catch (error) {
-        // Handle Error Here
-        console.log("postReq: " + error);
-        return error;
-    }
-}
+  try {
+    const response = await getAxiosInstance().post(
+      api_path + apiEndpoint,
+      jsonObj
+    );
+    logResponse(response);
+    return response;
+  } catch (error) {
+    // Handle Error Here
+    console.log("postReq: " + error);
+    return error;
+  }
+};
