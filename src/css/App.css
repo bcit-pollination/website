@@ -10,6 +10,7 @@ h2 {
 
 button {
   margin-top: 20px;
+  margin-bottom: 20px;
   border: 2px solid black;
   background-color: transparent;
 }
@@ -50,6 +51,8 @@ button {
 
 .title {
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-family: arial, sans-serif;
 }
 
@@ -91,4 +94,12 @@ button {
   text-align: center;
   background-color: #c5ae2d;
   color: white;
+}
+
+#addUserForm {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  outline: 1px solid #ccc;
+  outline-offset: 12px;
+  padding: 10px;
 }

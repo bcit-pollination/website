@@ -1,12 +1,10 @@
 
 import axios from 'axios';
 
-const api_path = 'http://pollination.live/api';
+const api_path = 'https://pollination.live/api';
 
 const logResponse = (response) => {
-    console.log("Returned from server:");
-    console.log("Response Status:");
-    console.log(response.status);
+    console.log("Response Status:" + response.status);
     console.log("Response headers:");
     console.log(response.headers);
     console.log("Response data:");
@@ -15,7 +13,6 @@ const logResponse = (response) => {
 
 const getAxiosInstance = () => {
     let jwt_token = sessionStorage.getItem("jwt");
-    console.log(jwt_token);
     let axiosInstance =  axios.create({
         headers: {
             "Authorization" : `Bearer ${jwt_token}`,

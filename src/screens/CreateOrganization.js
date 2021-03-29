@@ -13,7 +13,6 @@ const CreateOrganizationForm = (props) => {
     }
 
     const onSubmit = data => {
-        console.log(data.orgName);
 
         postReq('/org', {
             "name": data.orgName,
