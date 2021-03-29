@@ -13,7 +13,6 @@ const CreateOrganizationForm = (props) => {
     }
 
     const onSubmit = data => {
-        console.log(data.orgName);
 
         postReq('/org', {
             "name": data.orgName,
@@ -51,8 +50,8 @@ const CreateOrganizationForm = (props) => {
                             className="form-control"
                             id="orgName"
                             name="orgName"
-                            placeholder="Org Name"
                             ref={register}
+                            placeholder="Org Name"
                             required="required"
                         />
                     </div>

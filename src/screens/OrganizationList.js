@@ -103,19 +103,16 @@ const OrgList = (props) => {
         .then(response => {
             if (response.status === 200) {
                 console.log("Recv /user !!!")
-                console.log(response.data);
                 setUserInfo(response.data);
             }
         })
         .catch(error => {
-            console.log("Get /user");
             console.log(error)
         });
         getReq('/org/list')
         .then(response => {
             if (response.status === 200) {
                 console.log("Recv /org/list !!!")
-                console.log(response.data.orgs);
                 setState(response.data.orgs);
             }
         })

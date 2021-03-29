@@ -6,10 +6,11 @@ import {
     useRouteMatch,
     useParams
 } from "react-router-dom";
-import { getReq } from '../utils/customAxiosLib'
+import { getReq, postReq } from '../utils/customAxiosLib'
 import {useState, useEffect} from 'react';
 import CreateElection from './CreateElection';
 import ElectionDetails from './ElectionDetails';
+import { useForm } from 'react-hook-form';
 
 const renderButton = (btnName, onClick) => {
     return (
@@ -24,7 +25,7 @@ const renderButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (electionList, redirectToElectionDetails) => {
+const renderElectionTableData = (electionList, redirectToElectionDetails) => {
     return electionList.map((election, index) => {
         const {election_id, election_description, start_time, end_time} = election;
         return (
@@ -45,7 +46,7 @@ const renderTableData = (electionList, redirectToElectionDetails) => {
 
 }
 
-const renderTableHeader = () => {
+const renderElectionTableHeader = () => {
     return (
         <tr>
             <th key={0}>ID</th>
@@ -56,8 +57,40 @@ const renderTableHeader = () => {
     );
 }
 
+const renderUserTableData = (userList) => {
+    return userList.map((user, index) => {
+        const {email, first_name, last_name, dob, privilege} = user;
+        return (
+        <tr 
+            key={index} 
+            onClick={() => {
+                console.log("Clicked on: " + user);
+            }}
+        >
+            <td>{email}</td>
+            <td>{first_name + " " + last_name}</td>
+            <td>{dob}</td>
+            <td>{privilege}</td>
+        </tr>
+        );
+    });
+
+}
+
+const renderUserTableHeader = () => {
+    return (
+        <tr>
+            <th key={0}>Email</th>
+            <th key={1}>Full Name</th>
+            <th key={2}>DOB</th>
+            <th key={3}>Privilege</th>
+        </tr>
+    );
+}
+
 const OrganizationDetails = (props) => {
 
+    let { path } = useRouteMatch();
     let { orgId } = useParams();
     console.log("ORG ID: " + orgId);
 
@@ -76,7 +109,9 @@ const OrganizationDetails = (props) => {
         props.history.push(`/orgList/orgDetails/${orgId}/electionDetails/${election_id}`);
     }
 
-    const [listState , setState] = useState([    
+    const [userEmail, setUserEmail] = useState("");
+    const [userOrgId, setUserOrgId] = useState("");
+    const [electionList , setElectionList] = useState([    
         {
             election_id: 1,
             election_description: "",
@@ -84,22 +119,83 @@ const OrganizationDetails = (props) => {
             end_time: ""
         },
     ])
+    const [userList , setUserList] = useState([    
+        {
+            email: "email@email.com",
+            first_name: "first",
+            last_name: "last",
+            privilege: 1,
+            user_org_id: "some id",
+            dob: "2021-01-01",
+            uid: 0
+        },
+    ])
+    const [privilege, setPrivilege] = useState(0);
 
     useEffect(()=>{
         getReq(`/org/elections/list?org_id=${orgId}`)
         .then(response => {
             if (response.status === 200) {
                 console.log("GOT /org/elections/list !!!")
-                setState(response.data.elections);
+                setElectionList(response.data.elections);
             }
         })
         .catch(error => {
             console.log("Get /org/elections/list failed: ");
             console.log(error);
-        });    
+        });
+
+        getReq(`/org/users?org_id=${orgId}&min_privilege_level=0`)
+        .then(response => {
+            if (response.status === 200) {
+                console.log("GOT /org/users !!!")
+                setUserList(response.data.users)  //TODO display this on the UI
+            }
+        })
+        .catch(error => {
+            console.log("Get /org/users failed: ");
+            console.log(error);
+        });
+
+        getReq('/org/list')
+        .then(response => {
+            if (response.status === 200) {
+                for (let org in response.data.orgs) {
+                    if (parseInt(orgId) === response.data.orgs[org].org_id )
+                        setPrivilege(response.data.orgs[org].privilege);
+                }
+                console.log("Recv /org/list and set privilege !!!")
+            }
+        })
+        .catch(error => {
+            console.log("Get /org/list failed: ");
+            console.log(error);
+        });
     }, [orgId]);
 
-    let { path } = useRouteMatch();
+
+    const { register, handleSubmit } = useForm();
+    const onSubmit = (data) => {
+        postReq('/org/users/invite', {
+            "invites": [
+                {
+                    "email": data.userEmail,
+                    "user_org_id": data.userOrgId
+                }
+            ],
+            "org_id": parseInt(orgId)
+        })
+        .then(response => {
+            if (response.status === 200) {
+                console.log("[User list updated!!!]");
+            }
+        })
+        .catch(error => {
+            console.log("User list POST failed: ");
+            console.log(error);
+        })
+    };
+
 
     return (
     <div>
@@ -107,15 +203,60 @@ const OrganizationDetails = (props) => {
             <Route exact path={path}>
                 {/* <h1 id='title'>Organization Details</h1> */}
                 <h2 className='title'>Organization ID: {orgId}</h2>
+                <h4 className='title'>{privilege === 4 ? "(You are the owner of this organisation)" : privilege === 3 ? "(You are an admin)" : ""}</h4>
+                <h3 className='title'>Election List:</h3>
                 <table id='org'>
                     <tbody>
-                        {renderTableHeader()}
-                        {renderTableData(listState, redirectToElectionDetails)}
+                        {renderElectionTableHeader()}
+                        {renderElectionTableData(electionList, redirectToElectionDetails)}
                     </tbody>
                 </table>
+                
                 {renderButton("Create Election", () => {redirectToCreateElection(orgId)})}
                 <br/>
-                {renderButton("Edit Organization", () => {redirectToEditOrg()})}
+                {/* {renderButton("Edit Organization", () => {redirectToEditOrg()})} */}
+
+                { privilege > 2 ? <>
+                <h3 className='title'>User List:</h3>
+                <table id='userList'>
+                    <tbody>
+                        {renderUserTableHeader()}
+                        {renderUserTableData(userList)}
+                    </tbody>
+                </table>
+                <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
+                    <h4 className='title'>Invite user to org:</h4>
+                    <div className="form-group text-left">
+                        <label>User Email:</label>
+                        <input
+                            type="text"
+                            value={userEmail}
+                            id="userEmail"
+                            name="userEmail"
+                            ref={register}
+                            placeholder="actualEmail@email.com"
+                            onChange={e => setUserEmail(e.target.value)}
+                            className="form-control"
+                            required
+                        />
+                    </div>
+                    <div className="form-group text-left">
+                        <label>User Org Id:</label>
+                        <input
+                            type="text"
+                            value={userOrgId}
+                            id="userOrgId"
+                            name="userOrgId"
+                            ref={register}
+                            placeholder="anything"
+                            onChange={e => setUserOrgId(e.target.value)}
+                            className="form-control"
+                            required
+                        />
+                    </div>
+                    <input className="button" type="submit" value="Invite" />
+                </form> 
+                </> : ""}
             </Route>
             <Route path={`/orgList/orgDetails/:orgId/createElection/:orgId`}>
                 <CreateElection />
