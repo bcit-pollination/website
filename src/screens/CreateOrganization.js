@@ -94,7 +94,7 @@ const CreateOrganizationForm = (props) => {
                         />
                     </div> */}
 
-                    <input type="submit" value="Create" />
+                    <input className="button" type="submit" value="Create" />
                     <br />
                     <br />
                     {/* <input type="submit" value="Cancel" /> */}

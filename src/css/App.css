@@ -8,15 +8,31 @@ h2 {
   margin: 20px;
 }
 
+input.button {
+  margin: initial;
+}
+
 button, .button {
   margin-top: 20px;
   margin-bottom: 20px;
-  border: 2px solid black;
-  background-color: transparent;
+  border: 2px solid transparent;
+  background-color: #c5ae2d;
+  color:white;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-size: calc(10px + 1vmin);
+  filter: drop-shadow(3px 3px 3px #9a8720);
+  outline: none;
 }
 
-input.button {
-  margin: initial;
+button:hover, .button:hover {
+  transform: translate(-1.5px, -1.5px);
+  filter: drop-shadow(4.5px 4.5px 2px #9a8720);
+}
+
+button:focus, .button:focus {
+  transform: translate(0px, 0px);
+  filter: drop-shadow(3px 3px 2px #9a8720);
 }
 
 .App-header {
@@ -65,7 +81,7 @@ input.button {
 }
 
 #userList {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 #org, #infoTable, #userList {
@@ -110,7 +126,7 @@ input.button {
 
 #addUserForm {
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   outline: 1px solid #ccc;
   outline-offset: 12px;
   position: relative;
@@ -118,11 +134,17 @@ input.button {
   transform: translate(-50%, -0%);
 }
 
+#addUserInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
 @media only screen and (max-width: 2000px) {
   #addUserForm {
     min-width: 35vw;
-    max-width: 50vw;
-    padding: 20px;
+    max-width: 45vw;
+    padding: 10px 0px;
   }
 }
 

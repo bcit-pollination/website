@@ -70,7 +70,7 @@ const renderUserTableData = (userList) => {
             <td>{email}</td>
             <td>{first_name + " " + last_name}</td>
             <td>{dob}</td>
-            <td>{privilege}</td>
+            <td>{privilege === 4 ? "Owner" : privilege === 3 ? "Admin" : privilege === 2 ? "Member" : ""}</td>
         </tr>
         );
     });
@@ -203,7 +203,7 @@ const OrganizationDetails = (props) => {
             <Route exact path={path}>
                 {/* <h1 id='title'>Organization Details</h1> */}
                 <h2 className='title'>Organization ID: {orgId}</h2>
-                <h4 className='title'>{privilege === 4 ? "(You are the owner of this organisation)" : privilege === 3 ? "(You are an admin)" : ""}</h4>
+                <h4 className='title'>{privilege === 4 ? "(You are the owner of this organisation)" : privilege === 3 ? "(You are an admin)" : privilege === 2 ? "(You are a member)" : ""}</h4>
                 <h3 className='title'>Election List:</h3>
                 <table id='org'>
                     <tbody>
@@ -226,6 +226,7 @@ const OrganizationDetails = (props) => {
                 </table>
                 <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
                     <h4 className='title'>Invite user to org:</h4>
+                    <div id="addUserInput">
                     <div className="form-group text-left">
                         <label>User Email:</label>
                         <input
@@ -253,6 +254,7 @@ const OrganizationDetails = (props) => {
                             className="form-control"
                             required
                         />
+                    </div>
                     </div>
                     <input className="button" type="submit" value="Invite" />
                 </form> 
