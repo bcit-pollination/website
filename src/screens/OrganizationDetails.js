@@ -99,7 +99,7 @@ const OrganizationDetails = (props) => {
             uid: 0
         },
     ])
-    const [isOwner, setOwnerStatus] = useState(false);
+    const [privilege, setPrivilege] = useState(0);
 
     useEffect(()=>{
         getReq(`/org/elections/list?org_id=${orgId}`)
@@ -130,10 +130,10 @@ const OrganizationDetails = (props) => {
         .then(response => {
             if (response.status === 200) {
                 for (let org in response.data.orgs) {
-                    if (parseInt(orgId) === response.data.orgs[org].org_id && 4 === response.data.orgs[org].privilege)
-                        setOwnerStatus(true);
+                    if (parseInt(orgId) === response.data.orgs[org].org_id )
+                        setPrivilege(response.data.orgs[org].privilege);
                 }
-                console.log("Recv /org/list and Checked Ownership !!!")
+                console.log("Recv /org/list and set privilege !!!")
             }
         })
         .catch(error => {
@@ -172,7 +172,7 @@ const OrganizationDetails = (props) => {
             <Route exact path={path}>
                 {/* <h1 id='title'>Organization Details</h1> */}
                 <h2 className='title'>Organization ID: {orgId}</h2>
-                <h4 className='title'>{isOwner ? "(You are the owner)" : ""}</h4>
+                <h4 className='title'>{privilege === 4 ? "(You are the owner)" : privilege === 3 ? "(You are an admin)" : ""}</h4>
                 <h3 className='title'>Election List:</h3>
                 <table id='org'>
                     <tbody>
@@ -185,7 +185,7 @@ const OrganizationDetails = (props) => {
                 <br/>
                 {/* {renderButton("Edit Organization", () => {redirectToEditOrg()})} */}
 
-                { isOwner ? <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
+                { privilege > 2 ? <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
                     <h4 className='title'>Invite user to org:</h4>
                     <div className="form-group text-left">
                         <label>User Email:</label>
