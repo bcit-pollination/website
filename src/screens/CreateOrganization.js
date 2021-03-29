@@ -50,8 +50,8 @@ const CreateOrganizationForm = (props) => {
                             className="form-control"
                             id="orgName"
                             name="orgName"
-                            placeholder="Org Name"
                             ref={register}
+                            placeholder="Org Name"
                             required="required"
                         />
                     </div>

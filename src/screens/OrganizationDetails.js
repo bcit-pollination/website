@@ -59,6 +59,7 @@ const renderTableHeader = () => {
 
 const OrganizationDetails = (props) => {
 
+    let { path } = useRouteMatch();
     let { orgId } = useParams();
     console.log("ORG ID: " + orgId);
 
@@ -77,7 +78,9 @@ const OrganizationDetails = (props) => {
         props.history.push(`/orgList/orgDetails/${orgId}/electionDetails/${election_id}`);
     }
 
-    const [listState , setState] = useState([    
+    const [userEmail, setUserEmail] = useState("");
+    const [userOrgId, setUserOrgId] = useState("");
+    const [electionList , setElectionList] = useState([    
         {
             election_id: 1,
             election_description: "",
@@ -85,13 +88,25 @@ const OrganizationDetails = (props) => {
             end_time: ""
         },
     ])
+    const [userList , setUserList] = useState([    
+        {
+            email: "email@email.com",
+            first_name: "first",
+            last_name: "last",
+            privilege: 1,
+            user_org_id: "some id",
+            dob: "2021-01-01",
+            uid: 0
+        },
+    ])
+    const [isOwner, setOwnerStatus] = useState(false);
 
     useEffect(()=>{
         getReq(`/org/elections/list?org_id=${orgId}`)
         .then(response => {
             if (response.status === 200) {
                 console.log("GOT /org/elections/list !!!")
-                setState(response.data.elections);
+                setElectionList(response.data.elections);
             }
         })
         .catch(error => {
@@ -103,7 +118,7 @@ const OrganizationDetails = (props) => {
         .then(response => {
             if (response.status === 200) {
                 console.log("GOT /org/users !!!")
-                console.log(response.data.users)
+                setUserList(response.data.users)  //TODO display this on the UI
             }
         })
         .catch(error => {
@@ -114,21 +129,22 @@ const OrganizationDetails = (props) => {
         getReq('/org/list')
         .then(response => {
             if (response.status === 200) {
-                console.log("Recv /org/list !!!")
-                setState(response.data.orgs);
+                for (let org in response.data.orgs) {
+                    if (parseInt(orgId) === response.data.orgs[org].org_id && 4 === response.data.orgs[org].privilege)
+                        setOwnerStatus(true);
+                }
+                console.log("Recv /org/list and Checked Ownership !!!")
             }
         })
         .catch(error => {
             console.log("Get /org/list failed: ");
             console.log(error);
         });
-        
     }, [orgId]);
 
-    let { path } = useRouteMatch();
 
     const { register, handleSubmit } = useForm();
-    const onSubmit = data => {
+    const onSubmit = (data) => {
         postReq('/org/users/invite', {
             "invites": [
                 {
@@ -148,8 +164,7 @@ const OrganizationDetails = (props) => {
             console.log(error);
         })
     };
-    const [userEmail, setUserEmail] = useState("");
-    const [userOrgId, setUserOrgId] = useState("");
+
 
     return (
     <div>
@@ -157,11 +172,12 @@ const OrganizationDetails = (props) => {
             <Route exact path={path}>
                 {/* <h1 id='title'>Organization Details</h1> */}
                 <h2 className='title'>Organization ID: {orgId}</h2>
+                <h4 className='title'>{isOwner ? "(You are the owner)" : ""}</h4>
                 <h3 className='title'>Election List:</h3>
                 <table id='org'>
                     <tbody>
                         {renderTableHeader()}
-                        {renderTableData(listState, redirectToElectionDetails)}
+                        {renderTableData(electionList, redirectToElectionDetails)}
                     </tbody>
                 </table>
                 
@@ -169,13 +185,16 @@ const OrganizationDetails = (props) => {
                 <br/>
                 {/* {renderButton("Edit Organization", () => {redirectToEditOrg()})} */}
 
-                <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
+                { isOwner ? <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
                     <h4 className='title'>Invite user to org:</h4>
                     <div className="form-group text-left">
                         <label>User Email:</label>
                         <input
                             type="text"
                             value={userEmail}
+                            id="userEmail"
+                            name="userEmail"
+                            ref={register}
                             placeholder="actualEmail@email.com"
                             onChange={e => setUserEmail(e.target.value)}
                             className="form-control"
@@ -188,6 +207,9 @@ const OrganizationDetails = (props) => {
                         <input
                             type="text"
                             value={userOrgId}
+                            id="userOrgId"
+                            name="userOrgId"
+                            ref={register}
                             placeholder="anything"
                             onChange={e => setUserOrgId(e.target.value)}
                             className="form-control"
@@ -195,8 +217,8 @@ const OrganizationDetails = (props) => {
                             autoFocus
                         />
                     </div>
-                    <input type="submit" value="Invite" />
-                </form>
+                    <input className="button" type="submit" value="Invite" />
+                </form> : ""}
 
                 <h3 className='title'>User List:</h3>
 
