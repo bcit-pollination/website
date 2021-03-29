@@ -44,7 +44,7 @@ const renderTableData = (electionList, redirectToElectionDetails) => {
 const ElectionResults = (props) => {
     const redirectToElectionDetails = (id, name) => {
         console.log("[ + ] Redirecting to view details of " + name);
-        props.history.push(`/electionResults/elecitonDetails/${id}`);
+        props.history.push(`/electionResults/electionDetails/${id}`);
     }
     const [listState, setState] = useState([{
         anonymous : "",
