@@ -1,6 +1,8 @@
+body {
+  background-color: #fffffc;
+}
+
 .App {
-  height: 100vh;
-  width: 100vw;
   text-align: center;
 }
 
@@ -21,6 +23,7 @@ button, .button {
   border-radius: 5px;
   padding: 8px 20px;
   font-size: calc(10px + 1vmin);
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   filter: drop-shadow(3px 3px 3px #9a8720);
   outline: none;
 }
@@ -88,7 +91,7 @@ button:focus, .button:focus {
   text-align: center;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  border: 3px solid #ddd;
+  border: 2px solid #ccc;
   width: 100%;
 }
 
@@ -102,7 +105,7 @@ button:focus, .button:focus {
 }
 
 #org tr:nth-child(odd) {
-  background-color: #f2f2f2;
+  background-color: #f6f9f0;
 }
 
 #org tr:hover, #infoTable tr:hover, #userList tr:hover {
@@ -138,6 +141,10 @@ button:focus, .button:focus {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+#addUserInput label{
+  font-size: calc(12px + 1vmin);
 }
 
 @media only screen and (max-width: 2000px) {
