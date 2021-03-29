@@ -84,7 +84,7 @@ const LoginForm = (props) => {
                         {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
 
-                    <input type="submit" value="Login"/>
+                    <input className="button" type="submit" value="Login"/>
                     
                     <div className="mt-2">
                         <span>Don't have an account? </span>

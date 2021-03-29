@@ -3,11 +3,11 @@ import axios from "axios";
 const api_path = 'https://pollination.live/api';
 
 const logResponse = (response) => {
-    // console.log("Response Status:" + response.status);
-    // console.log("Response headers:");
-    // console.log(response.headers);
-    // console.log("Response data:");
-    // console.log(response.data);
+    console.log("Response Status:" + response.status);
+    console.log("Response headers:");
+    console.log(response.headers);
+    console.log("Response data:");
+    console.log(response.data);
 }
 
 const getAxiosInstance = () => {

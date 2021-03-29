@@ -143,7 +143,7 @@ const RegistrationForm = (props) => {
                         {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
 
-                    <input type="submit"/>
+                    <input className="button" type="submit" value="Register"/>
 
                     <div className="mt-2">
                         <span>Already have an account? </span>

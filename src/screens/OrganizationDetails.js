@@ -109,6 +109,8 @@ const OrganizationDetails = (props) => {
         props.history.push(`/orgList/orgDetails/${orgId}/electionDetails/${election_id}`);
     }
 
+    const [inviteError, setInviteError] = useState(false);
+    const [visibleInvitation, setInviVisi] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [userOrgId, setUserOrgId] = useState("");
     const [electionList , setElectionList] = useState([    
@@ -149,7 +151,7 @@ const OrganizationDetails = (props) => {
         .then(response => {
             if (response.status === 200) {
                 console.log("GOT /org/users !!!")
-                setUserList(response.data.users)  //TODO display this on the UI
+                setUserList(response.data.users)
             }
         })
         .catch(error => {
@@ -186,13 +188,21 @@ const OrganizationDetails = (props) => {
             "org_id": parseInt(orgId)
         })
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("[User list updated!!!]");
+                setUserEmail("")
+                setUserOrgId("")
+                setInviVisi(!visibleInvitation);
+                setInviteError(false);
+            } else {
+                console.log("[User list NOT UPDATED!!!]");
+                setInviteError(true);
             }
         })
         .catch(error => {
             console.log("User list POST failed: ");
             console.log(error);
+            setInviteError(true);
         })
     };
 
@@ -224,7 +234,11 @@ const OrganizationDetails = (props) => {
                         {renderUserTableData(userList)}
                     </tbody>
                 </table>
-                <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
+                <button 
+                    onClick={()=>{setInviVisi(!visibleInvitation)}} 
+                    style={{display: `${visibleInvitation ? "none" : ""}`}}
+                >Add User</button>
+                <form id="addUserForm" onSubmit={handleSubmit(onSubmit)} style={{display: `${visibleInvitation ? "" : "none"}`}}>
                     <h4 className='title'>Invite user to org:</h4>
                     <div id="addUserInput">
                     <div className="form-group text-left">
@@ -256,6 +270,12 @@ const OrganizationDetails = (props) => {
                         />
                     </div>
                     </div>
+                    <p 
+                        style={{
+                            display: `${inviteError ? "" : "none"}`, 
+                            color: "red",
+                        }}
+                    >There has been an error! Please check the email address!</p>
                     <input className="button" type="submit" value="Invite" />
                 </form> 
                 </> : ""}

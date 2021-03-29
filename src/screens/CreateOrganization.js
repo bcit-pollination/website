@@ -16,8 +16,8 @@ const CreateOrganizationForm = (props) => {
 
         postReq('/org', {
             "name": data.orgName,
-            "user_org_id": data.orgUser_org_id,  // TODO add UI
-            "verifier_password": data.orgVerifier_password,  // TODO add UI
+            "user_org_id": data.orgUser_org_id,
+            "verifier_password": data.orgVerifier_password,
 
         })
         .then(response => {
