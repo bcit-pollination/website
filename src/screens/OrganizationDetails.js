@@ -25,7 +25,7 @@ const renderButton = (btnName, onClick) => {
     );
 }
 
-const renderTableData = (electionList, redirectToElectionDetails) => {
+const renderElectionTableData = (electionList, redirectToElectionDetails) => {
     return electionList.map((election, index) => {
         const {election_id, election_description, start_time, end_time} = election;
         return (
@@ -46,13 +46,44 @@ const renderTableData = (electionList, redirectToElectionDetails) => {
 
 }
 
-const renderTableHeader = () => {
+const renderElectionTableHeader = () => {
     return (
         <tr>
             <th key={0}>ID</th>
             <th key={1}>DESCRIPTION</th>
             <th key={2}>START</th>
             <th key={3}>END</th>
+        </tr>
+    );
+}
+
+const renderUserTableData = (userList) => {
+    return userList.map((user, index) => {
+        const {email, first_name, last_name, dob, privilege} = user;
+        return (
+        <tr 
+            key={index} 
+            onClick={() => {
+                console.log("Clicked on: " + user);
+            }}
+        >
+            <td>{email}</td>
+            <td>{first_name + " " + last_name}</td>
+            <td>{dob}</td>
+            <td>{privilege}</td>
+        </tr>
+        );
+    });
+
+}
+
+const renderUserTableHeader = () => {
+    return (
+        <tr>
+            <th key={0}>Email</th>
+            <th key={1}>Full Name</th>
+            <th key={2}>DOB</th>
+            <th key={3}>Privilege</th>
         </tr>
     );
 }
@@ -172,12 +203,12 @@ const OrganizationDetails = (props) => {
             <Route exact path={path}>
                 {/* <h1 id='title'>Organization Details</h1> */}
                 <h2 className='title'>Organization ID: {orgId}</h2>
-                <h4 className='title'>{privilege === 4 ? "(You are the owner)" : privilege === 3 ? "(You are an admin)" : ""}</h4>
+                <h4 className='title'>{privilege === 4 ? "(You are the owner of this organisation)" : privilege === 3 ? "(You are an admin)" : ""}</h4>
                 <h3 className='title'>Election List:</h3>
                 <table id='org'>
                     <tbody>
-                        {renderTableHeader()}
-                        {renderTableData(electionList, redirectToElectionDetails)}
+                        {renderElectionTableHeader()}
+                        {renderElectionTableData(electionList, redirectToElectionDetails)}
                     </tbody>
                 </table>
                 
@@ -185,7 +216,15 @@ const OrganizationDetails = (props) => {
                 <br/>
                 {/* {renderButton("Edit Organization", () => {redirectToEditOrg()})} */}
 
-                { privilege > 2 ? <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
+                { privilege > 2 ? <>
+                <h3 className='title'>User List:</h3>
+                <table id='userList'>
+                    <tbody>
+                        {renderUserTableHeader()}
+                        {renderUserTableData(userList)}
+                    </tbody>
+                </table>
+                <form id="addUserForm" onSubmit={handleSubmit(onSubmit)}>
                     <h4 className='title'>Invite user to org:</h4>
                     <div className="form-group text-left">
                         <label>User Email:</label>
@@ -199,7 +238,6 @@ const OrganizationDetails = (props) => {
                             onChange={e => setUserEmail(e.target.value)}
                             className="form-control"
                             required
-                            autoFocus
                         />
                     </div>
                     <div className="form-group text-left">
@@ -214,14 +252,11 @@ const OrganizationDetails = (props) => {
                             onChange={e => setUserOrgId(e.target.value)}
                             className="form-control"
                             required
-                            autoFocus
                         />
                     </div>
                     <input className="button" type="submit" value="Invite" />
-                </form> : ""}
-
-                <h3 className='title'>User List:</h3>
-
+                </form> 
+                </> : ""}
             </Route>
             <Route path={`/orgList/orgDetails/:orgId/createElection/:orgId`}>
                 <CreateElection />

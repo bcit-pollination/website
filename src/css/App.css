@@ -64,7 +64,11 @@ input.button {
   text-align: left;
 }
 
-#org, #infoTable {
+#userList {
+  margin-bottom: 50px;
+}
+
+#org, #infoTable, #userList {
   text-align: center;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -73,16 +77,19 @@ input.button {
 }
 
 #org td,
-#org th, #infoTable td {
+#org th, 
+#infoTable td,
+#userList td,
+#userList th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#org tr:nth-child(even) {
+#org tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
 
-#org tr:hover, #infoTable tr:hover {
+#org tr:hover, #infoTable tr:hover, #userList tr:hover {
   background-color: #ddd;
 }
 
@@ -92,7 +99,8 @@ input.button {
 
 
 
-#org th {
+#org th,
+#userList th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
@@ -105,5 +113,24 @@ input.button {
   margin-bottom: 20px;
   outline: 1px solid #ccc;
   outline-offset: 12px;
-  padding: 10px;
+  position: relative;
+  left:50%;
+  transform: translate(-50%, -0%);
 }
+
+@media only screen and (max-width: 2000px) {
+  #addUserForm {
+    min-width: 35vw;
+    max-width: 50vw;
+    padding: 20px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #addUserForm {
+    min-width: 70vw;
+    max-width: 80vw;
+    padding: 10px;
+  }
+}
+
