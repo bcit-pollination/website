@@ -101,7 +101,7 @@ const OrgList = (props) => {
     useEffect(()=>{
         getReq('/user')
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("Recv /user !!!")
                 setUserInfo(response.data);
             }
@@ -111,7 +111,7 @@ const OrgList = (props) => {
         });
         getReq('/org/list')
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("Recv /org/list !!!")
                 setState(response.data.orgs);
             }

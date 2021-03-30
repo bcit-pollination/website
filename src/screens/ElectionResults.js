@@ -181,7 +181,7 @@ const ElectionResults = (props) => {
     }]);
     useEffect(() => {
         getReq("/org/elections/public/get/list?page=1&elections_per_page=333").then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 setState(response.data.elections.filter(election => election.public_results === true))
             }
         })

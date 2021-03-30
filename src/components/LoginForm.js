@@ -18,16 +18,23 @@ const LoginForm = (props) => {
             "password": data.password,
         })
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 sessionStorage.setItem("jwt", response.data.jwt_token);
+                setLoginError(false);
                 redirectToHome();
+            } else {
+                console.log("login failed! " + response);
+                setLoginError(true);
             }
         })
         .catch(error => {
             console.log("login failed: ");
             console.log(error);
+            setLoginError(true);
         })
     };
+
+    const [loginError , setLoginError] = useState(false)
 
     const [state , setState] = useState({
         email : "",
@@ -83,9 +90,14 @@ const LoginForm = (props) => {
                         />
                         {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
-
+                    <p 
+                        style={{
+                            display: `${loginError ? "" : "none"}`, 
+                            color: "red",
+                        }}
+                    >There has been an error! Please check your credentials!</p>
                     <input className="button" type="submit" value="Login"/>
-                    
+
                     <div className="mt-2">
                         <span>Don't have an account? </span>
                         <span style={{color: '#007bff', fontWeight: 'bold', cursor: 'pointer' }} 

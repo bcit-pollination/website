@@ -137,7 +137,7 @@ const OrganizationDetails = (props) => {
     useEffect(()=>{
         getReq(`/org/elections/list?org_id=${orgId}`)
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("GOT /org/elections/list !!!")
                 setElectionList(response.data.elections);
             }
@@ -149,7 +149,7 @@ const OrganizationDetails = (props) => {
 
         getReq(`/org/users?org_id=${orgId}&min_privilege_level=0`)
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("GOT /org/users !!!")
                 setUserList(response.data.users)
             }
@@ -161,7 +161,7 @@ const OrganizationDetails = (props) => {
 
         getReq('/org/list')
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 for (let org in response.data.orgs) {
                     if (parseInt(orgId) === response.data.orgs[org].org_id )
                         setPrivilege(response.data.orgs[org].privilege);

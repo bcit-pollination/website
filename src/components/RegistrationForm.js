@@ -31,16 +31,22 @@ const RegistrationForm = (props) => {
             "password": data.password,
         })
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 sessionStorage.setItem("jwt", response.data.jwt_token);
+                setRegisterError(false);
                 redirectToHome();
+            } else {
+                setRegisterError(true);
             }
         })
         .catch(error => {
             console.log("registration failed: ");
             console.log(error);
+            setRegisterError(true);
         })
     };
+
+    const [registerError , setRegisterError] = useState(false)
 
     const [state , setState] = useState({
         dob: "",
@@ -142,6 +148,13 @@ const RegistrationForm = (props) => {
                         />
                         {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
+
+                    <p 
+                        style={{
+                            display: `${registerError ? "" : "none"}`, 
+                            color: "red",
+                        }}
+                    >There has been an error! Your email might have already been registered with us!</p>
 
                     <input className="button" type="submit" value="Register"/>
 

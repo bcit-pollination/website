@@ -61,7 +61,7 @@ const ElectionDetails = () => {
     useEffect(()=>{
         getReq(`/org/elections?election_id=${election_id}`)
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("GOT /org/elections/list !!!")
                 setElectionInfo(response.data);
             }

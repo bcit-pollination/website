@@ -21,7 +21,7 @@ const CreateOrganizationForm = (props) => {
 
         })
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("[ORG created!!!]");
                 redirectToOrgList();
             }

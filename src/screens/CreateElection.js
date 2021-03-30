@@ -95,7 +95,7 @@ function ElectionForm(props) {
 
     postReq("/org/elections", data)
       .then(response => {
-        if (response.status === 200) {
+        if (200 <= response.status && response.status < 300) {
           console.log("Election created");
           setTimeout(() => {
             redirectToOrganizationDetails();
