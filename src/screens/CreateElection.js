@@ -221,6 +221,7 @@ function ElectionForm(props) {
             <div className="form-group">
               <label>Number of Questions</label>
               <input
+                defaultValue="1"
                 name="numberOfQuestions"
                 ref={register}
                 className={`form-control`}
@@ -253,6 +254,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="numberOfFields"
+                  defaultValue="3"
                   ref={register}
                   className={`form-control`}
                   required
@@ -270,6 +272,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="min_selection_count"
+                  defaultValue="1"
                   ref={register}
                   className={`form-control`}
                   required
@@ -285,6 +288,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="max_selection_count"
+                  defaultValue="1"
                   ref={register}
                   className={`form-control`}
                   required
