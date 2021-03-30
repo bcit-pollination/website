@@ -20,7 +20,6 @@ const LoginForm = (props) => {
         .then(response => {
             if (200 <= response.status && response.status < 300) {
                 sessionStorage.setItem("jwt", response.data.jwt_token);
-                setLoginError(false);
                 redirectToHome();
             } else {
                 console.log("login failed! " + response);

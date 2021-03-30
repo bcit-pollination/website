@@ -33,7 +33,6 @@ const RegistrationForm = (props) => {
         .then(response => {
             if (200 <= response.status && response.status < 300) {
                 sessionStorage.setItem("jwt", response.data.jwt_token);
-                setRegisterError(false);
                 redirectToHome();
             } else {
                 setRegisterError(true);

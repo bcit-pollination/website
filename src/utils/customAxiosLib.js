@@ -12,6 +12,7 @@ const logResponse = (response) => {
 
 const getAxiosInstance = () => {
     let jwt_token = sessionStorage.getItem("jwt");
+    console.log("before making request: " + jwt_token)
     let axiosInstance =  axios.create({
         headers: {
             "Authorization" : `Bearer ${jwt_token}`,
