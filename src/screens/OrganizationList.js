@@ -10,7 +10,7 @@ import {useState, useEffect} from 'react';
 import OrganizationDetails from './OrganizationDetails';
 
 
-const renderCreateOrgButton = (btnName, onClick) => {
+const renderButton = (btnName, onClick) => {
     return (
         <>
         <button 
@@ -77,6 +77,11 @@ const OrgList = (props) => {
         props.history.push(`/orgList/orgDetails/${id}`);
     }
 
+    const redirectToElectionResults = () => {
+        console.log("[ + ] Redirecting to electionResults");
+        props.history.push(`/electionResults`);
+    }
+
     const redirectToCreateOrg = () => {
         console.log("[ + ] Redirecting to create org page.");
         props.history.push('/createOrganization');
@@ -129,6 +134,7 @@ const OrgList = (props) => {
             <Route exact path={path}>
             <h2 className='title'>User's information</h2>
             {renderUserInfo(userInfo)}
+            {renderButton("View Public Election Results", () => {redirectToElectionResults()})}
             <h2 className='title'>Organization List</h2>
                 <table id='org'>
                     <tbody>
@@ -136,7 +142,7 @@ const OrgList = (props) => {
                         {renderTableData(listState, redirectToOrganizationDetails)}
                     </tbody>
                 </table>
-                {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+                {renderButton("Create Organization", () => {redirectToCreateOrg()})}
             </Route>
             <Route path={`/orgList/orgDetails/:orgId`}>
                 <OrganizationDetails />
