@@ -127,7 +127,7 @@ const ElectionVoteDetails = props => {
                 <table id="org">
                     <tr>
                         <th key={1}>Option</th>
-                        <th key={1}>Result</th>
+                        <th key={2}>Result</th>
                     </tr>
   
                         {question.options.map((option, index) => {
