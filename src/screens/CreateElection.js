@@ -10,6 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 
 const TypeSelection_Enum = {
+  SINGLE_CHOICE: "Single Choice",
   MULTI_SELECT: "Multiple selection",
   TRUE_FALSE: "True or False",
 };
@@ -236,7 +237,7 @@ function ElectionForm(props) {
                 required
               >
                 {[
-                  "",
+                  TypeSelection_Enum.SINGLE_CHOICE,
                   TypeSelection_Enum.MULTI_SELECT,
                   TypeSelection_Enum.TRUE_FALSE,
                 ].map(i => (
@@ -299,10 +300,10 @@ function ElectionForm(props) {
         {questionNumbers().map(i => (
           <div key={i} className="list-group list-group-flush">
             <div className="list-group-item">
-              <h5 className="card-title"> {i + 1} </h5>
+              <h5 className="card-title">Question {i + 1} </h5>
               <div className="form-row">
                 <div className="form-group col-6">
-                  <label>Question {i + 1}</label>
+                  <label>Description</label>
                   <input
                     name={`questions[${i}].question_description`}
                     ref={register}
@@ -314,9 +315,9 @@ function ElectionForm(props) {
                   </div>
                 </div>
                 <div className="form-col col-6">
+                  <label>Options:</label>
                   {numberOfFields().map(j => (
-                    <div className="field-value">
-                      <label></label>
+                    <div className="field-value" style={{marginBottom:15}}>
                       <input
                         name={`questions[${i}].options[${j}].option_description`}
                         ref={register}
