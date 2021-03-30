@@ -130,7 +130,7 @@ const ElectionVoteDetails = props => {
                         <th key={2}>Result</th>
                     </tr>
   
-                        {question.options.map((option, index) => {
+                        {question.options.sort((a,b) => (a.result < b.result) ? 1 : -1).map((option, index) => {
                             return (
                             <tr>
                             <td>{option.option_description}</td>
