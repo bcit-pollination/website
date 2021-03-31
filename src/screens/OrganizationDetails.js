@@ -82,11 +82,6 @@ const OrganizationDetails = (props) => {
     let { orgId } = useParams();
     console.log("ORG ID: " + orgId);
 
-    const redirectToEditOrg = () => {
-        console.log("[ + ] Redirecting to create org page.")
-        props.history.push('/createOrganization');
-    }
-
     const redirectToCreateElection = (id) => {
         console.log("[ + ] Redirecting to create election page.")
         props.history.push(`/orgList/orgDetails/${id}/createElection/${id}`);
@@ -212,7 +207,6 @@ const OrganizationDetails = (props) => {
                 
                 {renderButton("Create Election", () => {redirectToCreateElection(orgId)})}
                 <br/>
-                {/* {renderButton("Edit Organization", () => {redirectToEditOrg()})} */}
 
                 { privilege > 2 ? <>
                 <h3 className='title'>User List:</h3>

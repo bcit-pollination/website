@@ -119,7 +119,7 @@ const ElectionDetails = props => {
             </tbody>
             </table>
             <div>
-            {renderButton("View Election", () => {{redirectToElectionDetails(election_id, electionInfo.election_description)}})}
+            {renderButton("View Election", () => {redirectToElectionDetails(election_id, electionInfo.election_description)})}
             </div>
             <div>
             <div style={{

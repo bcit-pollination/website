@@ -30,8 +30,6 @@ function ElectionForm(props) {
   // watch to enable re-render of selections
   const watchTypeOfQuestions = watch("typeOfQuestions");
 
-  const isTrueFalseSelected = () =>
-    watchTypeOfQuestions === TypeSelection_Enum.TRUE_FALSE;
   // return array of question indexes for rendering dynamic forms in the template
   function questionNumbers() {
     let tmp = 0;
@@ -63,7 +61,6 @@ function ElectionForm(props) {
 
   function updateOptionsJSON(json_obj) {
     let count = 0;
-    let q_count = 0;
     json_obj.election_id = 0;
     if (json_obj.questions !== undefined) {
       json_obj.questions.map(q => {
@@ -76,7 +73,6 @@ function ElectionForm(props) {
           op.option_id = count;
           count += 1;
         });
-        q_count += 1;
       });
     }
     delete json_obj["numberOfQuestions"];
@@ -92,7 +88,7 @@ function ElectionForm(props) {
   function onSubmit(data) {
     // display form data on success
     data = updateOptionsJSON(data);
-    console.log(JSON.stringify(data, null, 4));
+    // console.log(JSON.stringify(data, null, 4));
 
     postReq("/org/elections", data)
       .then(response => {

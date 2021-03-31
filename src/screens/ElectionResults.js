@@ -64,29 +64,29 @@ const ElectionVoteDetails = props => {
         let last = -1;
 
         return (
-            <div>
+            <div key={question.question_id}>
                 <h2>{question.question_description}</h2>
                 <table id="org">
+                    <tbody>
                     <tr>
-                        <th key={0}>Rank</th>
-                        <th key={1}>Option</th>
-                        <th key={2}>Result</th>
-                        <th key={3}>Number of Votes</th>
+                        <th>Rank</th>
+                        <th>Option</th>
+                        <th>Result</th>
+                        <th>Number of Votes</th>
                     </tr>
-  
                         {question.options.sort((a,b) => (a.result < b.result) ? 1 : -1).map((option, index) => {
-                            if (last != option.result) rank++
+                            if (last !== option.result) rank++
                             last = option.result;
                             return (
-                            <tr>
-                            <td>{rank}</td>
-                            <td>{option.option_description}</td>
-                            <td>{Number.parseFloat(option.result).toPrecision(4)}%</td>
-                            <td>{option.total_votes_for}</td>
+                            <tr key={option.option_id}>
+                                <td>{rank}</td>
+                                <td>{option.option_description}</td>
+                                <td>{Number.parseFloat(option.result).toPrecision(4)}%</td>
+                                <td>{option.total_votes_for}</td>
                             </tr>
                             )
                         })}
-
+                    </tbody>
                 </table>
             </div>
         );

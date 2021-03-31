@@ -16,12 +16,12 @@ const RegistrationForm = (props) => {
 
         sessionStorage.removeItem("jwt");
 
-        console.log("Data being sent to server:")
-        console.log("'dob':'" +data.dob+"'");
-        console.log("'email':'"+data.email+"'");
-        console.log("'first_name':'"+data.firstName+"'"); 
-        console.log("'last_name':'"+data.lastName+"'");
-        console.log("'password':'********'")
+        // console.log("Data being sent to server:")
+        // console.log("'dob':'" +data.dob+"'");
+        // console.log("'email':'"+data.email+"'");
+        // console.log("'first_name':'"+data.firstName+"'"); 
+        // console.log("'last_name':'"+data.lastName+"'");
+        // console.log("'password':'********'")
 
         postReq('/user', {
             "dob":data.dob,

@@ -33,10 +33,6 @@ const CreateOrganizationForm = (props) => {
 
     };
 
-    const newLine = "\r\n";
-    const emailPlaceholderText = "{ " + newLine + "  EMAIL 1: UID," + newLine + "  EMAIL 2: UID," + newLine + "  EMAIL 3: UID," + newLine + "}"
-
-
     return (
         <div className="col-12 CreateOrg-form">
             <div className={`card col-12 col-lg-12 mt-2 hv-center`} >
@@ -79,20 +75,6 @@ const CreateOrganizationForm = (props) => {
                             required="required"
                         />
                     </div>
-
-                    {/* <div className="form-group text-left">
-                        <label htmlFor="emailList">Emails</label>
-                        <textarea type="scrolalbletextbox"
-                            className="form-control"
-                            cols="1"
-                            id="emailList"
-                            name="emailList"
-                            placeholder={emailPlaceholderText}
-                            ref={register}
-                            rows="10"
-                            required="required"
-                        />
-                    </div> */}
 
                     <input className="button" type="submit" value="Create" />
                     <br />
