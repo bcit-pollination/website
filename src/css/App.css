@@ -1,6 +1,10 @@
+/* TODO: change the ico, and app icons */
+
+body {
+  background-color: #fffffc;
+}
+
 .App {
-  height: 100vh;
-  width: 100vw;
   text-align: center;
 }
 
@@ -8,10 +12,32 @@ h2 {
   margin: 20px;
 }
 
-button {
+input.button {
+  margin: initial;
+}
+
+button, .button {
   margin-top: 20px;
-  border: 2px solid black;
-  background-color: transparent;
+  margin-bottom: 20px;
+  border: 2px solid transparent;
+  background-color: #c5ae2d;
+  color:white;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-size: calc(10px + 1vmin);
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  filter: drop-shadow(3px 3px 3px #9a8720);
+  outline: none;
+}
+
+button:hover, .button:hover {
+  transform: translate(-1.5px, -1.5px);
+  filter: drop-shadow(4.5px 4.5px 2px #9a8720);
+}
+
+button:focus, .button:focus {
+  transform: translate(0px, 0px);
+  filter: drop-shadow(3px 3px 2px #9a8720);
 }
 
 .App-header {
@@ -50,6 +76,8 @@ button {
 
 .title {
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-family: arial, sans-serif;
 }
 
@@ -57,25 +85,32 @@ button {
   text-align: left;
 }
 
-#org, #infoTable {
+#userList {
+  margin-bottom: 40px;
+}
+
+#org, #infoTable, #userList {
   text-align: center;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  border: 3px solid #ddd;
+  border: 2px solid #ccc;
   width: 100%;
 }
 
 #org td,
-#org th, #infoTable td {
+#org th, 
+#infoTable td,
+#userList td,
+#userList th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#org tr:nth-child(even) {
-  background-color: #f2f2f2;
+#org tr:nth-child(odd) {
+  background-color: #f6f9f0;
 }
 
-#org tr:hover, #infoTable tr:hover {
+#org tr:hover, #infoTable tr:hover, #userList tr:hover {
   background-color: #ddd;
 }
 
@@ -85,10 +120,48 @@ button {
 
 
 
-#org th {
+#org th,
+#userList th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
   background-color: #c5ae2d;
   color: white;
 }
+
+#addUserForm {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  outline: 1px solid #ccc;
+  outline-offset: 12px;
+  position: relative;
+  left:50%;
+  transform: translate(-50%, -0%);
+}
+
+#addUserInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#addUserInput label{
+  font-size: calc(12px + 1vmin);
+}
+
+@media only screen and (max-width: 2000px) {
+  #addUserForm {
+    min-width: 35vw;
+    max-width: 45vw;
+    padding: 10px 0px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  #addUserForm {
+    min-width: 70vw;
+    max-width: 80vw;
+    padding: 10px;
+  }
+}
+

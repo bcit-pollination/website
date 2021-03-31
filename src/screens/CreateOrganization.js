@@ -13,16 +13,15 @@ const CreateOrganizationForm = (props) => {
     }
 
     const onSubmit = data => {
-        console.log(data.orgName);
 
         postReq('/org', {
             "name": data.orgName,
-            "user_org_id": data.orgUser_org_id,  // TODO add UI
-            "verifier_password": data.orgVerifier_password,  // TODO add UI
+            "user_org_id": data.orgUser_org_id,
+            "verifier_password": data.orgVerifier_password,
 
         })
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("[ORG created!!!]");
                 redirectToOrgList();
             }
@@ -51,8 +50,8 @@ const CreateOrganizationForm = (props) => {
                             className="form-control"
                             id="orgName"
                             name="orgName"
-                            placeholder="Org Name"
                             ref={register}
+                            placeholder="Org Name"
                             required="required"
                         />
                     </div>
@@ -95,7 +94,7 @@ const CreateOrganizationForm = (props) => {
                         />
                     </div> */}
 
-                    <input type="submit" value="Create" />
+                    <input className="button" type="submit" value="Create" />
                     <br />
                     <br />
                     {/* <input type="submit" value="Cancel" /> */}

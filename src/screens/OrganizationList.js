@@ -8,20 +8,8 @@ import {
 import { getReq } from '../utils/customAxiosLib'
 import {useState, useEffect} from 'react';
 import OrganizationDetails from './OrganizationDetails';
+import { renderButton } from '../utils/utils'
 
-
-const renderCreateOrgButton = (btnName, onClick) => {
-    return (
-        <>
-        <button 
-            onClick={onClick}
-            name={btnName} 
-            value={btnName} 
-            type={`button`}
-        >{btnName}</button>
-        </>
-    );
-}
 
 const renderTableData = (orgList, redirectToOrganizationDetails) => {
     return orgList.map((org, index) => {
@@ -101,21 +89,18 @@ const OrgList = (props) => {
     useEffect(()=>{
         getReq('/user')
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("Recv /user !!!")
-                console.log(response.data);
                 setUserInfo(response.data);
             }
         })
         .catch(error => {
-            console.log("Get /user");
             console.log(error)
         });
         getReq('/org/list')
         .then(response => {
-            if (response.status === 200) {
+            if (200 <= response.status && response.status < 300) {
                 console.log("Recv /org/list !!!")
-                console.log(response.data.orgs);
                 setState(response.data.orgs);
             }
         })
@@ -139,7 +124,7 @@ const OrgList = (props) => {
                         {renderTableData(listState, redirectToOrganizationDetails)}
                     </tbody>
                 </table>
-                {renderCreateOrgButton("Create Organization", () => {redirectToCreateOrg()})}
+                {renderButton("Create Organization", () => {redirectToCreateOrg()})}
             </Route>
             <Route path={`/orgList/orgDetails/:orgId`}>
                 <OrganizationDetails />

@@ -10,6 +10,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 
 const TypeSelection_Enum = {
+  SINGLE_CHOICE: "Single Choice",
   MULTI_SELECT: "Multiple selection",
   TRUE_FALSE: "True or False",
 };
@@ -68,9 +69,8 @@ function ElectionForm(props) {
       json_obj.questions.map(q => {
         q.election_id = 0;
         q.ordered_choices = true;
-
-        q.max_selection_count = parseInt(json_obj["max_selection_count"]) ?? 1;
-        q.min_selection_count = parseInt(json_obj["min_selection_count"]) ?? 1;
+        q.max_selection_count = parseInt(json_obj["max_selection_count"]) || 1;
+        q.min_selection_count = parseInt(json_obj["min_selection_count"]) || 1;
 
         q.options.map(op => {
           op.option_id = count;
@@ -96,7 +96,7 @@ function ElectionForm(props) {
 
     postReq("/org/elections", data)
       .then(response => {
-        if (response.status === 200) {
+        if (200 <= response.status && response.status < 300) {
           console.log("Election created");
           setTimeout(() => {
             redirectToOrganizationDetails();
@@ -221,6 +221,7 @@ function ElectionForm(props) {
             <div className="form-group">
               <label>Number of Questions</label>
               <input
+                defaultValue="1"
                 name="numberOfQuestions"
                 ref={register}
                 className={`form-control`}
@@ -237,7 +238,7 @@ function ElectionForm(props) {
                 required
               >
                 {[
-                  "",
+                  TypeSelection_Enum.SINGLE_CHOICE,
                   TypeSelection_Enum.MULTI_SELECT,
                   TypeSelection_Enum.TRUE_FALSE,
                 ].map(i => (
@@ -253,6 +254,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="numberOfFields"
+                  defaultValue="3"
                   ref={register}
                   className={`form-control`}
                   required
@@ -270,6 +272,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="min_selection_count"
+                  defaultValue="1"
                   ref={register}
                   className={`form-control`}
                   required
@@ -285,6 +288,7 @@ function ElectionForm(props) {
               {watchTypeOfQuestions !== TypeSelection_Enum.TRUE_FALSE && (
                 <input
                   name="max_selection_count"
+                  defaultValue="1"
                   ref={register}
                   className={`form-control`}
                   required
@@ -300,10 +304,10 @@ function ElectionForm(props) {
         {questionNumbers().map(i => (
           <div key={i} className="list-group list-group-flush">
             <div className="list-group-item">
-              <h5 className="card-title"> {i + 1} </h5>
+              <h5 className="card-title">Question {i + 1} </h5>
               <div className="form-row">
                 <div className="form-group col-6">
-                  <label>Question {i + 1}</label>
+                  <label>Description</label>
                   <input
                     name={`questions[${i}].question_description`}
                     ref={register}
@@ -315,9 +319,9 @@ function ElectionForm(props) {
                   </div>
                 </div>
                 <div className="form-col col-6">
+                  <label>Options:</label>
                   {numberOfFields().map(j => (
-                    <div className="field-value">
-                      <label></label>
+                    <div className="field-value" style={{marginBottom:15}}>
                       <input
                         name={`questions[${i}].options[${j}].option_description`}
                         ref={register}

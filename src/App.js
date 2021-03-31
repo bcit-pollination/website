@@ -16,6 +16,7 @@ import Home             from './screens/Home';
 import OrganizationList from './screens/OrganizationList';
 import CreateOrganization from './screens/CreateOrganization';
 import ElectionForm     from './screens/CreateElection';
+import ElectionResults  from './screens/ElectionResults';
 
 
 function App() {
@@ -53,6 +54,10 @@ function App() {
 
               <Route path="/createElection">
                 <ElectionForm/>
+              </Route>
+
+              <Route path="/electionResults">
+                <ElectionResults/>
               </Route>
           </Switch>
 
