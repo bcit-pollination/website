@@ -8,20 +8,8 @@ import {
 import { getReq } from '../utils/customAxiosLib'
 import {useState, useEffect} from 'react';
 import OrganizationDetails from './OrganizationDetails';
+import { renderButton } from '../utils/utils'
 
-
-const renderButton = (btnName, onClick) => {
-    return (
-        <>
-        <button 
-            onClick={onClick}
-            name={btnName} 
-            value={btnName} 
-            type={`button`}
-        >{btnName}</button>
-        </>
-    );
-}
 
 const renderTableData = (orgList, redirectToOrganizationDetails) => {
     return orgList.map((org, index) => {
@@ -77,11 +65,6 @@ const OrgList = (props) => {
         props.history.push(`/orgList/orgDetails/${id}`);
     }
 
-    const redirectToElectionResults = () => {
-        console.log("[ + ] Redirecting to electionResults");
-        props.history.push(`/electionResults`);
-    }
-
     const redirectToCreateOrg = () => {
         console.log("[ + ] Redirecting to create org page.");
         props.history.push('/createOrganization');
@@ -134,7 +117,6 @@ const OrgList = (props) => {
             <Route exact path={path}>
             <h2 className='title'>User's information</h2>
             {renderUserInfo(userInfo)}
-            {renderButton("View Public Election Results", () => {redirectToElectionResults()})}
             <h2 className='title'>Organization List</h2>
                 <table id='org'>
                     <tbody>
