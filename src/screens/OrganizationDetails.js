@@ -11,19 +11,7 @@ import {useState, useEffect} from 'react';
 import CreateElection from './CreateElection';
 import ElectionDetails from './ElectionDetails';
 import { useForm } from 'react-hook-form';
-
-const renderButton = (btnName, onClick) => {
-    return (
-        <>
-        <button 
-        onClick={onClick}
-        name={btnName} 
-        value={btnName} 
-        type={`button`}
-        >{btnName}</button>
-        </>
-    );
-}
+import { renderButton } from '../utils/utils';
 
 const renderElectionTableData = (electionList, redirectToElectionDetails) => {
     return electionList.map((election, index) => {
