@@ -5,19 +5,7 @@ import {
 } from "react-router-dom";
 import { getReq } from '../utils/customAxiosLib'
 import { useState, useEffect} from 'react';
-
-const renderButton = (btnName, onClick) => {
-    return (
-        <>
-        <button 
-            onClick={onClick}
-            name={btnName} 
-            value={btnName} 
-            type={`button`}
-        >{btnName}</button>
-        </>
-    );
-}
+import { renderButton } from "../utils/utils"
 
 const renderQuestionTable = (questionList) => {
     return questionList.map((question, index) => {
