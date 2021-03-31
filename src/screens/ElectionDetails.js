@@ -43,6 +43,7 @@ const ElectionDetails = props => {
     let { path } = useRouteMatch();
     console.log("Election ID: " + election_id);
 
+    const [deleteError, setDeleteError] = useState(false);
     const [electionInfo, setElectionInfo] = useState({
         anonymous: false,
         election_description: "",
@@ -122,7 +123,14 @@ const ElectionDetails = props => {
             {renderButton("View Election", () => {{redirectToElectionDetails(election_id, electionInfo.election_description)}})}
             </div>
             <div>
-            {renderButton("Delete Election", () => (deleteReq(`/org/elections?election_id=${electionInfo.election_id}`).then((response) => {
+            <div style={{
+                    display: `${deleteError ? "" : "none"}`, 
+                    color: "red",
+                }}>
+            <h5>You are not authorized to delete this election!</h5>
+            <br/>
+            </div>
+            {!deleteError ? renderButton("Delete Election", () => (deleteReq(`/org/elections?election_id=${electionInfo.election_id}`).then((response) => {
                 if (200 <= response.status && response.status < 300) {
                     console.log(`DELETED election ${electionInfo.election_id}`)
                     setTimeout(() => {
@@ -131,8 +139,9 @@ const ElectionDetails = props => {
 
                 } else {
                     console.log("DELETE failed! " + response);
+                    setDeleteError(true);
                 }
-            })))}
+            }))) : "" }
             </div>
         </div> 
         </Route>
