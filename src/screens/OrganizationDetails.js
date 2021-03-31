@@ -52,7 +52,8 @@ const renderUserTableData = (userList) => {
         <tr 
             key={index} 
             onClick={() => {
-                console.log("Clicked on: " + user);
+                console.log("Clicked on: ");
+                console.log(user);
             }}
         >
             <td>{email}</td>

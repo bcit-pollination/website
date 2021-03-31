@@ -29,16 +29,25 @@ const LoginForm = (props) => {
             } else {
                 console.log("login failed! " + response);
                 setLoginError(true);
+                resetForm();
             }
         })
         .catch(error => {
             console.log("login failed: ");
             console.log(error);
             setLoginError(true);
+            resetForm();
         })
     };
 
     const [loginError , setLoginError] = useState(false)
+
+    const resetForm = () => {
+        setState({
+            email : "",
+            password : "",
+        });
+    }
 
     const [state , setState] = useState({
         email : "",
@@ -91,8 +100,8 @@ const LoginForm = (props) => {
                             onChange={handleChange}
                             ref={register({ required: true, minLength: minPass})}
                         />
-                        {errors.password && <p>This field is required. Min length: {minPass}</p>}
                     </div>
+                    {state.password && state.password.length < minPass && <p>This field is required. Min length: {minPass}</p>}
                     <p 
                         style={{
                             display: `${loginError ? "" : "none"}`, 
