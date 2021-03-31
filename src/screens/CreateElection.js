@@ -57,7 +57,7 @@ function ElectionForm(props) {
     const field_divs = document.getElementsByClassName("field-value");
     for (let i = 0; i < field_divs.length; i++) {
       const input_elements = field_divs[i].getElementsByTagName("input");
-      i % 2 == 0 ? (input_elements[0].value = "true") : (input_elements[0].value = "false");
+      i % 2 === 0 ? (input_elements[0].value = "true") : (input_elements[0].value = "false");
     }
   }
 
