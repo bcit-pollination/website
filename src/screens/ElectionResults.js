@@ -100,7 +100,7 @@ const renderTableHeader = () => {
             <th key={1}>ELECTION DESCRIPTION</th>
             <th key={2}>START TIME</th>
             <th key={3}>END TIME</th>
-            <th key={5}>ORG ID</th>
+            <th key={4}>ORG ID</th>
         </tr>
     );
 }
@@ -174,3 +174,4 @@ const ElectionResults = (props) => {
     );
 }
 export default withRouter(ElectionResults);
+export { ElectionVoteDetails }
