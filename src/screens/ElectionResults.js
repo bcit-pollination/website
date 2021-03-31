@@ -25,78 +25,17 @@ const ElectionVoteDetails = props => {
                     "min_selection_count": 2,
                     "options": [
                         {
-                            "option_description": "q1_op1",
+                            "option_description": "",
                             "option_id": 20,
-                            "result": 50.0,
-                            "total_votes_for": 8
-                        },
-                        {
-                            "option_description": "q1_op2",
-                            "option_id": 21,
-                            "result": 50.0,
-                            "total_votes_for": 8
-                        },
-                        {
-                            "option_description": "q1_op3",
-                            "option_id": 22,
                             "result": 0.0,
                             "total_votes_for": 0
                         }
                     ],
                     "ordered_choices": false,
-                    "question_description": "q1",
+                    "question_description": "No Results Yet, Stay Tuned.",
                     "question_id": 10
                 },
-                {
-                    "election_id": 10,
-                    "max_selection_count": 1,
-                    "min_selection_count": 1,
-                    "options": [
-                        {
-                            "option_description": "q2_op1",
-                            "option_id": 23,
-                            "result": 100.0,
-                            "total_votes_for": 8
-                        },
-                        {
-                            "option_description": "q2_op2",
-                            "option_id": 24,
-                            "result": 0.0,
-                            "total_votes_for": 0
-                        }
-                    ],
-                    "ordered_choices": false,
-                    "question_description": "q2",
-                    "question_id": 11
-                },
-                {
-                    "election_id": 10,
-                    "max_selection_count": 3,
-                    "min_selection_count": 3,
-                    "options": [
-                        {
-                            "option_description": "q3_op1",
-                            "option_id": 25,
-                            "result": 39.58333333333333,
-                            "total_votes_for": 19
-                        },
-                        {
-                            "option_description": "q3_op2",
-                            "option_id": 26,
-                            "result": 41.66666666666667,
-                            "total_votes_for": 20
-                        },
-                        {
-                            "option_description": "q3_op3",
-                            "option_id": 27,
-                            "result": 18.75,
-                            "total_votes_for": 9
-                        }
-                    ],
-                    "ordered_choices": true,
-                    "question_description": "q3",
-                    "question_id": 12
-                }
+
             ],
             "start_time": "2000-01-23T04:56:07+00:00",
             "verified": true
@@ -132,6 +71,7 @@ const ElectionVoteDetails = props => {
                         <th key={0}>Rank</th>
                         <th key={1}>Option</th>
                         <th key={2}>Result</th>
+                        <th key={3}>Number of Votes</th>
                     </tr>
   
                         {question.options.sort((a,b) => (a.result < b.result) ? 1 : -1).map((option, index) => {
@@ -142,6 +82,7 @@ const ElectionVoteDetails = props => {
                             <td>{rank}</td>
                             <td>{option.option_description}</td>
                             <td>{Number.parseFloat(option.result).toPrecision(4)}%</td>
+                            <td>{option.total_votes_for}</td>
                             </tr>
                             )
                         })}
