@@ -70,7 +70,7 @@ const renderUserTableData = (userList) => {
             <td>{email}</td>
             <td>{first_name + " " + last_name}</td>
             <td>{dob}</td>
-            <td>{privilege === 4 ? "Owner" : privilege === 3 ? "Admin" : privilege === 2 ? "Member" : ""}</td>
+            <td>{privilege === 4 ? "Owner" : privilege === 3 ? "Admin" : privilege === 2 ? "Member" : "Invited"}</td>
         </tr>
         );
     });
