@@ -1,18 +1,39 @@
+---
+id: website
+title: Website installation instructions
+---
+
 ## Pollination Admin Page:
 
 ## Quick start:
-### `npm install`
-### `npm start`
+```shell
+npm install
+```
+```shell
+npm start
+```
 
-### Deployment
-### `npm run build`
-### `cd build`
-### `git add .`
-### `git commit -m"build version [i] "`
-### `git push`
+### Deployment:
+```shell
+npm run build
+```
+```shell
+cd build
+```
+```shell
+git add .
+```
+```shell
+git commit -m"build version [i] "
+```
+```shell
+git push
+```
 
 On nginx server:
-### `git pull`
+```shell
+git pull
+```
 
 ### API path can be changed by going to 
 /src/api_path.js
