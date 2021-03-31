@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const api_path = 'https://pollination.live/api';
+import api_path from "../api_path"
 
 const logResponse = (response) => {
     console.log("Response Status:" + response.status);
