@@ -49,7 +49,7 @@ const ElectionDetails = props => {
         election_description: "",
         election_id: 0,
         end_time: "",
-        org_id: 5,
+        org_id: 0,
         public_results: false,
         questions: [],
         start_time: "",
@@ -69,7 +69,6 @@ const ElectionDetails = props => {
             console.log(error);
         });    
     }, [election_id]);
-
     return (
     <Switch>
         <Route exact path={path}>
@@ -134,8 +133,8 @@ const ElectionDetails = props => {
                 if (200 <= response.status && response.status < 300) {
                     console.log(`DELETED election ${electionInfo.election_id}`)
                     setTimeout(() => {
-                        props.history.push(`/orgList/`)
-                    }, 2000)
+                        props.history.push(`/orgList`)
+                    }, 500)
 
                 } else {
                     console.log("DELETE failed! " + response);
