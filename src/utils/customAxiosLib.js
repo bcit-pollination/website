@@ -47,3 +47,16 @@ export const postReq = async (apiEndpoint, jsonObj) => {
     return error;
   }
 };
+
+export const deleteReq = async (apiEndpoint) => {
+  try {
+    const response = await getAxiosInstance().delete(api_path + apiEndpoint);
+    logResponse(response);
+    return response;
+  } catch (error) {
+    // Handle Error Here
+    console.log("postReq: " + error);
+    return error;
+  }
+};
+
